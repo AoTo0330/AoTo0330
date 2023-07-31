@@ -5,6 +5,7 @@
 # Overview
 
 - SRE Engineer of 3-shake, Inc.
+- CTO of yakudou, Inc.
 - 24 years old
 
 
@@ -12,27 +13,52 @@
 
 [<img src="./public/images/social/github.svg" width="40" height="40" />](https://github.com/parupappa)
 [<img src="./public/images/social/twitter.svg" width="40" height="40" />](https://twitter.com/866mfs)
+[<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/yokoo-an209)
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo-an209)
 [<img src="./public/images/social/threads.svg" width="40" height="40" />](https://www.threads.net/@866mfs)
+[<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/earner/earned)
+
+## Certifications
+[<img src="./public/images/certification/aws-clf.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-solutions-architect-associate/)
+[<img src="./public/images/certification/aws-saa.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-solutions-architect-associate/)
+[<img src="./public/images/certification/aws-soa.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-sysops-admin-associate/)
+[<img src="./public/images/certification/aws-dva.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/aws-sap.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/aws-dop.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/aws-scs.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/aws-dbs.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/aws-das.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/aws-mls.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/aws-ans.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/aws-pas.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+<br>
+[<img src="./public/images/certification/gcp-ace.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
 
 ## Skills
+### web application
 
-[<img src="./public/images/skill/go.svg" width="40" height="40" />](https://golang.org/)
 [<img src="./public/images/skill/typescript.svg" width="40" height="40" />](https://www.typescriptlang.org/)
 [<img src="./public/images/skill/javascript.svg" width="40" height="40" />](https://developer.mozilla.org/docs/Web/JavaScript)
 [<img src="./public/images/skill/ruby.svg" width="40" height="40" />](https://www.ruby-lang.org)
-[<img src="./public/images/skill/gin.svg" width="40" height="40" />](https://gin-gonic.com/)
-[<img src="./public/images/skill/express.svg" width="40" height="40" />](https://expressjs.com/)
+[<img src="./public/images/skill/rails.svg" width="40" height="40" />](https://rubyonrails.org/)
 [<img src="./public/images/skill/react.svg" width="40" height="40" />](https://reactjs.org/)
+[<img src="./public/images/skill/vue-js.svg" width="40" height="40" />](https://ja.vuejs.org/)
 [<img src="./public/images/skill/nextjs.svg" width="40" height="40" />](https://nextjs.org/)
+<!-- [<img src="./public/images/skill/go.svg" width="40" height="40" />](https://golang.org/) -->
+
+<!-- [<img src="./public/images/skill/express.svg" width="40" height="40" />](https://expressjs.com/) -->
+<!-- [<img src="./public/images/skill/gin.svg" width="40" height="40" />](https://gin-gonic.com/) -->
+### SRE
+
 [<img src="./public/images/skill/aws.svg" width="40" height="40" />](https://aws.amazon.com/)
 [<img src="./public/images/skill/googlecloud.svg" width="40" height="40" />](https://console.cloud.google.com/)
 [<img src="./public/images/skill/githubactions.svg" width="40" height="40" />](https://github.co.jp/features/actions)
-[<img src="./public/images/skill/circleci.svg" width="40" height="40" />](https://circleci.com/)
 [<img src="./public/images/skill/terraform.svg" width="40" height="40" />](https://www.terraform.io/)
 [<img src="./public/images/skill/docker.svg" width="40" height="40" />](https://www.docker.com/)
-
-
+[<img src="./public/images/skill/kubernetes.svg" width="40" height="40" />](https://kubernetes.io/ja/)
+[<img src="./public/images/skill/argo-cd.svg" width="40" height="40" />](https://argoproj.github.io/)
+[<img src="./public/images/skill/helm.svg" width="40" height="40" />](https://helm.sh/ja/)
+<!-- [<img src="./public/images/skill/circleci.svg" width="40" height="40" />](https://circleci.com/) -->
 # Status
 <!-- リポジトリステータス -->
 [![hogehoge's github stats](https://github-readme-stats.vercel.app/api?username=parupappa&hide=contribs&count_private=true&show_icons=true&theme=tokyonight)](https://github.com/parupappa/)
