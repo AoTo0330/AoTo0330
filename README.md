@@ -52,10 +52,10 @@ Here are some ideas to get you started:
 
 # Status
 <!-- リポジトリステータス -->
-[![hogehoge's github stats](https://github-readme-stats.vercel.app/api?username=ユーザ名&hide=contribs&count_private=true&show_icons=true&theme=tokyonight)](https://github.com/parupappa/)
+[![hogehoge's github stats](https://github-readme-stats.vercel.app/api?username=parupappa&hide=contribs&count_private=true&show_icons=true&theme=tokyonight)](https://github.com/parupappa/)
 
 <!-- ソースコード統計 -->
-[![Top used Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ユーザ名&layout=compact&theme=tokyonight)](https://github.com/parupappa/)
+[![Top used Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=parupappa&layout=compact&theme=tokyonight)](https://github.com/parupappa/)
 ## Contact
 
 [yokoo.an209@gmail.com](mailto:yokoo.an209@gmail.com)
