@@ -14,3 +14,42 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
+
+[![Zenn Likes](https://badgen.org/img/zenn/kou_pg_0131/likes?style=plastic)](https://zenn.dev/yokoo-an209)
+[![Qiita Contributions](https://badgen.org/img/qiita/koki_develop/contributions?style=plastic)](https://qiita.com/yokoo-an209)
+
+# Overview
+
+<p>
+SRE Engineer of 3-shake, Inc.
+24 years old
+</p>
+
+## Socials
+
+[<img src="./public/images/social/github.svg" width="40" height="40" />](https://github.com/parupappa)
+[<img src="./public/images/social/twitter.svg" width="40" height="40" />](https://twitter.com/866mfs)
+[<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo-an209)
+[<img src="./public/images/social/threads.svg" width="40" height="40" />](https://www.threads.net/@866mfs)
+
+## Skills
+
+[<img src="./public/images/skill/go.svg" width="40" height="40" />](https://golang.org/)
+[<img src="./public/images/skill/typescript.svg" width="40" height="40" />](https://www.typescriptlang.org/)
+[<img src="./public/images/skill/javascript.svg" width="40" height="40" />](https://developer.mozilla.org/docs/Web/JavaScript)
+[<img src="./public/images/skill/ruby.svg" width="40" height="40" />](https://www.ruby-lang.org)
+[<img src="./public/images/skill/gin.svg" width="40" height="40" />](https://gin-gonic.com/)
+[<img src="./public/images/skill/express.svg" width="40" height="40" />](https://expressjs.com/)
+[<img src="./public/images/skill/react.svg" width="40" height="40" />](https://reactjs.org/)
+[<img src="./public/images/skill/nextjs.svg" width="40" height="40" />](https://nextjs.org/)
+[<img src="./public/images/skill/aws.svg" width="40" height="40" />](https://aws.amazon.com/)
+[<img src="./public/images/skill/googlecloud.svg" width="40" height="40" />](https://console.cloud.google.com/)
+[<img src="./public/images/skill/githubactions.svg" width="40" height="40" />](https://github.co.jp/features/actions)
+[<img src="./public/images/skill/circleci.svg" width="40" height="40" />](https://circleci.com/)
+[<img src="./public/images/skill/terraform.svg" width="40" height="40" />](https://www.terraform.io/)
+[<img src="./public/images/skill/docker.svg" width="40" height="40" />](https://www.docker.com/)
+
+## Contact
+
+[yokoo.an209@gmail.com](mailto:yokoo.an209@gmail.com)
