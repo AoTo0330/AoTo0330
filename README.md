@@ -21,10 +21,9 @@ Here are some ideas to get you started:
 
 # Overview
 
-<p>
-SRE Engineer of 3-shake, Inc.
-24 years old
-</p>
+- SRE Engineer of 3-shake, Inc.
+- 24 years old
+
 
 ## Socials
 
@@ -50,6 +49,13 @@ SRE Engineer of 3-shake, Inc.
 [<img src="./public/images/skill/terraform.svg" width="40" height="40" />](https://www.terraform.io/)
 [<img src="./public/images/skill/docker.svg" width="40" height="40" />](https://www.docker.com/)
 
+
+# Status
+<!-- リポジトリステータス -->
+[![hogehoge's github stats](https://github-readme-stats.vercel.app/api?username=ユーザ名&hide=contribs&count_private=true&show_icons=true&theme=tokyonight)](https://github.com/parupappa/)
+
+<!-- ソースコード統計 -->
+[![Top used Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ユーザ名&layout=compact&theme=tokyonight)](https://github.com/parupappa/)
 ## Contact
 
 [yokoo.an209@gmail.com](mailto:yokoo.an209@gmail.com)
