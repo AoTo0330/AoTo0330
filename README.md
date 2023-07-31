@@ -16,7 +16,7 @@
 [<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/yokoo-an209)
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo_an209)
 [<img src="./public/images/social/threads.svg" width="40" height="40" />](https://www.threads.net/@866mfs)
-[<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/earner/earned)
+[<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/users/yokoo-annosuke/badges)
 
 ## Award
 - [2023 Japan AWS Jr.Chmapions](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
