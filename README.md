@@ -17,6 +17,8 @@
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo_an209)
 [<img src="./public/images/social/threads.svg" width="40" height="40" />](https://www.threads.net/@866mfs)
 [<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/users/yokoo-annosuke/badges)
+[<img src="./public/images/social/speakerdeck.svg" width="40" height="40" />](https://speakerdeck.com/parupappa2929)
+
 
 ## Award
 - [2023 Japan AWS Jr.Chmapions](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
@@ -64,6 +66,7 @@
 [<img src="./public/images/skill/helm.svg" width="40" height="40" />](https://helm.sh/ja/)
 [<img src="./public/images/skill/jenkins.svg" width="40" height="40" />](https://www.jenkins.io/)
 [<img src="./public/images/skill/tekton.png" width="40" height="40" />](https://cloud.google.com/tekton?hl=ja)
+[<img src="./public/images/skill/harness.jpeg" width="40" height="40" />](https://developer.harness.io/docs/platform/connectors/cloud-providers/connect-to-google-cloud-platform-gcp/)
 <!-- [<img src="./public/images/skill/circleci.svg" width="40" height="40" />](https://circleci.com/) -->
 # Status
 <!-- リポジトリステータス -->
