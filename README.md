@@ -39,7 +39,7 @@
 [<img src="./public/images/certification/gcp-ace.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
 
 ## Skills
-### web application
+### WebApplication
 
 [<img src="./public/images/skill/typescript.svg" width="40" height="40" />](https://www.typescriptlang.org/)
 [<img src="./public/images/skill/javascript.svg" width="40" height="40" />](https://developer.mozilla.org/docs/Web/JavaScript)
@@ -62,6 +62,7 @@
 [<img src="./public/images/skill/kubernetes.svg" width="40" height="40" />](https://kubernetes.io/ja/)
 [<img src="./public/images/skill/argo-cd.svg" width="40" height="40" />](https://argoproj.github.io/)
 [<img src="./public/images/skill/helm.svg" width="40" height="40" />](https://helm.sh/ja/)
+[<img src="./public/images/skill/jenkins.svg" width="40" height="40" />](https://www.jenkins.io/)
 <!-- [<img src="./public/images/skill/circleci.svg" width="40" height="40" />](https://circleci.com/) -->
 # Status
 <!-- リポジトリステータス -->
