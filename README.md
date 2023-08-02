@@ -76,4 +76,4 @@
 [![Top used Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=parupappa&layout=compact&theme=tokyonight)](https://github.com/parupappa/)
 ## Contact
 
-[yokoo.an209@gmail.com](mailto:yokoo.an209@gmail.com)
+- [yokoo.an209@gmail.com](mailto:yokoo.an209@gmail.com)
