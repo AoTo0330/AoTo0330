@@ -67,6 +67,7 @@
 [<img src="./public/images/skill/jenkins.svg" width="40" height="40" />](https://www.jenkins.io/)
 [<img src="./public/images/skill/tekton.png" width="40" height="40" />](https://cloud.google.com/tekton?hl=ja)
 [<img src="./public/images/skill/harness.jpeg" width="40" height="40" />](https://developer.harness.io/docs/platform/connectors/cloud-providers/connect-to-google-cloud-platform-gcp/)
+[<img src="./public/images/skill/trivy.png" width="40" height="40" />](https://trivy.dev/)
 <!-- [<img src="./public/images/skill/circleci.svg" width="40" height="40" />](https://circleci.com/) -->
 # Status
 <!-- リポジトリステータス -->
