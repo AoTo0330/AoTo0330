@@ -38,7 +38,8 @@
 [<img src="./public/images/certification/aws-ans.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
 [<img src="./public/images/certification/aws-pas.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
 <br>
-[<img src="./public/images/certification/gcp-ace.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
+[<img src="./public/images/certification/gcp-ace.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-engineer?hl=ja/)
+[<img src="./public/images/certification/gcp-pca.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-architect?hl=ja/)
 
 ## Skills
 ### WebApplication
