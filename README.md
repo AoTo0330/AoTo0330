@@ -5,7 +5,6 @@
 # Overview
 
 - SRE Engineer of 3-shake, Inc.
-- CTO of yakudou, Inc.
 - 24 years old
 
 
