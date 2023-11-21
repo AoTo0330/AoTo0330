@@ -14,7 +14,6 @@
 [<img src="./public/images/social/twitter.svg" width="40" height="40" />](https://twitter.com/866mfs)
 [<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/yokoo-an209)
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo_an209)
-[<img src="./public/images/social/threads.svg" width="40" height="40" />](https://www.threads.net/@866mfs)
 [<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/users/yokoo-annosuke/badges)
 [<img src="./public/images/social/speakerdeck.svg" width="40" height="40" />](https://speakerdeck.com/parupappa2929)
 
@@ -64,7 +63,7 @@
 [<img src="./public/images/skill/sre/argo-cd.svg" width="40" height="40" />](https://argoproj.github.io/)
 [<img src="./public/images/skill/sre/helm.svg" width="40" height="40" />](https://helm.sh/ja/)
 [<img src="./public/images/skill/sre/jenkins.svg" width="40" height="40" />](https://www.jenkins.io/)
-[<img src="./public/images/skill/sre/tekton.png" width="40" height="40" />](https://cloud.google.com/tekton?hl=ja)
+<!-- [<img src="./public/images/skill/sre/tekton.png" width="40" height="40" />](https://cloud.google.com/tekton?hl=ja) -->
 [<img src="./public/images/skill/sre/harness.jpeg" width="40" height="40" />](https://developer.harness.io/docs/platform/connectors/cloud-providers/connect-to-google-cloud-platform-gcp/)
 [<img src="./public/images/skill/sre/trivy.png" width="40" height="40" />](https://trivy.dev/)
 <!-- [<img src="./public/images/skill/sre/circleci.svg" width="40" height="40" />](https://circleci.com/) -->
