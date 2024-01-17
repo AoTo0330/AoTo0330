@@ -12,6 +12,7 @@
 
 [<img src="./public/images/social/github.svg" width="40" height="40" />](https://github.com/parupappa)
 [<img src="./public/images/social/twitter.svg" width="40" height="40" />](https://twitter.com/866mfs)
+[<img src="./public/images/social/linkedin.svg" width="40" height="40" />](https://www.linkedin.com/in/annosuke-yokoo-65a258284/)
 [<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/yokoo-an209)
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo_an209)
 [<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/users/yokoo-annosuke/badges)
