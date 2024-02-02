@@ -39,6 +39,11 @@
 <br>
 [<img src="./public/images/certification/gcp-ace.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-engineer?hl=ja/)
 [<img src="./public/images/certification/gcp-pca.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-architect?hl=ja/)
+[<img src="./public/images/certification/gcp-pcde.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-database-engineer?hl=ja)
+[<img src="./public/images/certification/gcp-pcse.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-security-engineer?hl=ja)
+[<img src="./public/images/certification/gcp-pcdevops.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-devops-engineer?hl=ja)
+[<img src="./public/images/certification/gcp-pcdev.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-developer?hl=ja)
+
 
 <!-- ## Skills
 ### WebApplication
