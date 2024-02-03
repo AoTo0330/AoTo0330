@@ -4,24 +4,35 @@
 
 # Overview
 
-- SRE Engineer of 3-shake, Inc.
-- 24 years old
+3-shake Co., Ltd. - Sreake Division. 
+Responsible for providing technical support in the SRE/CloudNative domain
 
+I started my careeer as a Software Engineer mainly the backend skill (04/2021-06/2023). 
+Then now I'm a Site Reliability Engineer at 3-shake, inc（07/2023 ~ now）
 
-## Socials
+【Specilization & Expertise】
+ - 2+ years of software engineering experience in public cloud and related technologies. Big love to cloud native technologies & cloud communities.
+ - Extensive knowledge of o11y, SRE, DevOps and tools of them.
+ - 6x Google Cloud Certified, 12x AWS Certified
+
+【Awards】
+- [2023 Japan AWS Jr.Chmapions](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
+- [2023 Japan AWS All Certifications Engineers](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/)
+
+【Communities】
+ - Leading member of Jagu'e'r - CloudNative Subcommittee & O11y-SRE Subcommittee (Japan Google Cloud User Group for Enterprise)
+ - Speaker at Jagu'e'r, JAWS-UG, SRETT, Google Cloud Modern App Summit
+
+## Social link
 
 [<img src="./public/images/social/github.svg" width="40" height="40" />](https://github.com/parupappa)
 [<img src="./public/images/social/twitter.svg" width="40" height="40" />](https://twitter.com/866mfs)
 [<img src="./public/images/social/linkedin2.png" width="40" height="40" />](https://www.linkedin.com/in/annosuke-yokoo-65a258284/)
 [<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/yokoo-an209)
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo_an209)
-[<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/users/yokoo-annosuke/badges)
 [<img src="./public/images/social/speakerdeck.svg" width="40" height="40" />](https://speakerdeck.com/parupappa2929)
+<!-- [<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/users/yokoo-annosuke/badges) -->
 
-
-## Award
-- [2023 Japan AWS Jr.Chmapions](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
-- [2023 Japan AWS All Certifications Engineers](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/)
 
 ## Certifications
 [<img src="./public/images/certification/aws-clf.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-solutions-architect-associate/)
@@ -39,10 +50,10 @@
 <br>
 [<img src="./public/images/certification/gcp-ace.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-engineer?hl=ja/)
 [<img src="./public/images/certification/gcp-pca.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-architect?hl=ja/)
-[<img src="./public/images/certification/gcp-pca.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-database-engineer?hl=ja)
-[<img src="./public/images/certification/gcp-pca.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-security-engineer?hl=ja)
-[<img src="./public/images/certification/gcp-pca.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-devops-engineer?hl=ja)
-[<img src="./public/images/certification/gcp-pca.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-developer?hl=ja)
+[<img src="./public/images/certification/gcp-pcde.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-database-engineer?hl=ja)
+[<img src="./public/images/certification/gcp-pcse.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-security-engineer?hl=ja)
+[<img src="./public/images/certification/gcp-pcdevops.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-devops-engineer?hl=ja)
+[<img src="./public/images/certification/gcp-pcdev.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-developer?hl=ja)
 
 
 <!-- ## Skills
