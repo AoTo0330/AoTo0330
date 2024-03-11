@@ -20,8 +20,8 @@ Then now I'm a Site Reliability Engineer at 3-shake, inc（07/2023 ~ now）
 - [2023 Japan AWS All Certifications Engineers](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/)
 
 【Communities】
- - Leading member of Jagu'e'r - CloudNative Subcommittee & O11y-SRE Subcommittee (Japan Google Cloud User Group for Enterprise)
- - Speaker at Jagu'e'r, JAWS-UG, SRETT, Google Cloud Modern App Summit
+ - Organizer of Jagu'e'r - CloudNative Subcommittee & Observability-SRE Subcommittee (Japan Google Cloud User Group for Enterprise)
+ - Speaker at Jagu'e'r, JAWS-UG, SRETT, [Google Cloud Modern App Summit Tokyo'24](https://cloudonair.withgoogle.com/events/modern-app-summit-24?talk=session-c1)
 
 ## Social link
 
