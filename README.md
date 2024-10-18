@@ -11,13 +11,14 @@ I started my careeer as a Software Engineer mainly the backend skill (04/2021-06
 Then now I'm a Site Reliability Engineer at 3-shake, inc（07/2023 ~ now）
 
 【Specilization & Expertise】
- - 2+ years of software engineering experience in public cloud and related technologies. Big love to cloud native technologies & cloud communities.
+ - 4+ years of software engineering experience in public cloud and related technologies. Big love to cloud native technologies & cloud communities.
  - Extensive knowledge of o11y, SRE, DevOps and tools of them.
- - 6x Google Cloud Certified, 12x AWS Certified
+ - 11x Google Cloud Certified, 12x AWS Certified
 
 【Awards】
 - [2023 Japan AWS Jr.Chmapions](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
 - [2023 Japan AWS All Certifications Engineers](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/)
+- [2024 Japan AWS All Certifications Engineers](https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/)
 
 【Communities】
  - Organizer of Jagu'e'r - CloudNative Subcommittee & Observability-SRE Subcommittee (Japan Google Cloud User Group for Enterprise)
@@ -31,59 +32,7 @@ Then now I'm a Site Reliability Engineer at 3-shake, inc（07/2023 ~ now）
 [<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/yokoo-an209)
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo_an209)
 [<img src="./public/images/social/speakerdeck.svg" width="40" height="40" />](https://speakerdeck.com/parupappa2929)
-<!-- [<img src="./public/images/social/credly.svg" width="40" height="40" />](https://www.credly.com/users/yokoo-annosuke/badges) -->
 
-
-## Certifications
-[<img src="./public/images/certification/aws-clf.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-solutions-architect-associate/)
-[<img src="./public/images/certification/aws-saa.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-solutions-architect-associate/)
-[<img src="./public/images/certification/aws-soa.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-sysops-admin-associate/)
-[<img src="./public/images/certification/aws-dva.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-[<img src="./public/images/certification/aws-sap.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-[<img src="./public/images/certification/aws-dop.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-[<img src="./public/images/certification/aws-scs.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-[<img src="./public/images/certification/aws-dbs.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-[<img src="./public/images/certification/aws-das.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-[<img src="./public/images/certification/aws-mls.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-[<img src="./public/images/certification/aws-ans.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-[<img src="./public/images/certification/aws-pas.png" width="40" height="40" />](https://aws.amazon.com/jp/certification/certified-developer-associate/)
-<br>
-[<img src="./public/images/certification/gcp-ace.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-engineer?hl=ja/)
-[<img src="./public/images/certification/gcp-pca.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-architect?hl=ja/)
-[<img src="./public/images/certification/gcp-pcde.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-database-engineer?hl=ja)
-[<img src="./public/images/certification/gcp-pcse.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-security-engineer?hl=ja)
-[<img src="./public/images/certification/gcp-pcdevops.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-devops-engineer?hl=ja)
-[<img src="./public/images/certification/gcp-pcdev.png" width="40" height="40" />](https://cloud.google.com/learn/certification/cloud-developer?hl=ja)
-
-
-<!-- ## Skills
-### WebApplication
-
-[<img src="./public/images/skill/webapp/typescript.svg" width="40" height="40" />](https://www.typescriptlang.org/)
-[<img src="./public/images/skill/webapp/javascript.svg" width="40" height="40" />](https://developer.mozilla.org/docs/Web/JavaScript)
-[<img src="./public/images/skill/webapp/ruby.svg" width="40" height="40" />](https://www.ruby-lang.org)
-[<img src="./public/images/skill/webapp/rails.svg" width="40" height="40" />](https://rubyonrails.org/)
-[<img src="./public/images/skill/webapp/react.svg" width="40" height="40" />](https://reactjs.org/)
-[<img src="./public/images/skill/webapp/vue-js.svg" width="40" height="40" />](https://ja.vuejs.org/)
-[<img src="./public/images/skill/webapp/nextjs.svg" width="40" height="40" />](https://nextjs.org/)
-[<img src="./public/images/skill/webapp/go.svg" width="40" height="40" />](https://golang.org/)
-[<img src="./public/images/skill/webapp/express.svg" width="40" height="40" />](https://expressjs.com/)
-[<img src="./public/images/skill/webapp/gin.svg" width="40" height="40" />](https://gin-gonic.com/)
-### SRE
-
-[<img src="./public/images/skill/sre/aws.svg" width="40" height="40" />](https://aws.amazon.com/)
-[<img src="./public/images/skill/sre/googlecloud.svg" width="40" height="40" />](https://console.cloud.google.com/)
-[<img src="./public/images/skill/sre/githubactions.svg" width="40" height="40" />](https://github.co.jp/features/actions)
-[<img src="./public/images/skill/sre/terraform.svg" width="40" height="40" />](https://www.terraform.io/)
-[<img src="./public/images/skill/sre/docker.svg" width="40" height="40" />](https://www.docker.com/)
-[<img src="./public/images/skill/sre/kubernetes.svg" width="40" height="40" />](https://kubernetes.io/ja/)
-[<img src="./public/images/skill/sre/argo-cd.svg" width="40" height="40" />](https://argoproj.github.io/)
-[<img src="./public/images/skill/sre/helm.svg" width="40" height="40" />](https://helm.sh/ja/)
-[<img src="./public/images/skill/sre/jenkins.svg" width="40" height="40" />](https://www.jenkins.io/)
-[<img src="./public/images/skill/sre/tekton.png" width="40" height="40" />](https://cloud.google.com/tekton?hl=ja)
-[<img src="./public/images/skill/sre/harness.jpeg" width="40" height="40" />](https://developer.harness.io/docs/platform/connectors/cloud-providers/connect-to-google-cloud-platform-gcp/)
-[<img src="./public/images/skill/sre/trivy.png" width="40" height="40" />](https://trivy.dev/)
-[<img src="./public/images/skill/sre/circleci.svg" width="40" height="40" />](https://circleci.com/) -->
 
 # Status
 <!-- リポジトリステータス -->
