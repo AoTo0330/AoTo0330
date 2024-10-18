@@ -27,7 +27,7 @@ Then now I'm a Site Reliability Engineer at 3-shake, inc（07/2023 ~ now）
 
 [<img src="./public/images/social/github.svg" width="40" height="40" />](https://github.com/parupappa)
 [<img src="./public/images/social/twitter.svg" width="40" height="40" />](https://twitter.com/866mfs)
-[<img src="./public/images/social/linkedin2.png" width="40" height="40" />](https://www.linkedin.com/in/annosuke-yokoo-65a258284/)
+[<img src="./public/images/social/linkedin2.png" width="40" height="40" />](https://www.linkedin.com/in/annosuke-yokoo/)
 [<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/yokoo-an209)
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo_an209)
 [<img src="./public/images/social/speakerdeck.svg" width="40" height="40" />](https://speakerdeck.com/parupappa2929)
