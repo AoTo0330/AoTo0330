@@ -29,7 +29,7 @@ Then I'm a Site Reliability Engineer at 3-shake, inc（07/2023 ~ 11/2024）.
 [<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/yokoo-an209)
 [<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/yokoo_an209)
 [<img src="./public/images/social/speakerdeck.svg" width="40" height="40" />](https://speakerdeck.com/parupappa2929)
-[<img src="./public/images/social/speakerdeck.svg" width="40" height="40" />](https://parupappa2929.hatenablog.com/?_gl=1*11impbl*_gcl_au*MTYyNDMxMTI2Ni4xNzMzNzI0Mjg1)
+[<img src="./public/images/social/hatebu.png" width="40" height="40" />](https://parupappa2929.hatenablog.com/?_gl=1*11impbl*_gcl_au*MTYyNDMxMTI2Ni4xNzMzNzI0Mjg1)
 
 ## Contact
 
