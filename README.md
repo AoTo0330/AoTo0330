@@ -8,6 +8,7 @@ Datadog - Commercial & Mid Market Sales Engineer
 
 
 I started my careeer as a Software Engineer mainly the backend skill (04/2021-06/2023). 
+
 Then I'm a Site Reliability Engineer at 3-shake, inc（07/2023 ~ 11/2024）.
 
 【Specilization & Expertise】
