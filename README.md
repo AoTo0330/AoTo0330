@@ -1,6 +1,6 @@
 
 [![Zenn Likes](https://badgen.org/img/zenn/yokoo_an209/likes?style=plastic)](https://zenn.dev/yokoo_an209)
-[![Qiita Contributions](https://badgen.org/img/qiita/yokoo-an209/contributions?style=plastic)](https://qiita.com/parupappa2929)
+[![Qiita Contributions](https://badgen.org/img/qiita/parupappa2929/contributions?style=plastic)](https://qiita.com/parupappa2929)
 
 # Overview
 
