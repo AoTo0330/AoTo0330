@@ -4,7 +4,7 @@
 
 # Overview
 
-Datadog - Commercial & Mid Market Sales Engineer
+Datadog 🐶 - Commercial & Mid Market Sales Engineer
 
 【Specilization & Expertise】
  - 4+ years of software engineering experience in public cloud and related technologies. Big love to cloud native technologies & cloud communities.
