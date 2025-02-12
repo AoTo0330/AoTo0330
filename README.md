@@ -6,11 +6,6 @@
 
 Datadog - Commercial & Mid Market Sales Engineer
 
-
-I started my careeer as a Software Engineer mainly the backend skill (04/2021-06/2023). 
-
-Then I'm a Site Reliability Engineer at 3-shake, inc（07/2023 ~ 11/2024）.
-
 【Specilization & Expertise】
  - 4+ years of software engineering experience in public cloud and related technologies. Big love to cloud native technologies & cloud communities.
  - Extensive knowledge of o11y, SRE, DevOps and tools of them.
