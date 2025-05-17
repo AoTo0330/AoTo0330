@@ -5,12 +5,12 @@
 # Overview
 Datadog 🐶 -  Mid-Market Sales Engineer
 
-【Specilization & Expertise】
+[Specilization & Expertise]
  - 3.5+ years of pre-sales engineering experience in public cloud and related technologies. Big love to cloud native technologies & cloud communities.
  - Advanced knowledge of Observability, SRE, DevOps, Platform Engineering and tools of them.
  - Expert skills of public clouds(30+ Cloud Certs)
 
-【Awards】
+[Awards & Recognitions]
  - [AWS Community Builder - Cloud Oparations, since 2024](https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura)
  - [2023 Japan AWS Jr. Chmapion](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
  - [2022 APN ALL AWS Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/)
