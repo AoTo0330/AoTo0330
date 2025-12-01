@@ -17,9 +17,12 @@ Datadog 🐶 -  Mid-Market Sales Engineer
  - [2023 Japan AWS All Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/)
  - [2022 APN ALL AWS Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/)
  - [2023 Japan AWS Jr. Chmapion](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
+ - [Google Cloud Partner Top Engineer 2026](https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja)
  - [Google Cloud Partner Top Engineer 2025](https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja)
  - [Google Cloud Partner Top Engineer 2024](https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja)
  - [Google Cloud Partner Top Engineer 2023](https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja)
+ - [Google Cloud Partner All Certification Holders 2025](https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja)
+ - [Jagu'e'r Award 2025]()
  - [Jagu'e'r Award 2024 - Excellent Award]()
  - [Jagu'e'r Award 2023 - Excellent Award](https://jaguer.jp/jaguer_park_23_winter/)
 
