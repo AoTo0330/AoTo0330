@@ -2,8 +2,9 @@
 [![Zenn Likes](https://badgen.org/img/zenn/aotolog/likes?style=plastic)](https://zenn.dev/aotolog)
 [![Qiita Contributions](https://badgen.org/img/qiita/aoto0330/contributions?style=plastic)](https://qiita.com/aoto0330)
 
+
 # Overview
-Datadog 🐶 -  Mid-Market Sales Engineer
+Datadog 🐶 -  Enterprise Sales Engineer
 
 [Specilization & Expertise]
  - 4+ years of pre-sales engineering experience in Public Cloud services and Cloud Native technologies.
