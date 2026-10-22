@@ -61,7 +61,7 @@ Datadog 🐶 -  Enterprise Sales Engineer
 - [AWS Community Builder - Cloud Operations, since 2024](https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura)
 - [2025 Japan All AWS Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/)
 - [2024 Japan AWS All Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/)
-- [2023 Japan AWS All Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2023-japan-all-aws-certifications-engineers/)
+- [2023 Japan AWS All Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/)
 - [2022 APN ALL AWS Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/)
 - [2023 Japan AWS Jr. Champion](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
 - [Google Cloud Partner Top Engineer 2026(Serverless App Development)](https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja)
