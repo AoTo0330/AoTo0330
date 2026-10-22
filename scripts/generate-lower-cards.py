@@ -37,7 +37,7 @@ BOARD = "#101628"
 BOLD_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 REG_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
-# Every award uses the same canvas so GitHub table cells stay even.
+# Every award uses the same canvas so inline GitHub images stay even.
 SW, SH = 220, 300
 # Verdana is a bit wider than DejaVu; keep a margin so GitHub does not clip.
 FONT_PAD = 1.10
