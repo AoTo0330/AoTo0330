@@ -13,11 +13,7 @@
   <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
 </p>
 
-# ⚡ Overview
-
-Datadog 🐶 -  Enterprise Sales Engineer
-
-### Specialization & Expertise
+## ⚡ Specialization & Expertise
 
 - 4+ years of pre-sales engineering experience in Public Cloud services and Cloud Native technologies.
 - Advanced knowledge of Observability, SRE, DevOps, Platform Engineering and tools of them.
@@ -107,9 +103,6 @@ Datadog 🐶 -  Enterprise Sales Engineer
 
 ## 🏆 Awards & Recognitions
 
-<details>
-<summary>🏆 Awards & Recognitions</summary>
-
 - [AWS Community Builder - Cloud Operations, since 2024](https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura)
 - [2025 Japan All AWS Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/)
 - [2024 Japan AWS All Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/)
@@ -124,8 +117,6 @@ Datadog 🐶 -  Enterprise Sales Engineer
 - Jagu'e'r Award 2025 - Grand Prize
 - Jagu'e'r Award 2024 - Excellent Award
 - [Jagu'e'r Award 2023 - Excellent Award](https://jaguer.jp/jaguer_park_23_winter/)
-
-</details>
 
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
