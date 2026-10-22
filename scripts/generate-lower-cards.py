@@ -3,19 +3,20 @@
 
 Award names sit on a navy engraved plate so dark official logos are never dropped
 onto the field. Community Builders and Jagu'e'r circle art work on dark and are
-embedded. PTE 2026 official white-text Drive files were not reachable
-(pte-20251104-rgb-nega-1/2); that emblem follows the described 2026 lockup
-(cloud, star, browser, chart) in white/official colors on navy.
+embedded. PTE uses official white-text artwork
+(pte-20251104-rgb-nega-1.png / pte-20251104-rgb-nega-2.png).
 """
 
 from __future__ import annotations
 
 import base64
+from io import BytesIO
 from pathlib import Path
 
-from PIL import ImageFont
+from PIL import Image, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
+PACK = Path("/cursor/stores/self/internal/award-assets")
 AWARDS = ROOT / "public" / "images" / "awards"
 POSTS = ROOT / "public" / "images" / "posts"
 TALKS = ROOT / "public" / "images" / "talks"
@@ -26,7 +27,6 @@ PLATE = "#121A2E"
 NEON = "#3CB9FC"
 MUTED = "#8B949E"
 WHITE = "#E6EDF3"
-STAR = "#FBBC04"
 FONT = "Verdana, DejaVu Sans, sans-serif"
 STEEL_HI = "#F2F6FA"
 STEEL_MID = "#A8B6C4"
@@ -45,6 +45,17 @@ FONT_PAD = 1.10
 
 def b64_png(path: Path) -> str:
     return base64.b64encode(path.read_bytes()).decode("ascii")
+
+
+def b64_png_fitted(path: Path, max_w: int, max_h: int) -> tuple[str, int, int]:
+    image = Image.open(path).convert("RGBA")
+    bbox = image.getchannel("A").getbbox()
+    if bbox:
+        image = image.crop(bbox)
+    image.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
+    buf = BytesIO()
+    image.save(buf, format="PNG", optimize=True)
+    return base64.b64encode(buf.getvalue()).decode("ascii"), image.width, image.height
 
 
 def text_width(text: str, size: float, bold: bool = True) -> float:
@@ -93,10 +104,11 @@ def steel_defs(gid: str) -> str:
         f'<stop offset="0.45" stop-color="#6B7C8C"/>'
         f'<stop offset="1" stop-color="#24303C"/>'
         f"</linearGradient>"
-        f'<linearGradient id="shine-{gid}" x1="70" y1="18" x2="96" y2="130" '
+        f'<linearGradient id="enamel-{gid}" x1="64" y1="18" x2="160" y2="230" '
         f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="#FFFFFF" stop-opacity="0.5"/>'
-        f'<stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>'
+        f'<stop offset="0" stop-color="#18233C"/>'
+        f'<stop offset="0.5" stop-color="{BG}"/>'
+        f'<stop offset="1" stop-color="#080C16"/>'
         f"</linearGradient>"
         f'<linearGradient id="base-{gid}" x1="70" y1="250" x2="150" y2="286" '
         f'gradientUnits="userSpaceOnUse">'
@@ -145,7 +157,6 @@ def shield_shell(gid: str, inner: str, title: str) -> str:
     outer = heater(cx, top, 184, 236)
     bevel = heater(cx, top + 5, 170, 224)
     plate = heater(cx, top + 11, 156, 210)
-    shine = heater(cx - 30, top + 16, 34, 88)
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{SW}" height="{SH}" '
         f'viewBox="0 0 {SW} {SH}" role="img">'
@@ -156,11 +167,9 @@ def shield_shell(gid: str, inner: str, title: str) -> str:
         f"{screw(20, 20)}{screw(200, 20)}{screw(20, 280)}{screw(200, 280)}"
         f'<path d="{outer}" fill="url(#rim-{gid})" stroke="{STEEL_EDGE}" stroke-width="1.1"/>'
         f'<path d="{bevel}" fill="url(#bevel-{gid})"/>'
-        f'<path d="{plate}" fill="{BG}" stroke="#3A4A5C" stroke-width="0.8"/>'
-        f'<path d="{shine}" fill="url(#shine-{gid})"/>'
+        f'<path d="{plate}" fill="url(#enamel-{gid})" stroke="#3A4A5C" stroke-width="0.8"/>'
         f"{rivet(48, 46)}{rivet(172, 46)}"
-        f'<path d="M34 176 L54 176 L54 168 L166 168 L166 176 L186 176 '
-        f'L174 188 L186 200 L166 200 L166 208 L54 208 L54 200 L34 200 L46 188 Z" '
+        f'<path d="M28 176 L192 176 L182 190 L192 204 L28 204 L38 190 Z" '
         f'fill="{RIBBON}" stroke="{NEON}" stroke-width="1"/>'
         f"{inner}"
         f'<rect x="70" y="252" width="80" height="10" rx="1.5" fill="url(#base-{gid})" '
@@ -202,33 +211,6 @@ def gcp_mark(x: float, y: float, size: float = 36, gid: str = "gcg") -> str:
     )
 
 
-def star(cx: float, cy: float, r: float = 8) -> str:
-    return (
-        f'<path fill="{STAR}" transform="translate({cx},{cy}) scale({r / 10})" '
-        'd="M0-10 2.4-3.1 9.5-3.1 3.6 1.2 5.9 8.1 0 4.2-5.9 8.1-3.6 1.2-9.5-3.1-2.4-3.1z"/>'
-    )
-
-
-def browser_icon(x: float, y: float) -> str:
-    return (
-        f'<g transform="translate({x},{y})" fill="none" stroke="{WHITE}" stroke-width="1.3">'
-        '<rect x="0" y="0" width="20" height="14" rx="2"/>'
-        '<path d="M0 4.5h20"/>'
-        f'<circle cx="3.6" cy="2.4" r="0.7" fill="{WHITE}" stroke="none"/>'
-        "</g>"
-    )
-
-
-def chart_icon(x: float, y: float) -> str:
-    return (
-        f'<g transform="translate({x},{y})" fill="none" stroke="{WHITE}" stroke-width="1.3">'
-        '<path d="M2 14V2"/>'
-        '<path d="M2 14h14"/>'
-        '<path d="M6 11V7M10 11V5M14 11V8"/>'
-        "</g>"
-    )
-
-
 def nameplate(lines: list[str]) -> str:
     # Engraved plate sits in the wide upper body, above the ribbon.
     block = (
@@ -244,14 +226,15 @@ def nameplate(lines: list[str]) -> str:
 
 
 def ribbon_years(years: str) -> str:
-    size = fit_size(years, 140, 10)
-    return svg_text(110, 192, years, NEON, size)
+    start = 8.5 if years.count("·") >= 3 else 10
+    size = fit_size(years, 150, start)
+    return svg_text(110, 194, years, NEON, size)
 
 
 def note_lines(notes: list[str]) -> str:
     parts = []
     for i, line in enumerate(notes):
-        size = fit_size(line, 118, 8, bold=False)
+        size = fit_size(line, 136, 8, bold=False)
         parts.append(svg_text(110, 148 + i * 10, line, MUTED, size, bold=False))
     return "".join(parts)
 
@@ -300,12 +283,12 @@ def write_pte() -> None:
         "Google Cloud Partner Top Engineer 2023 · 2024 · 2025 · 2026 "
         "(2026 Serverless App Development, 2025 General, 2024 Build)"
     )
+    # Tall official lockup fits the heater field; wide file is committed beside it.
+    png, pw, ph = b64_png_fitted(AWARDS / "pte-20251104-rgb-nega-2.png", 118, 118)
+    x = 110 - pw / 2
     inner = (
-        gcp_mark(52, 38, 24, "gcg-pte")
-        + star(92, 52, 5.5)
-        + browser_icon(112, 44)
-        + chart_icon(140, 44)
-        + nameplate(["Partner Top", "Engineer"])
+        f'<image href="data:image/png;base64,{png}" x="{x:.1f}" y="24" '
+        f'width="{pw}" height="{ph}"/>'
         + note_lines(["2026 Serverless App Dev", "2025 General · 2024 Build"])
         + ribbon_years("2023 · 2024 · 2025 · 2026")
     )
@@ -315,9 +298,7 @@ def write_pte() -> None:
 def write_all_cert_holders() -> None:
     title = "Google Cloud Partner All Certification Holders 2025"
     inner = (
-        gcp_mark(68, 40, 26, "gcg-holders")
-        + browser_icon(116, 46)
-        + chart_icon(142, 46)
+        gcp_mark(92, 40, 36, "gcg-holders")
         + nameplate(["All Certification", "Holders"])
         + ribbon_years("2025")
     )
@@ -335,7 +316,7 @@ def write_jaguer() -> None:
     inner = (
         f'<image href="data:image/png;base64,{png}" x="78" y="30" width="64" height="64"/>'
         + nameplate(["Jagu'e'r Award"])
-        + note_lines(["2025 Grand Prize", "2024 Excellent · 2023 Excellent"])
+        + note_lines(["2025 Grand Prize", "2024 Excellent", "2023 Excellent"])
         + ribbon_years("2023 · 2024 · 2025")
     )
     (AWARDS / "jaguer.svg").write_text(shield_shell("jaguer", inner, title))
@@ -416,6 +397,14 @@ def write_contact() -> None:
 def main() -> None:
     for folder in (AWARDS, POSTS, TALKS, CONTACT):
         folder.mkdir(parents=True, exist_ok=True)
+
+    for name in (
+        "pte-20251104-rgb-nega-1.png",
+        "pte-20251104-rgb-nega-2.png",
+    ):
+        src = PACK / name
+        if src.exists():
+            (AWARDS / name).write_bytes(src.read_bytes())
 
     write_cb_card()
     write_aws_allcerts()
