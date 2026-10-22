@@ -14,16 +14,17 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: generate github-contribution-grid-snake.svg
-        uses: Platane/snk/svg-only@v3
+        uses: Platane/snk/svg-only@v3.5.0
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
             dist/github-contribution-grid-snake.svg?color_snake=#1E90FF&color_dots=#ebedf0,#b6e3ff,#7dd3fc,#38bdf8,#0284c7
             dist/github-contribution-grid-snake-dark.svg?color_snake=#00D9FF&color_dots=#0A0F1F,#0A3A5C,#0E6B8C,#00A8CC,#00D9FF
       - name: push github-contribution-grid-snake.svg to the output branch
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+        uses: crazy-max/ghaction-github-pages@v5
         with:
           target_branch: output
           build_dir: dist
+          allow_empty_commit: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

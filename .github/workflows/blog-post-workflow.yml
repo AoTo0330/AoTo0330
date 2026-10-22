@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Pull in AoToLog posts
-        uses: gautamkrishnar/blog-post-workflow@v1
+        uses: gautamkrishnar/blog-post-workflow@1.9.7
         with:
           comment_tag_name: AOTOLOG-POST-LIST
           feed_list: "https://www.aotolog.com/index.xml"
@@ -22,7 +22,7 @@ jobs:
           skip_commit: true
           enable_keepalive: false
       - name: Pull in Zenn posts
-        uses: gautamkrishnar/blog-post-workflow@v1
+        uses: gautamkrishnar/blog-post-workflow@1.9.7
         with:
           comment_tag_name: ZENN-POST-LIST
           feed_list: "https://zenn.dev/aotolog/feed"
@@ -30,7 +30,7 @@ jobs:
           skip_commit: true
           enable_keepalive: false
       - name: Pull in Qiita posts
-        uses: gautamkrishnar/blog-post-workflow@v1
+        uses: gautamkrishnar/blog-post-workflow@1.9.7
         with:
           comment_tag_name: QIITA-POST-LIST
           feed_list: "https://qiita.com/aoto0330/feed"
