@@ -1,16 +1,22 @@
-[![Zenn Likes](https://badgen.org/img/zenn/aotolog/likes?style=plastic)](https://zenn.dev/aotolog)
-[![Qiita Contributions](https://badgen.org/img/qiita/aoto0330/contributions?style=plastic)](https://qiita.com/aoto0330)
-
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=632CA6&center=true&vCenter=true&width=640&height=50&lines=Datadog+%F0%9F%90%B6+-+Enterprise+Sales+Engineer" alt="Datadog - Enterprise Sales Engineer" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=220&color=0:050A14,40:0A0F1F,100:003D7A&text=AoTo&fontSize=80&fontColor=00D9FF&stroke=1E90FF&strokeWidth=1&animation=twinkling&desc=Datadog%20%F0%9F%90%B6%20-%20%20Enterprise%20Sales%20Engineer&descSize=18&descAlignY=75&fontAlignY=42" alt="AoTo — Datadog 🐶 -  Enterprise Sales Engineer" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Datadog-632CA6?logo=datadog&logoColor=white" alt="Datadog" />
-  <img src="https://skillicons.dev/icons?i=aws,gcp,kubernetes" alt="AWS, Google Cloud, Kubernetes" />
+  <a href="https://zenn.dev/aotolog"><img src="https://badgen.org/img/zenn/aotolog/likes?style=plastic" alt="Zenn likes" /></a>
+  <a href="https://qiita.com/aoto0330"><img src="https://badgen.org/img/qiita/aoto0330/contributions?style=plastic" alt="Qiita contributions" /></a>
+  <img src="https://komarev.com/ghpvc/?username=AoTo0330&label=Profile%20views&color=00d9ff&style=for-the-badge" alt="Profile views" />
 </p>
 
-# Overview
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=00D9FF&center=true&vCenter=true&width=640&height=50&lines=Datadog+%F0%9F%90%B6+-+Enterprise+Sales+Engineer" alt="Datadog 🐶 -  Enterprise Sales Engineer" />
+</p>
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+</p>
+
+# ⚡ Overview
 
 Datadog 🐶 -  Enterprise Sales Engineer
 
@@ -20,7 +26,61 @@ Datadog 🐶 -  Enterprise Sales Engineer
 - Advanced knowledge of Observability, SRE, DevOps, Platform Engineering and tools of them.
 - Expert skills of public clouds(30+ Cloud Certs)
 
-## Latest posts
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+</p>
+
+# 🛠️ Tech stack
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=aws,gcp,kubernetes&theme=dark" alt="AWS, Google Cloud, Kubernetes" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Datadog-632CA6?style=for-the-badge&logo=datadog&logoColor=white" alt="Datadog" />
+  <img src="https://img.shields.io/badge/AWS-0D1117?style=for-the-badge&logo=amazonwebservices&logoColor=1E90FF" alt="AWS" />
+  <img src="https://img.shields.io/badge/Google_Cloud-0D1117?style=for-the-badge&logo=googlecloud&logoColor=00D9FF" alt="Google Cloud" />
+  <img src="https://img.shields.io/badge/Kubernetes-0D1117?style=for-the-badge&logo=kubernetes&logoColor=326CE5" alt="Kubernetes" />
+</p>
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+</p>
+
+# 📊 Stats
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=AoTo0330&show_icons=true&hide_border=true&bg_color=0D1117&title_color=00D9FF&icon_color=1E90FF&text_color=C9D1D9&ring_color=00D9FF" alt="AoTo0330 GitHub stats" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=AoTo0330&layout=compact&hide_border=true&bg_color=0D1117&title_color=00D9FF&text_color=C9D1D9" alt="AoTo0330 top languages" />
+</p>
+
+<p align="center">
+  <img src="https://streak-stats.demolab.com?user=AoTo0330&hide_border=true&background=0D1117&ring=00D9FF&fire=1E90FF&currStreakLabel=00D9FF&sideLabels=C9D1D9&dates=8B949E&stroke=1E90FF" alt="AoTo0330 GitHub streak" />
+</p>
+
+<p align="center">
+  <img src="https://github-act-graph.rodriaum.com/graph?username=AoTo0330&bg_color=0d1117&color=00d9ff&line=1e90ff&point=00d9ff&area=true&area_color=003d7a&hide_border=true" alt="AoTo0330 GitHub activity graph" />
+</p>
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+</p>
+
+# 🐍 Contribution snake
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AoTo0330/AoTo0330/output/github-contribution-grid-snake-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/AoTo0330/AoTo0330/output/github-contribution-grid-snake.svg" />
+    <img alt="GitHub contribution snake animation" src="https://raw.githubusercontent.com/AoTo0330/AoTo0330/output/github-contribution-grid-snake.svg" />
+  </picture>
+</p>
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+</p>
+
+# 📝 Latest posts
 
 ### [AoToLog](https://www.aotolog.com/)
 
@@ -51,8 +111,12 @@ Datadog 🐶 -  Enterprise Sales Engineer
 - [マルチステージビルドを完全に理解して Cloud Run のセキュリティを向上する](https://qiita.com/AoTo0330/items/4d2c0fa6a127ef5b4b1d)
 <!-- QIITA-POST-LIST:END -->
 
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+</p>
+
 <details>
-<summary>Awards & Recognitions</summary>
+<summary>🏆 Awards & Recognitions</summary>
 
 - [AWS Community Builder - Cloud Operations, since 2024](https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura)
 - [2025 Japan All AWS Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/)
@@ -71,7 +135,11 @@ Datadog 🐶 -  Enterprise Sales Engineer
 
 </details>
 
-## Talks
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+</p>
+
+# 🎤 Talks
 
 - [頼れる Agentic AI を支える Datadog のオブザーバビリティ](https://speakerdeck.com/aoto/powering-reliable-agentic-ai-with-datadog-observability)
 - [AI エージェントで AI エージェントを作る！Google Cloudが実現するフルスタックな AI 開発エコシステム](https://speakerdeck.com/aoto/building-ai-agents-with-ai-agents-by-google-cloud)
@@ -80,15 +148,23 @@ Datadog 🐶 -  Enterprise Sales Engineer
 
 and more → [Speaker Deck](https://speakerdeck.com/aoto)
 
-## Social link
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+</p>
 
-[<img src="./public/images/social/github.svg" width="40" height="40" />](https://github.com/aoto0330)
-[<img src="./public/images/social/twitter.svg" width="40" height="40" />](https://twitter.com/aotolog_)
-[<img src="./public/images/social/linkedin2.png" width="40" height="40" />](https://www.linkedin.com/in/aoto/)
-[<img src="./public/images/social/qiita.png" width="40" height="40" />](https://qiita.com/aoto0330)
-[<img src="./public/images/social/zenn.svg" width="40" height="40" />](https://zenn.dev/aotolog)
-[<img src="./public/images/social/speakerdeck.svg" width="40" height="40" />](https://speakerdeck.com/aoto)
+# 🔗 Social link
 
-## Contact
+[<img src="./public/images/social/github.svg" width="40" height="40" alt="GitHub" />](https://github.com/aoto0330)
+[<img src="./public/images/social/twitter.svg" width="40" height="40" alt="X" />](https://twitter.com/aotolog_)
+[<img src="./public/images/social/linkedin2.png" width="40" height="40" alt="LinkedIn" />](https://www.linkedin.com/in/aoto/)
+[<img src="./public/images/social/qiita.png" width="40" height="40" alt="Qiita" />](https://qiita.com/aoto0330)
+[<img src="./public/images/social/zenn.svg" width="40" height="40" alt="Zenn" />](https://zenn.dev/aotolog)
+[<img src="./public/images/social/speakerdeck.svg" width="40" height="40" alt="Speaker Deck" />](https://speakerdeck.com/aoto)
+
+# 📬 Contact
 
 - [aoto@datadoghq.com](mailto:aoto@datadoghq.com)
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:003D7A,60:0A0F1F,100:050A14" alt="footer wave" />
+</p>
