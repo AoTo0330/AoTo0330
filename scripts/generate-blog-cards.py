@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate navy + neon Zenn/Qiita cards from public APIs. Does not invent numbers."""
+"""Generate navy + blue/purple/magenta Zenn/Qiita cards from public APIs. Does not invent numbers."""
 
 from __future__ import annotations
 
@@ -20,10 +20,11 @@ ZENN_API = f"https://zenn.dev/api/users/{ZENN_USER}"
 QIITA_PROFILE = f"https://qiita.com/{QIITA_USER}"
 USER_AGENT = "AoTo0330-profile-readme-cards/1.0 (https://github.com/AoTo0330/AoTo0330)"
 
-NAVY = "#0B1F3A"
-NAVY_2 = "#102A54"
-NEON = "#00D9FF"
-MUTED = "#7DD3FC"
+NAVY = "#120052"
+NAVY_2 = "#8A2BE2"
+NEON = "#3CB9FC"
+MAGENTA = "#B537F2"
+MUTED = "#C4B5FD"
 
 
 def fetch(url: str) -> str:
@@ -61,11 +62,12 @@ def card_svg(*, label: str, value: int, aria: str, glyph: str, gid: str) -> str:
   <defs>
     <linearGradient id="{gid}" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="{NAVY}"/>
-      <stop offset="100%" stop-color="{NAVY_2}"/>
+      <stop offset="55%" stop-color="{NAVY_2}"/>
+      <stop offset="100%" stop-color="{MAGENTA}"/>
     </linearGradient>
   </defs>
   <rect x="1" y="1" width="228" height="66" rx="14" fill="url(#{gid})" stroke="{NEON}" stroke-width="1.5"/>
-  <rect x="1" y="1" width="8" height="66" rx="4" fill="{NEON}"/>
+  <rect x="1" y="1" width="8" height="66" rx="4" fill="{MAGENTA}"/>
   {glyph}
   <text x="58" y="28" fill="{MUTED}" font-size="11" font-family="Verdana, DejaVu Sans, sans-serif">{label}</text>
   <text x="58" y="54" fill="{NEON}" font-size="24" font-weight="700" font-family="Verdana, DejaVu Sans, sans-serif">{value}</text>
@@ -74,12 +76,12 @@ def card_svg(*, label: str, value: int, aria: str, glyph: str, gid: str) -> str:
 
 
 ZENN_GLYPH = """  <g transform="translate(18,20) scale(1.15)">
-    <path fill="#00D9FF" d="M.264 23.771h4.984c.264 0 .498-.147.645-.352L19.614.874c.176-.293-.029-.645-.381-.645h-4.72c-.235 0-.44.117-.557.323L.03 23.361c-.088.176.029.41.234.41zM17.445 23.419l6.479-10.408c.205-.323-.029-.733-.41-.733h-4.691c-.176 0-.352.088-.44.235l-6.655 10.643c-.176.264.029.616.352.616h4.779c.234-.001.468-.118.586-.353z"/>
+    <path fill="#3CB9FC" d="M.264 23.771h4.984c.264 0 .498-.147.645-.352L19.614.874c.176-.293-.029-.645-.381-.645h-4.72c-.235 0-.44.117-.557.323L.03 23.361c-.088.176.029.41.234.41zM17.445 23.419l6.479-10.408c.205-.323-.029-.733-.41-.733h-4.691c-.176 0-.352.088-.44.235l-6.655 10.643c-.176.264.029.616.352.616h4.779c.234-.001.468-.118.586-.353z"/>
   </g>"""
 
 QIITA_GLYPH = """  <g transform="translate(20,18)">
-    <circle cx="14" cy="16" r="14" fill="none" stroke="#00D9FF" stroke-width="2"/>
-    <text x="14" y="22" text-anchor="middle" fill="#00D9FF" font-size="16" font-weight="700" font-family="Verdana, DejaVu Sans, sans-serif">Q</text>
+    <circle cx="14" cy="16" r="14" fill="none" stroke="#3CB9FC" stroke-width="2"/>
+    <text x="14" y="22" text-anchor="middle" fill="#3CB9FC" font-size="16" font-weight="700" font-family="Verdana, DejaVu Sans, sans-serif">Q</text>
   </g>"""
 
 
