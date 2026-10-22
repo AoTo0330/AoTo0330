@@ -48,13 +48,18 @@ CJK_FONT = next(
     if Path(path).exists()
 )
 
-PW, PH = 220, 340
+PW, PH = 220, 272
 FONT_PAD = 1.10
 CARD_W, CARD_H = 260, 140
 LOGO_MAX_W, LOGO_MAX_H = 148, 56
-LOGO_Y = 42
-NAME_Y = 128
-YEAR_Y = 250
+GLASS_Y, GLASS_H = 18, 220
+GAP_AFTER_LOGO = 10
+GAP_NAME_TO_YEAR = 14
+YEAR_H = 26
+NAMEPLATE_FILL = "#1b2a44"
+NAMEPLATE_TEXT = "#e6edf7"
+# wqy-microhei (CI font) tofu's U+301C WAVE DASH; U+FF5E renders as a wave.
+CB_YEARS = "2024\uFF5E現在"
 
 
 def b64_png_fitted(path: Path, max_w: int, max_h: int) -> tuple[str, int, int]:
@@ -79,7 +84,7 @@ def encode_png(image: Image.Image, max_w: int, max_h: int) -> tuple[str, int, in
     return base64.b64encode(buf.getvalue()).decode("ascii"), image.width, image.height
 
 
-def centered_png(b64: str, width: int, height: int, y: float = LOGO_Y) -> str:
+def centered_png(b64: str, width: int, height: int, y: float) -> str:
     x = 110 - width / 2
     return (
         f'<image href="data:image/png;base64,{b64}" x="{x:.1f}" y="{y:.1f}" '
@@ -137,25 +142,19 @@ def svg_text(
 def plaque_defs(gid: str) -> str:
     return (
         f"<defs>"
-        f'<linearGradient id="frame-{gid}" x1="14" y1="10" x2="206" y2="310" '
+        f'<linearGradient id="frame-{gid}" x1="14" y1="8" x2="206" y2="248" '
         f'gradientUnits="userSpaceOnUse">'
         f'<stop offset="0" stop-color="#1B2740"/>'
         f'<stop offset="0.55" stop-color="{FRAME}"/>'
         f'<stop offset="1" stop-color="#0E1422"/>'
         f"</linearGradient>"
-        f'<linearGradient id="glass-{gid}" x1="24" y1="20" x2="196" y2="300" '
+        f'<linearGradient id="glass-{gid}" x1="24" y1="18" x2="196" y2="238" '
         f'gradientUnits="userSpaceOnUse">'
         f'<stop offset="0" stop-color="#18233C"/>'
         f'<stop offset="0.45" stop-color="{BG}"/>'
         f'<stop offset="1" stop-color="#080C16"/>'
         f"</linearGradient>"
-        f'<linearGradient id="metal-{gid}" x1="40" y1="0" x2="180" y2="40" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="{STEEL_HI}"/>'
-        f'<stop offset="0.45" stop-color="{STEEL_MID}"/>'
-        f'<stop offset="1" stop-color="{STEEL_LO}"/>'
-        f"</linearGradient>"
-        f'<linearGradient id="base-{gid}" x1="70" y1="312" x2="150" y2="334" '
+        f'<linearGradient id="base-{gid}" x1="70" y1="252" x2="150" y2="270" '
         f'gradientUnits="userSpaceOnUse">'
         f'<stop offset="0" stop-color="{STEEL_MID}"/>'
         f'<stop offset="1" stop-color="{STEEL_EDGE}"/>'
@@ -179,15 +178,15 @@ def plaque_shell(gid: str, inner: str, title: str) -> str:
         f'viewBox="0 0 {PW} {PH}" role="img">'
         f"<title>{html.escape(title)}</title>"
         f"{plaque_defs(gid)}"
-        f'<polygon points="62,318 158,318 170,336 50,336" fill="url(#base-{gid})" '
+        f'<polygon points="62,252 158,252 170,270 50,270" fill="url(#base-{gid})" '
         f'stroke="{STEEL_EDGE}" stroke-width="0.8"/>'
-        f'<rect x="14" y="10" width="192" height="304" rx="4" fill="url(#frame-{gid})" '
+        f'<rect x="14" y="8" width="192" height="240" rx="4" fill="url(#frame-{gid})" '
         f'stroke="{STEEL_MID}" stroke-width="2"/>'
-        f'<rect x="20" y="16" width="180" height="292" rx="2" fill="none" '
+        f'<rect x="20" y="14" width="180" height="228" rx="2" fill="none" '
         f'stroke="{STEEL_HI}" stroke-width="1.1" opacity="0.85"/>'
-        f'<rect x="24" y="20" width="172" height="284" fill="url(#glass-{gid})"/>'
-        f'<rect x="24" y="20" width="172" height="40" fill="#FFFFFF" opacity="0.05"/>'
-        f"{stud(28, 24)}{stud(192, 24)}{stud(28, 300)}{stud(192, 300)}"
+        f'<rect x="24" y="{GLASS_Y}" width="172" height="{GLASS_H}" fill="url(#glass-{gid})"/>'
+        f'<rect x="24" y="{GLASS_Y}" width="172" height="32" fill="#FFFFFF" opacity="0.05"/>'
+        f"{stud(28, 22)}{stud(192, 22)}{stud(28, 232)}{stud(192, 232)}"
         f"{inner}"
         f"</svg>\n"
     )
@@ -224,67 +223,113 @@ def gcp_mark(x: float, y: float, size: float = 36, gid: str = "gcg") -> str:
     )
 
 
-def nameplate(lines: list[str], y: float = NAME_Y) -> str:
-    height = 22 + 16 * len(lines)
+def nameplate_height(lines: list[str]) -> float:
+    return 22 + 16 * len(lines)
+
+
+def nameplate(lines: list[str], y: float) -> str:
+    height = nameplate_height(lines)
     block = (
         f'<rect x="40" y="{y:.1f}" width="140" height="{height:.1f}" rx="2" '
-        f'fill="{STEEL_MID}" stroke="{STEEL_EDGE}" stroke-width="0.7"/>'
-        f'<rect x="42" y="{y + 1.2:.1f}" width="136" height="{height - 2.4:.1f}" rx="1.5" '
-        f'fill="#D7DEE6"/>'
+        f'fill="{NAMEPLATE_FILL}" stroke="{STEEL_EDGE}" stroke-width="0.7"/>'
     )
     parts = [block]
-    start_y = y + (28 if len(lines) == 1 else 22)
+    start_y = y + (26 if len(lines) == 1 else 20)
     for i, line in enumerate(lines):
-        size = fit_size(line, 128, 12)
-        parts.append(svg_text(110, start_y + i * 16, line, STEEL_EDGE, size))
+        size = max(12.5, fit_size(line, 128, 13))
+        parts.append(svg_text(110, start_y + i * 16, line, NAMEPLATE_TEXT, size))
     return "".join(parts)
 
 
-def years_plate(years: str, y: float = YEAR_Y) -> str:
-    size = fit_size(years, 148, 11)
+def years_plate(years: str, y: float) -> str:
+    if any(ord(ch) > 127 for ch in years):
+        scale = 2
+        width, height = 132 * scale, 26 * scale
+        img = Image.new("RGBA", (width, height), (18, 26, 46, 255))
+        draw = ImageDraw.Draw(img)
+        draw.rounded_rectangle(
+            [2, 2, width - 3, height - 3],
+            radius=6,
+            outline=(60, 185, 252, 255),
+            width=2,
+        )
+        font = ImageFont.truetype(CJK_FONT, 26)
+        bbox = font.getbbox(years)
+        text_w = bbox[2] - bbox[0]
+        text_h = bbox[3] - bbox[1]
+        draw.text(
+            ((width - text_w) / 2 - bbox[0], (height - text_h) / 2 - bbox[1]),
+            years,
+            fill=(60, 185, 252, 255),
+            font=font,
+        )
+        buf = BytesIO()
+        img.save(buf, format="PNG", optimize=True)
+        b64 = base64.b64encode(buf.getvalue()).decode("ascii")
+        return (
+            f'<image href="data:image/png;base64,{b64}" x="44" y="{y:.1f}" '
+            f'width="132" height="26"/>'
+        )
+    size = max(11, fit_size(years, 148, 12))
     return (
-        f'<rect x="44" y="{y:.1f}" width="132" height="26" rx="2" fill="{PLATE}" '
+        f'<rect x="44" y="{y:.1f}" width="132" height="{YEAR_H}" rx="2" fill="{PLATE}" '
         f'stroke="{NEON}" stroke-width="0.9"/>'
         + svg_text(110, y + 18, years, NEON, size)
     )
 
 
-def aws_wordmark() -> str:
+def aws_logo(y: float) -> str:
     return (
-        f'<text x="110" y="74" text-anchor="middle" fill="{WHITE}" font-size="18" '
+        f'<text x="110" y="{y + 32:.1f}" text-anchor="middle" fill="{WHITE}" font-size="18" '
         f'font-weight="700" font-family="{FONT}">aws</text>'
-        + aws_smile(82, 60, 1.25)
+        + aws_smile(82, y + 18, 1.25)
     )
+
+
+def compose_inner(
+    logo_at,
+    logo_h: float,
+    name_lines: list[str] | None,
+    years: str,
+) -> str:
+    name_h = nameplate_height(name_lines) if name_lines else 0
+    gap_after_logo = GAP_AFTER_LOGO if name_lines else GAP_NAME_TO_YEAR
+    total = logo_h + gap_after_logo + YEAR_H
+    if name_lines:
+        total += name_h + GAP_NAME_TO_YEAR
+    y = GLASS_Y + (GLASS_H - total) / 2
+    parts = [logo_at(y)]
+    y += logo_h + gap_after_logo
+    if name_lines:
+        parts.append(nameplate(name_lines, y))
+        y += name_h + GAP_NAME_TO_YEAR
+    parts.append(years_plate(years, y))
+    return "".join(parts)
 
 
 def write_cb_card() -> None:
     png, width, height = cb_logo_mono(AWARDS / "aws-community-builders-badge.png")
-    title = "AWS Community Builder - Cloud Operations, 2024–"
-    inner = (
-        centered_png(png, width, height)
-        + nameplate(["Community Builder", "Cloud Operations"])
-        + years_plate("2024–")
+    title = f"AWS Community Builder - Cloud Operations, {CB_YEARS}"
+    inner = compose_inner(
+        lambda y: centered_png(png, width, height, y),
+        height,
+        ["Community Builder", "Cloud Operations"],
+        CB_YEARS,
     )
     (AWARDS / "aws-community-builder.svg").write_text(plaque_shell("cb", inner, title))
 
 
 def write_aws_allcerts() -> None:
     title = "All Certifications Engineer, 2022–2025"
-    inner = (
-        aws_wordmark()
-        + nameplate(["All Certifications", "Engineer"])
-        + years_plate("2022–2025")
+    inner = compose_inner(
+        aws_logo, 56, ["All Certifications", "Engineer"], "2022–2025"
     )
     (AWARDS / "aws-allcerts.svg").write_text(plaque_shell("allcerts", inner, title))
 
 
 def write_jr_champion() -> None:
     title = "2023 Japan AWS Jr. Champion"
-    inner = (
-        aws_wordmark()
-        + nameplate(["Japan AWS", "Jr. Champion"])
-        + years_plate("2023")
-    )
+    inner = compose_inner(aws_logo, 56, ["Japan AWS", "Jr. Champion"], "2023")
     (AWARDS / "aws-jr-champion-2023.svg").write_text(plaque_shell("jr", inner, title))
 
 
@@ -293,20 +338,22 @@ def write_pte() -> None:
     png, width, height = b64_png_fitted(
         AWARDS / "pte-20251104-rgb-nega-1.png", LOGO_MAX_W, LOGO_MAX_H
     )
-    inner = (
-        centered_png(png, width, height)
-        + nameplate(["Partner Top", "Engineer"])
-        + years_plate("2023–2026")
+    inner = compose_inner(
+        lambda y: centered_png(png, width, height, y),
+        height,
+        None,
+        "2023–2026",
     )
     (AWARDS / "gcp-pte.svg").write_text(plaque_shell("pte", inner, title))
 
 
 def write_all_cert_holders() -> None:
     title = "Google Cloud Partner All Certification Holders 2025"
-    inner = (
-        gcp_mark(83, LOGO_Y + 2, 52, "gcg-holders")
-        + nameplate(["All Certification", "Holders"])
-        + years_plate("2025")
+    inner = compose_inner(
+        lambda y: gcp_mark(83, y, 52, "gcg-holders"),
+        52,
+        ["All Certification", "Holders"],
+        "2025",
     )
     (AWARDS / "gcp-all-cert-holders-2025.svg").write_text(
         plaque_shell("holders", inner, title)
@@ -318,10 +365,11 @@ def write_jaguer() -> None:
         AWARDS / "jaguer-circle.png", LOGO_MAX_H, LOGO_MAX_H
     )
     title = "Jagu'e'r Award, 2023–2025"
-    inner = (
-        centered_png(png, width, height)
-        + nameplate(["Jagu'e'r Award"])
-        + years_plate("2023–2025")
+    inner = compose_inner(
+        lambda y: centered_png(png, width, height, y),
+        height,
+        ["Jagu'e'r Award"],
+        "2023–2025",
     )
     (AWARDS / "jaguer.svg").write_text(plaque_shell("jaguer", inner, title))
 
