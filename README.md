@@ -51,10 +51,6 @@ Datadog 🐶 -  Enterprise Sales Engineer
 - [マルチステージビルドを完全に理解して Cloud Run のセキュリティを向上する](https://qiita.com/AoTo0330/items/4d2c0fa6a127ef5b4b1d)
 <!-- QIITA-POST-LIST:END -->
 
-## Books
-
-- 『AgentOps実践入門』
-
 <details>
 <summary>Awards & Recognitions</summary>
 
@@ -69,8 +65,8 @@ Datadog 🐶 -  Enterprise Sales Engineer
 - [Google Cloud Partner Top Engineer 2024(Build)](https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja)
 - [Google Cloud Partner Top Engineer 2023](https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja)
 - [Google Cloud Partner All Certification Holders 2025](https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja)
-- [Jagu'e'r Award 2025 - Grand Prize](https://jaguer.jp/jaguer_award_2025/)
-- [Jagu'e'r Award 2024 - Excellent Award](https://jaguer.jp/park24_winter/)
+- Jagu'e'r Award 2025 - Grand Prize
+- Jagu'e'r Award 2024 - Excellent Award
 - [Jagu'e'r Award 2023 - Excellent Award](https://jaguer.jp/jaguer_park_23_winter/)
 
 </details>
