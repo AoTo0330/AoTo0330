@@ -1,4 +1,4 @@
-name: Update Zenn and Qiita cards
+name: Update Zenn Qiita and Speaker Deck cards
 on:
   schedule:
     - cron: "0 0 * * *"
@@ -13,16 +13,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Generate cards from public Zenn/Qiita data
+      - name: Generate cards from public Zenn/Qiita/Speaker Deck data
         run: python3 scripts/generate-blog-cards.py
       - name: Commit updated cards
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/images/badges/zenn-likes.svg public/images/badges/qiita-contributions.svg
+          git add public/images/badges/zenn-likes.svg public/images/badges/qiita-contributions.svg public/images/badges/speakerdeck-views.svg
           if git diff --cached --quiet; then
             echo "No card changes"
             exit 0
           fi
-          git commit -m "Zenn/Qiita カードの数字を公開 API から更新"
+          git commit -m "Zenn/Qiita/Speaker Deck カードの数字を公開データから更新"
           git push
