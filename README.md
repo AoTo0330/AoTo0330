@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=220&color=0:050A14,40:0A0F1F,100:003D7A&text=AoTo&fontSize=80&fontColor=00D9FF&stroke=1E90FF&strokeWidth=1&animation=twinkling&desc=Datadog%20%F0%9F%90%B6%20-%20%20Enterprise%20Sales%20Engineer&descSize=18&descAlignY=75&fontAlignY=42" alt="AoTo — Datadog 🐶 -  Enterprise Sales Engineer" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=220&color=0:050A14,40:0B1F3A,100:102A54&text=AoTo&fontSize=80&fontColor=00D9FF&stroke=1E90FF&strokeWidth=1&animation=twinkling&desc=Datadog%20%F0%9F%90%B6%20-%20%20Enterprise%20Sales%20Engineer&descSize=18&descAlignY=75&fontAlignY=42" alt="AoTo — Datadog 🐶 -  Enterprise Sales Engineer" />
 </p>
 
 <p align="center">
-  <a href="https://zenn.dev/aotolog"><img src="https://badgen.org/img/zenn/aotolog/likes?style=plastic" alt="Zenn likes" /></a>
-  <a href="https://qiita.com/aoto0330"><img src="https://badgen.org/img/qiita/aoto0330/contributions?style=plastic" alt="Qiita contributions" /></a>
+  <a href="https://zenn.dev/aotolog"><img src="./public/images/badges/zenn-likes.svg" alt="Zenn likes" /></a>
+  <a href="https://qiita.com/aoto0330"><img src="./public/images/badges/qiita-contributions.svg" alt="Qiita contributions" /></a>
   <img src="https://komarev.com/ghpvc/?username=AoTo0330&label=Profile%20views&color=00d9ff&style=for-the-badge" alt="Profile views" />
 </p>
 
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:102A54,50:00D9FF,100:102A54&height=4" alt="navy neon divider" />
 </p>
 
 # ⚡ Overview
@@ -27,32 +27,25 @@ Datadog 🐶 -  Enterprise Sales Engineer
 - Expert skills of public clouds(30+ Cloud Certs)
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:102A54,50:00D9FF,100:102A54&height=4" alt="navy neon divider" />
 </p>
 
 ## 🛠️ Tech stack
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=aws,gcp,kubernetes&theme=dark" alt="AWS, Google Cloud, Kubernetes" />
+  <img src="./public/images/tech/aws.svg" width="48" height="48" alt="AWS" />
+  <img src="./public/images/tech/google-cloud.svg" width="48" height="48" alt="Google Cloud" />
+  <img src="./public/images/tech/kubernetes.svg" width="48" height="48" alt="Kubernetes" />
+  <img src="./public/images/tech/opentelemetry.svg" width="48" height="48" alt="OpenTelemetry" />
+  <img src="./public/images/tech/cloud-run.svg" width="48" height="48" alt="Cloud Run" />
+  <img src="./public/images/tech/datadog.svg" width="48" height="48" alt="Datadog" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Datadog-632CA6?style=for-the-badge&logo=datadog&logoColor=white" alt="Datadog" />
-  <img src="https://img.shields.io/badge/AWS-0D1117?style=for-the-badge&logo=amazonwebservices&logoColor=1E90FF" alt="AWS" />
-  <img src="https://img.shields.io/badge/Google_Cloud-0D1117?style=for-the-badge&logo=googlecloud&logoColor=00D9FF" alt="Google Cloud" />
-  <img src="https://img.shields.io/badge/Kubernetes-0D1117?style=for-the-badge&logo=kubernetes&logoColor=326CE5" alt="Kubernetes" />
-</p>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:102A54,50:00D9FF,100:102A54&height=4" alt="navy neon divider" />
 </p>
 
 ## 📊 Stats
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=AoTo0330&show_icons=true&hide_border=true&bg_color=0D1117&title_color=00D9FF&icon_color=1E90FF&text_color=C9D1D9&ring_color=00D9FF" alt="AoTo0330 GitHub stats" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=AoTo0330&layout=compact&hide_border=true&bg_color=0D1117&title_color=00D9FF&text_color=C9D1D9" alt="AoTo0330 top languages" />
-</p>
 
 <p align="center">
   <img src="https://streak-stats.demolab.com?user=AoTo0330&hide_border=true&background=0D1117&ring=00D9FF&fire=1E90FF&currStreakNum=00D9FF&sideNums=00D9FF&currStreakLabel=00D9FF&sideLabels=C9D1D9&dates=C9D1D9&stroke=1E90FF" alt="AoTo0330 GitHub streak" />
@@ -63,7 +56,7 @@ Datadog 🐶 -  Enterprise Sales Engineer
 </p>
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:102A54,50:00D9FF,100:102A54&height=4" alt="navy neon divider" />
 </p>
 
 ## 🐍 Contribution snake
@@ -77,7 +70,7 @@ Datadog 🐶 -  Enterprise Sales Engineer
 </p>
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:102A54,50:00D9FF,100:102A54&height=4" alt="navy neon divider" />
 </p>
 
 ## 📝 Latest posts
@@ -112,7 +105,7 @@ Datadog 🐶 -  Enterprise Sales Engineer
 <!-- QIITA-POST-LIST:END -->
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:102A54,50:00D9FF,100:102A54&height=4" alt="navy neon divider" />
 </p>
 
 ## 🏆 Awards & Recognitions
@@ -138,7 +131,7 @@ Datadog 🐶 -  Enterprise Sales Engineer
 </details>
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:102A54,50:00D9FF,100:102A54&height=4" alt="navy neon divider" />
 </p>
 
 ## 🎤 Talks
@@ -151,7 +144,7 @@ Datadog 🐶 -  Enterprise Sales Engineer
 and more → [Speaker Deck](https://speakerdeck.com/aoto)
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00D9FF,50:1E90FF,100:00D9FF&height=4" alt="neon divider" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:102A54,50:00D9FF,100:102A54&height=4" alt="navy neon divider" />
 </p>
 
 ## 🔗 Social link
@@ -168,5 +161,5 @@ and more → [Speaker Deck](https://speakerdeck.com/aoto)
 - [aoto@datadoghq.com](mailto:aoto@datadoghq.com)
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:003D7A,60:0A0F1F,100:050A14" alt="footer wave" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:102A54,60:0B1F3A,100:050A14" alt="footer wave" />
 </p>
