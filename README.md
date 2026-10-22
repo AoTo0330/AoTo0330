@@ -9,18 +9,39 @@
   <img src="https://komarev.com/ghpvc/?username=AoTo0330&label=Profile%20views&color=3cb9fc&style=for-the-badge" alt="Profile views" />
 </p>
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
-</p>
-
 ## ⚡ Specialization & Expertise
 
 - 4+ years of pre-sales engineering experience in Public Cloud services and Cloud Native technologies.
 - Advanced knowledge of Observability, SRE, DevOps, Platform Engineering and tools of them.
 - Expert skills of public clouds(30+ Cloud Certs)
 
+## 🏆 Awards & Recognitions
+
+<h3 align="center">AWS</h3>
+<div align="center">
+<a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura"><img src="./public/images/awards/aws-community-builder.svg" width="200" alt="AWS Community Builder - Cloud Operations, 2024–" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/"><img src="./public/images/awards/aws-allcerts.svg" width="200" alt="All Certifications Engineer, 2022–2025" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/"><img src="./public/images/awards/aws-jr-champion-2023.svg" width="200" alt="2023 Japan AWS Jr. Champion" /></a>
+</div>
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
+Community Builder：<a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura">2024–</a><br />
+All Certifications Engineer：<a href="https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/">2022</a>–<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/">2023</a>–<a href="https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/">2024</a>–<a href="https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/">2025</a><br />
+Jr. Champion：<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/">2023</a>
+</p>
+
+<h3 align="center">Google Cloud</h3>
+<div align="center">
+<a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja"><img src="./public/images/awards/gcp-pte.svg" width="200" alt="Partner Top Engineer, 2023–2026" /></a><a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja"><img src="./public/images/awards/gcp-all-cert-holders-2025.svg" width="200" alt="Google Cloud Partner All Certification Holders 2025" /></a>
+</div>
+<p align="center">
+Partner Top Engineer：<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja">2023</a>–<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja">2024</a>–<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja">2025</a> Build/General · <a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja">2026</a> Serverless<br />
+All Certification Holders：<a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja">2025</a>
+</p>
+
+<h3 align="center">Jagu'e'r</h3>
+<div align="center">
+<a href="https://jaguer.jp/jaguer_park_23_winter/"><img src="./public/images/awards/jaguer.svg" width="200" alt="Jagu'e'r Award, 2023–2025" /></a>
+</div>
+<p align="center">
+Jagu'e'r Award：<a href="https://jaguer.jp/jaguer_park_23_winter/">2023</a> Excellent · 2024 Excellent · 2025 Grand Prize
 </p>
 
 ## 🛠️ Tech stack
@@ -34,10 +55,6 @@
   <img src="./public/images/tech/datadog.svg" width="48" height="48" alt="Datadog" />
 </p>
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
-</p>
-
 ## 📊 Stats
 
 <p align="center">
@@ -48,10 +65,6 @@
   <img src="https://github-act-graph.rodriaum.com/graph?username=AoTo0330&bg_color=0b1026&color=8b949e&line=3cb9fc&point=3cb9fc&hide_border=true" alt="AoTo0330 GitHub activity graph" />
 </p>
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
-</p>
-
 ## 🐍 Contribution snake
 
 <p align="center">
@@ -60,10 +73,6 @@
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/AoTo0330/AoTo0330/output/github-contribution-grid-snake.svg" />
     <img alt="GitHub contribution snake animation" src="https://raw.githubusercontent.com/AoTo0330/AoTo0330/output/github-contribution-grid-snake.svg" />
   </picture>
-</p>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
 </p>
 
 ## 📝 Latest posts
@@ -100,34 +109,6 @@
 <!-- QIITA-POST-LIST:END -->
 </div>
 <p align="center"><a href="https://qiita.com/aoto0330">more on Qiita →</a></p>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
-</p>
-
-## 🏆 Awards & Recognitions
-
-### AWS
-
-<div align="center">
-<img src="./public/images/awards/aws-community-builder.svg" width="200" alt="AWS Community Builder - Cloud Operations, since 2024" /><img src="./public/images/awards/aws-allcerts.svg" width="200" alt="Japan All AWS Certifications Engineer 2022 · 2023 · 2024 · 2025 (2022 APN ALL AWS Certifications Engineer)" /><img src="./public/images/awards/aws-jr-champion-2023.svg" width="200" alt="2023 Japan AWS Jr. Champion" /><br /><a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura"><img src="./public/images/awards/years-cb.svg" width="200" alt="2024" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/"><img src="./public/images/awards/years-allcerts-2022.svg" width="50" alt="2022" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/"><img src="./public/images/awards/years-allcerts-2023.svg" width="50" alt="2023" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/"><img src="./public/images/awards/years-allcerts-2024.svg" width="50" alt="2024" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/"><img src="./public/images/awards/years-allcerts-2025.svg" width="50" alt="2025" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/"><img src="./public/images/awards/years-jr.svg" width="200" alt="2023" /></a>
-</div>
-
-### Google Cloud
-
-<div align="center">
-<img src="./public/images/awards/gcp-pte.svg" width="200" alt="Google Cloud Partner Top Engineer 2023 · 2024 · 2025 · 2026 (2026 Serverless App Development, 2025 General, 2024 Build)" /><img src="./public/images/awards/gcp-all-cert-holders-2025.svg" width="200" alt="Google Cloud Partner All Certification Holders 2025" /><br /><a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja"><img src="./public/images/awards/years-pte-2023.svg" width="50" alt="2023" /></a><a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja"><img src="./public/images/awards/years-pte-2024.svg" width="50" alt="2024" /></a><a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja"><img src="./public/images/awards/years-pte-2025.svg" width="50" alt="2025" /></a><a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja"><img src="./public/images/awards/years-pte-2026.svg" width="50" alt="2026" /></a><a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja"><img src="./public/images/awards/years-holders.svg" width="200" alt="2025" /></a>
-</div>
-
-### Jagu'e'r
-
-<div align="center">
-<img src="./public/images/awards/jaguer.svg" width="200" alt="Jagu'e'r Award 2023 · 2024 · 2025 (2025 Grand Prize, 2024 Excellent, 2023 Excellent)" /><br /><a href="https://jaguer.jp/jaguer_park_23_winter/"><img src="./public/images/awards/years-jaguer-2023.svg" width="67" alt="2023" /></a><img src="./public/images/awards/years-jaguer-2024.svg" width="67" alt="2024" /><img src="./public/images/awards/years-jaguer-2025.svg" width="66" alt="2025" />
-</div>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
-</p>
 
 ## 🎤 Talks
 

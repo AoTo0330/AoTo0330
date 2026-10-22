@@ -51,10 +51,10 @@ CJK_FONT = next(
 PW, PH = 220, 340
 FONT_PAD = 1.10
 CARD_W, CARD_H = 260, 140
-
-
-def b64_png(path: Path) -> str:
-    return base64.b64encode(path.read_bytes()).decode("ascii")
+LOGO_MAX_W, LOGO_MAX_H = 148, 56
+LOGO_Y = 42
+NAME_Y = 128
+YEAR_Y = 250
 
 
 def b64_png_fitted(path: Path, max_w: int, max_h: int) -> tuple[str, int, int]:
@@ -66,6 +66,43 @@ def b64_png_fitted(path: Path, max_w: int, max_h: int) -> tuple[str, int, int]:
     buf = BytesIO()
     image.save(buf, format="PNG", optimize=True)
     return base64.b64encode(buf.getvalue()).decode("ascii"), image.width, image.height
+
+
+def encode_png(image: Image.Image, max_w: int, max_h: int) -> tuple[str, int, int]:
+    image = image.convert("RGBA")
+    bbox = image.getchannel("A").getbbox()
+    if bbox:
+        image = image.crop(bbox)
+    image.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
+    buf = BytesIO()
+    image.save(buf, format="PNG", optimize=True)
+    return base64.b64encode(buf.getvalue()).decode("ascii"), image.width, image.height
+
+
+def centered_png(b64: str, width: int, height: int, y: float = LOGO_Y) -> str:
+    x = 110 - width / 2
+    return (
+        f'<image href="data:image/png;base64,{b64}" x="{x:.1f}" y="{y:.1f}" '
+        f'width="{width}" height="{height}"/>'
+    )
+
+
+def cb_logo_mono(path: Path) -> tuple[str, int, int]:
+    """Drop the navy/black square; keep the wordmark as a single-color white glyph."""
+    image = Image.open(path).convert("RGBA")
+    width, height = image.size
+    image = image.crop((0, int(height * 0.52), int(width * 0.92), height))
+    pixels = image.load()
+    width, height = image.size
+    for y in range(height):
+        for x in range(width):
+            red, green, blue, alpha = pixels[x, y]
+            luma = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+            if alpha < 24 or luma < 70:
+                pixels[x, y] = (0, 0, 0, 0)
+                continue
+            pixels[x, y] = (230, 237, 243, 255)
+    return encode_png(image, LOGO_MAX_W, LOGO_MAX_H)
 
 
 def text_width(text: str, size: float, bold: bool = True) -> float:
@@ -187,13 +224,8 @@ def gcp_mark(x: float, y: float, size: float = 36, gid: str = "gcg") -> str:
     )
 
 
-def nameplate(lines: list[str], y: float = 168) -> str:
+def nameplate(lines: list[str], y: float = NAME_Y) -> str:
     height = 22 + 16 * len(lines)
-    block = (
-        f'<rect x="40" y="{y:.1f}" width="140" height="{height:.1f}" rx="2" '
-        f'fill="url(#metal-plate)" stroke="{STEEL_EDGE}" stroke-width="0.7"/>'
-    )
-    # local metal fill if plaque defs used a different id — use steel solid
     block = (
         f'<rect x="40" y="{y:.1f}" width="140" height="{height:.1f}" rx="2" '
         f'fill="{STEEL_MID}" stroke="{STEEL_EDGE}" stroke-width="0.7"/>'
@@ -208,7 +240,7 @@ def nameplate(lines: list[str], y: float = 168) -> str:
     return "".join(parts)
 
 
-def years_plate(years: str, y: float = 268) -> str:
+def years_plate(years: str, y: float = YEAR_Y) -> str:
     size = fit_size(years, 148, 11)
     return (
         f'<rect x="44" y="{y:.1f}" width="132" height="26" rx="2" fill="{PLATE}" '
@@ -217,126 +249,81 @@ def years_plate(years: str, y: float = 268) -> str:
     )
 
 
-def note_lines(notes: list[str], y: float = 230) -> str:
-    parts = []
-    for i, line in enumerate(notes):
-        size = fit_size(line, 150, 9, bold=False)
-        parts.append(svg_text(110, y + i * 14, line, MUTED, size, bold=False))
-    return "".join(parts)
-
-
-def write_year_bar(filename: str, label: str, width: int = 200, height: int = 22) -> None:
-    size = fit_size(label, width - 10, 12)
-    svg = (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
-        f'viewBox="0 0 {width} {height}">'
-        f'<text x="{width / 2:.1f}" y="16" text-anchor="middle" fill="{NEON}" '
-        f'font-size="{size:.1f}" font-weight="700" font-family="{FONT}">'
-        f"{html.escape(label)}</text></svg>\n"
+def aws_wordmark() -> str:
+    return (
+        f'<text x="110" y="74" text-anchor="middle" fill="{WHITE}" font-size="18" '
+        f'font-weight="700" font-family="{FONT}">aws</text>'
+        + aws_smile(82, 60, 1.25)
     )
-    (AWARDS / filename).write_text(svg)
 
 
 def write_cb_card() -> None:
-    png = b64_png(AWARDS / "aws-community-builders-badge.png")
-    title = "AWS Community Builder - Cloud Operations, since 2024"
+    png, width, height = cb_logo_mono(AWARDS / "aws-community-builders-badge.png")
+    title = "AWS Community Builder - Cloud Operations, 2024–"
     inner = (
-        f'<image href="data:image/png;base64,{png}" x="78" y="40" width="64" height="64"/>'
-        + nameplate(["Community Builder", "Cloud Operations"], y=128)
-        + years_plate("since 2024", y=250)
+        centered_png(png, width, height)
+        + nameplate(["Community Builder", "Cloud Operations"])
+        + years_plate("2024–")
     )
     (AWARDS / "aws-community-builder.svg").write_text(plaque_shell("cb", inner, title))
-    write_year_bar("years-cb.svg", "2024")
 
 
 def write_aws_allcerts() -> None:
-    title = (
-        "Japan All AWS Certifications Engineer 2022 · 2023 · 2024 · 2025 "
-        "(2022 APN ALL AWS Certifications Engineer)"
-    )
+    title = "All Certifications Engineer, 2022–2025"
     inner = (
-        f'<text x="110" y="64" text-anchor="middle" fill="{WHITE}" font-size="18" '
-        f'font-weight="700" font-family="{FONT}">aws</text>'
-        + aws_smile(82, 50, 1.25)
-        + nameplate(["All Certifications", "Engineer"], y=124)
-        + note_lines(["2022 APN ALL AWS", "Certifications Engineer"], y=210)
-        + years_plate("2022 · 2023 · 2024 · 2025", y=250)
+        aws_wordmark()
+        + nameplate(["All Certifications", "Engineer"])
+        + years_plate("2022–2025")
     )
     (AWARDS / "aws-allcerts.svg").write_text(plaque_shell("allcerts", inner, title))
-    for year in ("2022", "2023", "2024", "2025"):
-        write_year_bar(f"years-allcerts-{year}.svg", year, width=50)
 
 
 def write_jr_champion() -> None:
     title = "2023 Japan AWS Jr. Champion"
     inner = (
-        f'<text x="110" y="64" text-anchor="middle" fill="{WHITE}" font-size="18" '
-        f'font-weight="700" font-family="{FONT}">aws</text>'
-        + aws_smile(82, 50, 1.25)
-        + nameplate(["Japan AWS", "Jr. Champion"], y=128)
-        + years_plate("2023", y=250)
+        aws_wordmark()
+        + nameplate(["Japan AWS", "Jr. Champion"])
+        + years_plate("2023")
     )
     (AWARDS / "aws-jr-champion-2023.svg").write_text(plaque_shell("jr", inner, title))
-    write_year_bar("years-jr.svg", "2023")
 
 
 def write_pte() -> None:
-    title = (
-        "Google Cloud Partner Top Engineer 2023 · 2024 · 2025 · 2026 "
-        "(2026 Serverless App Development, 2025 General, 2024 Build)"
+    title = "Partner Top Engineer, 2023–2026"
+    png, width, height = b64_png_fitted(
+        AWARDS / "pte-20251104-rgb-nega-1.png", LOGO_MAX_W, LOGO_MAX_H
     )
-    png, pw, ph = b64_png_fitted(AWARDS / "pte-20251104-rgb-nega-1.png", 160, 72)
-    x = 110 - pw / 2
     inner = (
-        f'<image href="data:image/png;base64,{png}" x="{x:.1f}" y="36" '
-        f'width="{pw}" height="{ph}"/>'
-        + note_lines(
-            [
-                "2026 Serverless App Development",
-                "2025 General",
-                "2024 Build",
-            ],
-            y=128,
-        )
-        + years_plate("2023 · 2024 · 2025 · 2026", y=250)
+        centered_png(png, width, height)
+        + nameplate(["Partner Top", "Engineer"])
+        + years_plate("2023–2026")
     )
     (AWARDS / "gcp-pte.svg").write_text(plaque_shell("pte", inner, title))
-    for year in ("2023", "2024", "2025", "2026"):
-        write_year_bar(f"years-pte-{year}.svg", year, width=50)
 
 
 def write_all_cert_holders() -> None:
     title = "Google Cloud Partner All Certification Holders 2025"
     inner = (
-        gcp_mark(83, 48, 54, "gcg-holders")
-        + nameplate(["All Certification", "Holders"], y=140)
-        + years_plate("2025", y=250)
+        gcp_mark(83, LOGO_Y + 2, 52, "gcg-holders")
+        + nameplate(["All Certification", "Holders"])
+        + years_plate("2025")
     )
     (AWARDS / "gcp-all-cert-holders-2025.svg").write_text(
         plaque_shell("holders", inner, title)
     )
-    write_year_bar("years-holders.svg", "2025")
 
 
 def write_jaguer() -> None:
-    png = b64_png(AWARDS / "jaguer-circle.png")
-    title = (
-        "Jagu'e'r Award 2023 · 2024 · 2025 "
-        "(2025 Grand Prize, 2024 Excellent, 2023 Excellent)"
+    png, width, height = b64_png_fitted(
+        AWARDS / "jaguer-circle.png", LOGO_MAX_H, LOGO_MAX_H
     )
+    title = "Jagu'e'r Award, 2023–2025"
     inner = (
-        f'<image href="data:image/png;base64,{png}" x="74" y="40" width="72" height="72"/>'
-        + nameplate(["Jagu'e'r Award"], y=128)
-        + note_lines(
-            ["2025 Grand Prize", "2024 Excellent", "2023 Excellent"],
-            y=186,
-        )
-        + years_plate("2023 · 2024 · 2025", y=250)
+        centered_png(png, width, height)
+        + nameplate(["Jagu'e'r Award"])
+        + years_plate("2023–2025")
     )
     (AWARDS / "jaguer.svg").write_text(plaque_shell("jaguer", inner, title))
-    write_year_bar("years-jaguer-2023.svg", "2023", width=67)
-    write_year_bar("years-jaguer-2024.svg", "2024", width=67)
-    write_year_bar("years-jaguer-2025.svg", "2025", width=66)
 
 
 def chrome_card(title: str, inner: str, width: int, height: int) -> str:
@@ -637,7 +624,7 @@ def main() -> None:
     write_talk_icon()
     write_contact()
     write_post_and_talk_cards()
-    print("wrote plaques, year bars, and post/talk cards")
+    print("wrote plaques and post/talk cards")
 
 
 if __name__ == "__main__":
