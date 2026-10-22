@@ -21,6 +21,8 @@ jobs:
           max_post_count: 5
           skip_commit: true
           enable_keepalive: false
+          tag_post_pre_newline: true
+          template: '<tr><td align="center" valign="top" width="56"><a href="$url"><img src="./public/images/posts/icon-aotolog.svg" width="56" alt="AoToLog post" /></a></td><td valign="middle"><a href="$url">$title</a></td></tr>'
       - name: Pull in Zenn posts
         uses: gautamkrishnar/blog-post-workflow@1.9.7
         with:
@@ -29,6 +31,8 @@ jobs:
           max_post_count: 5
           skip_commit: true
           enable_keepalive: false
+          tag_post_pre_newline: true
+          template: '<tr><td align="center" valign="top" width="56"><a href="$url"><img src="./public/images/posts/icon-zenn.svg" width="56" alt="Zenn post" /></a></td><td valign="middle"><a href="$url">$title</a></td></tr>'
       - name: Pull in Qiita posts
         uses: gautamkrishnar/blog-post-workflow@1.9.7
         with:
@@ -36,4 +40,6 @@ jobs:
           feed_list: "https://qiita.com/aoto0330/feed"
           max_post_count: 5
           enable_keepalive: false
+          tag_post_pre_newline: true
           commit_message: "Update README with latest blog posts"
+          template: '<tr><td align="center" valign="top" width="56"><a href="$url"><img src="./public/images/posts/icon-qiita.svg" width="56" alt="Qiita post" /></a></td><td valign="middle"><a href="$url">$title</a></td></tr>'
