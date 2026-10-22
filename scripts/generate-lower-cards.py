@@ -56,11 +56,11 @@ def aws_smile(x: float, y: float, scale: float = 1.0) -> str:
     )
 
 
-def gcp_mark(x: float, y: float, size: float = 36) -> str:
+def gcp_mark(x: float, y: float, size: float = 36, gid: str = "gcg") -> str:
     # Compact 2026-style gradient cloud (official PTE PNGs were not on this VM).
     s = size / 24
     return (
-        f'<defs><linearGradient id="gcg" x1="12" y1="2" x2="8" y2="22" '
+        f'<defs><linearGradient id="{gid}" x1="12" y1="2" x2="8" y2="22" '
         f'gradientUnits="userSpaceOnUse">'
         f'<stop offset="0" stop-color="#EA4335"/>'
         f'<stop offset="0.35" stop-color="#FBBC04"/>'
@@ -68,7 +68,7 @@ def gcp_mark(x: float, y: float, size: float = 36) -> str:
         f'<stop offset="1" stop-color="#4285F4"/>'
         f"</linearGradient></defs>"
         f'<g transform="translate({x},{y}) scale({s})">'
-        '<path fill="url(#gcg)" d="M19 14a5 5 0 0 0-1.1-9.9A7 7 0 0 0 6.1 8.2 '
+        f'<path fill="url(#{gid})" d="M19 14a5 5 0 0 0-1.1-9.9A7 7 0 0 0 6.1 8.2 '
         '4.5 4.5 0 0 0 6 17h12.5A4.5 4.5 0 0 0 19 14z"/>'
         "</g>"
     )
@@ -101,23 +101,23 @@ def chart_icon(x: float, y: float) -> str:
     )
 
 
-def write_aws_year_card(filename: str, year: str, lines: list[str], title: str) -> None:
-    tspans = []
-    y = 100
-    for i, line in enumerate(lines):
-        tspans.append(
-            f'<text x="135" y="{y + i * 16}" text-anchor="middle" fill="{WHITE}" '
-            f'font-size="12" font-family="{FONT}">{line}</text>'
-        )
-    inner = (
-        f'<text x="135" y="36" text-anchor="middle" fill="{WHITE}" font-size="18" '
-        f'font-weight="700" font-family="{FONT}">aws</text>'
-        + aws_smile(104, 22, 1.6)
-        + f'<text x="135" y="82" text-anchor="middle" fill="{NEON}" font-size="26" '
-        f'font-weight="700" font-family="{FONT}">{year}</text>'
-        + "".join(tspans)
+def write_aws_allcerts() -> None:
+    title = (
+        "Japan All AWS Certifications Engineer 2022 · 2023 · 2024 · 2025 "
+        "(2022 APN ALL AWS Certifications Engineer)"
     )
-    (AWARDS / filename).write_text(plaque(title, inner))
+    inner = (
+        f'<text x="135" y="32" text-anchor="middle" fill="{WHITE}" font-size="18" '
+        f'font-weight="700" font-family="{FONT}">aws</text>'
+        + aws_smile(104, 18, 1.6)
+        + f'<text x="135" y="76" text-anchor="middle" fill="{WHITE}" font-size="12" '
+        f'font-weight="700" font-family="{FONT}">All Certifications Engineer</text>'
+        f'<text x="135" y="104" text-anchor="middle" fill="{NEON}" font-size="13" '
+        f'font-weight="700" font-family="{FONT}">2022 · 2023 · 2024 · 2025</text>'
+        f'<text x="135" y="130" text-anchor="middle" fill="{MUTED}" font-size="10" '
+        f'font-family="{FONT}">2022 APN ALL AWS Certifications Engineer</text>'
+    )
+    (AWARDS / "aws-allcerts.svg").write_text(plaque(title, inner, 270, 152))
 
 
 def write_cb_card() -> None:
@@ -153,33 +153,36 @@ def write_jr_champion() -> None:
     (AWARDS / "aws-jr-champion-2023.svg").write_text(plaque(title, inner))
 
 
-def write_pte(filename: str, year: str, track: str | None, title: str) -> None:
-    track_svg = ""
-    if track:
-        track_svg = (
-            f'<text x="135" y="150" text-anchor="middle" fill="{MUTED}" font-size="10" '
-            f'font-family="{FONT}">{track}</text>'
-        )
-    inner = (
-        gcp_mark(22, 18, 34)
-        + star(70, 36, 7)
-        + browser_icon(188, 22)
-        + chart_icon(218, 22)
-        + f'<text x="135" y="78" text-anchor="middle" fill="{MUTED}" font-size="10" '
-        f'font-family="{FONT}">GOOGLE CLOUD</text>'
-        f'<text x="135" y="100" text-anchor="middle" fill="{WHITE}" font-size="13" '
-        f'font-weight="700" font-family="{FONT}">Partner Top Engineer</text>'
-        f'<text x="135" y="128" text-anchor="middle" fill="{NEON}" font-size="26" '
-        f'font-weight="700" font-family="{FONT}">{year}</text>'
-        + track_svg
+def write_pte() -> None:
+    title = (
+        "Google Cloud Partner Top Engineer 2023 · 2024 · 2025 · 2026 "
+        "(2026 Serverless App Development, 2025 General, 2024 Build)"
     )
-    (AWARDS / filename).write_text(plaque(title, inner))
+    inner = (
+        gcp_mark(22, 14, 34, "gcg-pte")
+        + star(70, 32, 7)
+        + browser_icon(188, 18)
+        + chart_icon(218, 18)
+        + f'<text x="135" y="70" text-anchor="middle" fill="{MUTED}" font-size="10" '
+        f'font-family="{FONT}">GOOGLE CLOUD</text>'
+        f'<text x="135" y="90" text-anchor="middle" fill="{WHITE}" font-size="13" '
+        f'font-weight="700" font-family="{FONT}">Partner Top Engineer</text>'
+        f'<text x="135" y="114" text-anchor="middle" fill="{NEON}" font-size="13" '
+        f'font-weight="700" font-family="{FONT}">2023 · 2024 · 2025 · 2026</text>'
+        f'<text x="135" y="138" text-anchor="middle" fill="{MUTED}" font-size="10" '
+        f'font-family="{FONT}">2026 Serverless App Development</text>'
+        f'<text x="135" y="154" text-anchor="middle" fill="{MUTED}" font-size="10" '
+        f'font-family="{FONT}">2025 General</text>'
+        f'<text x="135" y="170" text-anchor="middle" fill="{MUTED}" font-size="10" '
+        f'font-family="{FONT}">2024 Build</text>'
+    )
+    (AWARDS / "gcp-pte.svg").write_text(plaque(title, inner, 270, 188))
 
 
 def write_all_cert_holders() -> None:
     title = "Google Cloud Partner All Certification Holders 2025"
     inner = (
-        gcp_mark(22, 18, 34)
+        gcp_mark(22, 18, 34, "gcg-holders")
         + browser_icon(188, 22)
         + chart_icon(218, 22)
         + f'<text x="135" y="78" text-anchor="middle" fill="{MUTED}" font-size="10" '
@@ -194,26 +197,36 @@ def write_all_cert_holders() -> None:
     (AWARDS / "gcp-all-cert-holders-2025.svg").write_text(plaque(title, inner))
 
 
-def write_jaguer(filename: str, year: str, prize: str, title: str) -> None:
+def write_jaguer() -> None:
     png = b64_png(AWARDS / "jaguer-circle.png")
     # Laurel sprigs from the 2024 slide (blue branches, small pink cross is in the circle art).
     laurels = (
         f'<g fill="none" stroke="#427BBF" stroke-width="2" stroke-linecap="round">'
-        f'<path d="M78 118c-10-14-12-32-6-46"/>'
-        f'<path d="M72 92c-6-2-10 2-12 8M74 80c-7-1-11 4-12 10M80 70c-6 0-10 5-10 10"/>'
-        f'<path d="M192 118c10-14 12-32 6-46"/>'
-        f'<path d="M198 92c6-2 10 2 12 8M196 80c7-1 11 4 12 10M190 70c6 0 10 5 10 10"/>'
+        f'<path d="M78 108c-10-14-12-32-6-46"/>'
+        f'<path d="M72 82c-6-2-10 2-12 8M74 70c-7-1-11 4-12 10M80 60c-6 0-10 5-10 10"/>'
+        f'<path d="M192 108c10-14 12-32 6-46"/>'
+        f'<path d="M198 82c6-2 10 2 12 8M196 70c7-1 11 4 12 10M190 60c6 0 10 5 10 10"/>'
         "</g>"
+    )
+    title = (
+        "Jagu'e'r Award 2023 · 2024 · 2025 "
+        "(2025 Grand Prize, 2024 Excellent, 2023 Excellent)"
     )
     inner = (
         laurels
-        + f'<image href="data:image/png;base64,{png}" x="99" y="14" width="72" height="72"/>'
-        f'<text x="135" y="108" text-anchor="middle" fill="{WHITE}" font-size="13" '
-        f'font-weight="700" font-family="{FONT}">Jagu\'e\'r Award {year}</text>'
-        f'<text x="135" y="132" text-anchor="middle" fill="{NEON}" font-size="14" '
-        f'font-weight="700" font-family="{FONT}">{prize}</text>'
+        + f'<image href="data:image/png;base64,{png}" x="99" y="10" width="72" height="72"/>'
+        f'<text x="135" y="100" text-anchor="middle" fill="{WHITE}" font-size="13" '
+        f'font-weight="700" font-family="{FONT}">Jagu\'e\'r Award</text>'
+        f'<text x="135" y="122" text-anchor="middle" fill="{NEON}" font-size="13" '
+        f'font-weight="700" font-family="{FONT}">2023 · 2024 · 2025</text>'
+        f'<text x="135" y="146" text-anchor="middle" fill="{MUTED}" font-size="10" '
+        f'font-family="{FONT}">2025 Grand Prize</text>'
+        f'<text x="135" y="162" text-anchor="middle" fill="{MUTED}" font-size="10" '
+        f'font-family="{FONT}">2024 Excellent</text>'
+        f'<text x="135" y="178" text-anchor="middle" fill="{MUTED}" font-size="10" '
+        f'font-family="{FONT}">2023 Excellent</text>'
     )
-    (AWARDS / filename).write_text(plaque(title, inner))
+    (AWARDS / "jaguer.svg").write_text(plaque(title, inner, 270, 196))
 
 
 def write_post_header(filename: str, label: str, glyph: str, title: str) -> None:
@@ -296,78 +309,14 @@ def main() -> None:
         folder.mkdir(parents=True, exist_ok=True)
 
     write_cb_card()
-    write_aws_year_card(
-        "aws-allcerts-2025.svg",
-        "2025",
-        ["Japan All AWS", "Certifications Engineer"],
-        "2025 Japan All AWS Certifications Engineer",
-    )
-    write_aws_year_card(
-        "aws-allcerts-2024.svg",
-        "2024",
-        ["Japan All AWS", "Certifications Engineer"],
-        "2024 Japan AWS All Certifications Engineer",
-    )
-    write_aws_year_card(
-        "aws-allcerts-2023.svg",
-        "2023",
-        ["Japan All AWS", "Certifications Engineer"],
-        "2023 Japan AWS All Certifications Engineer",
-    )
-    write_aws_year_card(
-        "aws-allcerts-2022.svg",
-        "2022",
-        ["APN ALL AWS", "Certifications Engineer"],
-        "2022 APN ALL AWS Certifications Engineer",
-    )
+    write_aws_allcerts()
     write_jr_champion()
-    write_pte(
-        "gcp-pte-2026.svg",
-        "2026",
-        "Serverless App Development",
-        "Google Cloud Partner Top Engineer 2026(Serverless App Development)",
-    )
-    write_pte(
-        "gcp-pte-2025.svg",
-        "2025",
-        "General",
-        "Google Cloud Partner Top Engineer 2025(General)",
-    )
-    write_pte(
-        "gcp-pte-2024.svg",
-        "2024",
-        "Build",
-        "Google Cloud Partner Top Engineer 2024(Build)",
-    )
-    write_pte(
-        "gcp-pte-2023.svg",
-        "2023",
-        None,
-        "Google Cloud Partner Top Engineer 2023",
-    )
+    write_pte()
     write_all_cert_holders()
-    write_jaguer(
-        "jaguer-2025.svg",
-        "2025",
-        "Grand Prize",
-        "Jagu'e'r Award 2025 - Grand Prize",
-    )
-    write_jaguer(
-        "jaguer-2024.svg",
-        "2024",
-        "Excellent Award",
-        "Jagu'e'r Award 2024 - Excellent Award",
-    )
-    write_jaguer(
-        "jaguer-2023.svg",
-        "2023",
-        "Excellent Award",
-        "Jagu'e'r Award 2023 - Excellent Award",
-    )
+    write_jaguer()
     write_post_header("header-aotolog.svg", "AoToLog", aotolog_glyph(), "AoToLog")
     write_post_header("header-zenn.svg", "Zenn", zenn_glyph(), "Zenn")
     write_post_header("header-qiita.svg", "Qiita", qiita_glyph(), "Qiita")
-    write_bullet()
     write_talk_icon()
     write_talk_more()
     write_contact()
