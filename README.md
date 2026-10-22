@@ -68,7 +68,9 @@
 
 ## 📝 Latest posts
 
-### [AoToLog](https://www.aotolog.com/)
+<p align="center">
+  <a href="https://www.aotolog.com/"><img src="./public/images/posts/header-aotolog.svg" alt="AoToLog" /></a>
+</p>
 
 <!-- AOTOLOG-POST-LIST:START -->
 - [オブザーバビリティを高める AI エージェント体験を考える](https://speakerdeck.com/aoto/designing-ai-agent-experiences-that-enhance-observability)
@@ -78,7 +80,9 @@
 - [生成 AI の成果物を他人に共有するな](https://sizu.me/aoto/posts/zaxeccmrcmzx)
 <!-- AOTOLOG-POST-LIST:END -->
 
-### [Zenn](https://zenn.dev/aotolog)
+<p align="center">
+  <a href="https://zenn.dev/aotolog"><img src="./public/images/posts/header-zenn.svg" alt="Zenn" /></a>
+</p>
 
 <!-- ZENN-POST-LIST:START -->
 - [大規模 Cloud Run 環境を支える Datadog の Terraform 実装](https://zenn.dev/datadog/articles/datadog-cr-tf)
@@ -88,7 +92,9 @@
 - [Next.js に Datadog APM を導入する際の注意点](https://zenn.dev/datadog/articles/nextjs-datadog-apm)
 <!-- ZENN-POST-LIST:END -->
 
-### [Qiita](https://qiita.com/aoto0330)
+<p align="center">
+  <a href="https://qiita.com/aoto0330"><img src="./public/images/posts/header-qiita.svg" alt="Qiita" /></a>
+</p>
 
 <!-- QIITA-POST-LIST:START -->
 - [Datadog Japan 有志ブログのご紹介](https://qiita.com/AoTo0330/items/0ce1505b5a1b2d080ad8)
@@ -103,20 +109,73 @@
 
 ## 🏆 Awards & Recognitions
 
-- [AWS Community Builder - Cloud Operations, since 2024](https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura)
-- [2025 Japan All AWS Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/)
-- [2024 Japan AWS All Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/)
-- [2023 Japan AWS All Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/)
-- [2022 APN ALL AWS Certifications Engineer](https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/)
-- [2023 Japan AWS Jr. Champion](https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/)
-- [Google Cloud Partner Top Engineer 2026(Serverless App Development)](https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja)
-- [Google Cloud Partner Top Engineer 2025(General)](https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja)
-- [Google Cloud Partner Top Engineer 2024(Build)](https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja)
-- [Google Cloud Partner Top Engineer 2023](https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja)
-- [Google Cloud Partner All Certification Holders 2025](https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja)
-- Jagu'e'r Award 2025 - Grand Prize
-- Jagu'e'r Award 2024 - Excellent Award
-- [Jagu'e'r Award 2023 - Excellent Award](https://jaguer.jp/jaguer_park_23_winter/)
+### AWS
+
+<table>
+  <tr>
+    <td align="center" valign="top">
+      <a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura"><img src="./public/images/awards/aws-community-builder.svg" width="270" alt="AWS Community Builder - Cloud Operations, since 2024" /></a>
+    </td>
+    <td align="center" valign="top">
+      <a href="https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/"><img src="./public/images/awards/aws-allcerts-2025.svg" width="270" alt="2025 Japan All AWS Certifications Engineer" /></a>
+    </td>
+    <td align="center" valign="top">
+      <a href="https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/"><img src="./public/images/awards/aws-allcerts-2024.svg" width="270" alt="2024 Japan AWS All Certifications Engineer" /></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/"><img src="./public/images/awards/aws-allcerts-2023.svg" width="270" alt="2023 Japan AWS All Certifications Engineer" /></a>
+    </td>
+    <td align="center" valign="top">
+      <a href="https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/"><img src="./public/images/awards/aws-allcerts-2022.svg" width="270" alt="2022 APN ALL AWS Certifications Engineer" /></a>
+    </td>
+    <td align="center" valign="top">
+      <a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/"><img src="./public/images/awards/aws-jr-champion-2023.svg" width="270" alt="2023 Japan AWS Jr. Champion" /></a>
+    </td>
+  </tr>
+</table>
+
+### Google Cloud
+
+<table>
+  <tr>
+    <td align="center" valign="top">
+      <a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja"><img src="./public/images/awards/gcp-pte-2026.svg" width="270" alt="Google Cloud Partner Top Engineer 2026(Serverless App Development)" /></a>
+    </td>
+    <td align="center" valign="top">
+      <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja"><img src="./public/images/awards/gcp-pte-2025.svg" width="270" alt="Google Cloud Partner Top Engineer 2025(General)" /></a>
+    </td>
+    <td align="center" valign="top">
+      <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja"><img src="./public/images/awards/gcp-pte-2024.svg" width="270" alt="Google Cloud Partner Top Engineer 2024(Build)" /></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja"><img src="./public/images/awards/gcp-pte-2023.svg" width="270" alt="Google Cloud Partner Top Engineer 2023" /></a>
+    </td>
+    <td align="center" valign="top">
+      <a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja"><img src="./public/images/awards/gcp-all-cert-holders-2025.svg" width="270" alt="Google Cloud Partner All Certification Holders 2025" /></a>
+    </td>
+    <td></td>
+  </tr>
+</table>
+
+### Jagu'e'r
+
+<table>
+  <tr>
+    <td align="center" valign="top">
+      <img src="./public/images/awards/jaguer-2025.svg" width="270" alt="Jagu'e'r Award 2025 - Grand Prize" />
+    </td>
+    <td align="center" valign="top">
+      <img src="./public/images/awards/jaguer-2024.svg" width="270" alt="Jagu'e'r Award 2024 - Excellent Award" />
+    </td>
+    <td align="center" valign="top">
+      <a href="https://jaguer.jp/jaguer_park_23_winter/"><img src="./public/images/awards/jaguer-2023.svg" width="270" alt="Jagu'e'r Award 2023 - Excellent Award" /></a>
+    </td>
+  </tr>
+</table>
 
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=rect&color=3CB9FC&height=2" alt="neon blue divider" />
@@ -124,16 +183,50 @@
 
 ## 🎤 Talks
 
-- [頼れる Agentic AI を支える Datadog のオブザーバビリティ](https://speakerdeck.com/aoto/powering-reliable-agentic-ai-with-datadog-observability)
-- [AI エージェントで AI エージェントを作る！Google Cloudが実現するフルスタックな AI 開発エコシステム](https://speakerdeck.com/aoto/building-ai-agents-with-ai-agents-by-google-cloud)
-- [現場の壁を乗り越えて、「計装注入」が拓く オブザーバビリティ](https://speakerdeck.com/aoto/beyond-the-field-barriers-instrumentation-injection-and-the-future-of-observability)
-- [もっと！スタートアップ創業期を支えるオブザーバビリティ基盤のこれまでとこれから](https://speakerdeck.com/aoto/more-the-past-and-future-of-observability-platforms-supporting-early-stage-startups)
+<table>
+  <tr>
+    <td align="center" valign="top" width="56">
+      <a href="https://speakerdeck.com/aoto/powering-reliable-agentic-ai-with-datadog-observability"><img src="./public/images/talks/mic.svg" width="56" alt="頼れる Agentic AI を支える Datadog のオブザーバビリティ" /></a>
+    </td>
+    <td valign="middle">
+      <a href="https://speakerdeck.com/aoto/powering-reliable-agentic-ai-with-datadog-observability">頼れる Agentic AI を支える Datadog のオブザーバビリティ</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="56">
+      <a href="https://speakerdeck.com/aoto/building-ai-agents-with-ai-agents-by-google-cloud"><img src="./public/images/talks/mic.svg" width="56" alt="AI エージェントで AI エージェントを作る！Google Cloudが実現するフルスタックな AI 開発エコシステム" /></a>
+    </td>
+    <td valign="middle">
+      <a href="https://speakerdeck.com/aoto/building-ai-agents-with-ai-agents-by-google-cloud">AI エージェントで AI エージェントを作る！Google Cloudが実現するフルスタックな AI 開発エコシステム</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="56">
+      <a href="https://speakerdeck.com/aoto/beyond-the-field-barriers-instrumentation-injection-and-the-future-of-observability"><img src="./public/images/talks/mic.svg" width="56" alt="現場の壁を乗り越えて、「計装注入」が拓く オブザーバビリティ" /></a>
+    </td>
+    <td valign="middle">
+      <a href="https://speakerdeck.com/aoto/beyond-the-field-barriers-instrumentation-injection-and-the-future-of-observability">現場の壁を乗り越えて、「計装注入」が拓く オブザーバビリティ</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="56">
+      <a href="https://speakerdeck.com/aoto/more-the-past-and-future-of-observability-platforms-supporting-early-stage-startups"><img src="./public/images/talks/mic.svg" width="56" alt="もっと！スタートアップ創業期を支えるオブザーバビリティ基盤のこれまでとこれから" /></a>
+    </td>
+    <td valign="middle">
+      <a href="https://speakerdeck.com/aoto/more-the-past-and-future-of-observability-platforms-supporting-early-stage-startups">もっと！スタートアップ創業期を支えるオブザーバビリティ基盤のこれまでとこれから</a>
+    </td>
+  </tr>
+</table>
 
-and more → [Speaker Deck](https://speakerdeck.com/aoto)
+<p align="center">
+  <a href="https://speakerdeck.com/aoto"><img src="./public/images/talks/more.svg" alt="and more → Speaker Deck" /></a>
+</p>
 
 ## 📬 Contact
 
-- [aoto@datadoghq.com](mailto:aoto@datadoghq.com)
+<p align="center">
+  <a href="mailto:aoto@datadoghq.com"><img src="./public/images/contact/mail.svg" alt="aoto@datadoghq.com" /></a>
+</p>
 
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=0b1026" alt="footer wave" />
