@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Generate Zenn/Qiita/Speaker Deck cards from public data. Does not invent numbers.
+"""Generate profile cards from public data. Does not invent numbers.
 
-Card *shape* stays the rounded thin-border layout (8px radius).
-Calm neon: near-black navy fill, thin #3CB9FC border, coloured numbers only.
-Zenn/Qiita/Speaker Deck glyphs keep hugo-aotolog svg.html paths.
+Zenn likes: https://zenn.dev/api/users/aotolog total_liked_count
+Qiita contributions: https://qiita.com/aoto0330 HTML "contribution"
+Speaker Deck views: https://speakerdeck.com/aoto title="N views" (paginated)
+GitHub stats: https://github.com/users/AoTo0330/contributions per year
+
+Zenn article/user APIs have no public view count. Qiita page_views_count is null
+without the owner's token — do not add either as a card metric.
 """
 
 from __future__ import annotations
@@ -14,6 +18,7 @@ import ssl
 import sys
 import urllib.error
 import urllib.request
+from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urljoin
@@ -24,14 +29,18 @@ OUT_DIR = ROOT / "public" / "images" / "badges"
 ZENN_USER = "aotolog"
 QIITA_USER = "aoto0330"
 SPEAKERDECK_USER = "aoto"
+GITHUB_USER = "AoTo0330"
 ZENN_API = f"https://zenn.dev/api/users/{ZENN_USER}"
 QIITA_PROFILE = f"https://qiita.com/{QIITA_USER}"
+QIITA_ITEMS = f"https://qiita.com/api/v2/users/{QIITA_USER}/items?per_page=1"
 SPEAKERDECK_PROFILE = f"https://speakerdeck.com/{SPEAKERDECK_USER}"
+GITHUB_CONTRIB = f"https://github.com/users/{GITHUB_USER}/contributions"
 USER_AGENT = "AoTo0330-profile-readme-cards/1.0 (https://github.com/AoTo0330/AoTo0330)"
 
 BG = "#0b1026"
 NEON = "#3CB9FC"
 MUTED = "#8B949E"
+FONT = "Verdana, DejaVu Sans, sans-serif"
 
 
 def fetch(url: str) -> str:
@@ -61,6 +70,15 @@ def qiita_contributions() -> int:
     if not match:
         raise RuntimeError(f"Qiita contribution count missing from {QIITA_PROFILE}")
     return int(match.group(1))
+
+
+def qiita_views_public() -> int | None:
+    """Qiita page_views_count is only returned for the item owner. Public JSON is null."""
+    items = json.loads(fetch(QIITA_ITEMS))
+    if not items or "page_views_count" not in items[0]:
+        return None
+    value = items[0]["page_views_count"]
+    return value if isinstance(value, int) else None
 
 
 class _NextLinkParser(HTMLParser):
@@ -101,13 +119,129 @@ def speakerdeck_views() -> tuple[int, int]:
     return sum(views), len(views)
 
 
+def _parse_tip(text: str) -> int:
+    compact = re.sub(r"\s+", " ", text).strip()
+    if compact.lower().startswith("no contribution"):
+        return 0
+    match = re.match(r"([\d,]+)\s+contribution", compact, re.I)
+    if not match:
+        raise RuntimeError(f"GitHub contribution tooltip unreadable: {compact[:80]}")
+    return int(match.group(1).replace(",", ""))
+
+
+def github_year_days(year: int) -> list[tuple[date, int]]:
+    html = fetch(f"{GITHUB_CONTRIB}?from={year}-01-01&to={year}-12-31")
+    id_date: dict[str, str] = {}
+    for match in re.finditer(r"<td\b([^>]*)>", html):
+        attrs = match.group(1)
+        day_id = re.search(r'\bid="([^"]+)"', attrs)
+        day_date = re.search(r'\bdata-date="([^"]+)"', attrs)
+        if day_id and day_date and "contribution-day" in day_id.group(1):
+            if day_date.group(1).startswith(str(year)):
+                id_date[day_id.group(1)] = day_date.group(1)
+    id_count: dict[str, int] = {}
+    for match in re.finditer(r'<tool-tip[^>]*\bfor="([^"]+)"[^>]*>(.*?)</tool-tip>', html, re.S):
+        if match.group(1) in id_date:
+            id_count[match.group(1)] = _parse_tip(match.group(2))
+    if len(id_date) < 365:
+        raise RuntimeError(f"GitHub contribution calendar incomplete for {year}: {len(id_date)} days")
+    missing = [day_id for day_id in id_date if day_id not in id_count]
+    if missing:
+        raise RuntimeError(f"GitHub contribution tooltips missing for {year}: {len(missing)}")
+    return [(date.fromisoformat(id_date[day_id]), id_count[day_id]) for day_id in id_date]
+
+
+def github_contrib_stats(today: date) -> dict[str, object]:
+    days: list[tuple[date, int]] = []
+    for year in range(2020, today.year + 1):
+        days.extend(github_year_days(year))
+    days.sort()
+    days = [(day, count) for day, count in days if day <= today]
+    if not days:
+        raise RuntimeError("GitHub contribution calendar empty")
+    first = next(day for day, count in days if count > 0)
+    total = sum(count for _, count in days)
+    year_total = sum(count for day, count in days if day.year == today.year)
+
+    longest = 0
+    longest_start = first
+    longest_end = first
+    current = 0
+    current_start: date | None = None
+    for day, count in days:
+        if count > 0:
+            if current_start is None:
+                current_start = day
+                current = 1
+            else:
+                current += 1
+            if current > longest:
+                longest = current
+                longest_start = current_start
+                longest_end = day
+        else:
+            current = 0
+            current_start = None
+    if longest <= 0:
+        raise RuntimeError("GitHub longest streak missing from public calendar")
+    return {
+        "total": total,
+        "first": first,
+        "year": today.year,
+        "year_total": year_total,
+        "longest": longest,
+        "longest_start": longest_start,
+        "longest_end": longest_end,
+        "source": GITHUB_CONTRIB,
+    }
+
+
 def card_svg(*, label: str, value: int, aria: str, glyph: str) -> str:
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="230" height="68" role="img" aria-label="{aria}">
   <title>{aria}</title>
   <rect x="1" y="1" width="228" height="66" rx="8" fill="{BG}" stroke="{NEON}" stroke-width="1"/>
   {glyph}
-  <text x="58" y="28" fill="{MUTED}" font-size="11" font-family="Verdana, DejaVu Sans, sans-serif">{label}</text>
-  <text x="58" y="54" fill="{NEON}" font-size="24" font-weight="700" font-family="Verdana, DejaVu Sans, sans-serif">{value}</text>
+  <text x="58" y="28" fill="{MUTED}" font-size="11" font-family="{FONT}">{label}</text>
+  <text x="58" y="54" fill="{NEON}" font-size="24" font-weight="700" font-family="{FONT}">{value}</text>
+</svg>
+"""
+
+
+def _fmt_day(day: date) -> str:
+    return f"{day.strftime('%b')} {day.day}"
+
+
+def github_stats_svg(stats: dict[str, object]) -> str:
+    total = int(stats["total"])
+    year = int(stats["year"])
+    year_total = int(stats["year_total"])
+    longest = int(stats["longest"])
+    first = stats["first"]
+    longest_start = stats["longest_start"]
+    longest_end = stats["longest_end"]
+    assert isinstance(first, date)
+    assert isinstance(longest_start, date)
+    assert isinstance(longest_end, date)
+    aria = (
+        f"GitHub contributions: {total:,} total, {year_total:,} in {year}, "
+        f"longest streak {longest} days"
+    )
+    total_sub = f"{_fmt_day(first)}, {first.year} - Present"
+    longest_sub = f"{_fmt_day(longest_start)} - {_fmt_day(longest_end)}"
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="495" height="195" role="img" aria-label="{aria}">
+  <title>{aria}</title>
+  <rect width="495" height="195" fill="{BG}"/>
+  <text x="82.5" y="84" text-anchor="middle" fill="{NEON}" font-size="28" font-weight="700" font-family="{FONT}">{total:,}</text>
+  <text x="82.5" y="112" text-anchor="middle" fill="{MUTED}" font-size="11" font-family="{FONT}">Total Contributions</text>
+  <text x="82.5" y="132" text-anchor="middle" fill="{MUTED}" font-size="10" font-family="{FONT}">{total_sub}</text>
+  <line x1="165" y1="36" x2="165" y2="159" stroke="#16324A" stroke-width="1"/>
+  <circle cx="247.5" cy="78" r="36" fill="none" stroke="{NEON}" stroke-width="3"/>
+  <text x="247.5" y="85" text-anchor="middle" fill="{NEON}" font-size="18" font-weight="700" font-family="{FONT}">{year_total:,}</text>
+  <text x="247.5" y="132" text-anchor="middle" fill="{MUTED}" font-size="11" font-family="{FONT}">{year} Contributions</text>
+  <line x1="330" y1="36" x2="330" y2="159" stroke="#16324A" stroke-width="1"/>
+  <text x="412.5" y="84" text-anchor="middle" fill="{NEON}" font-size="28" font-weight="700" font-family="{FONT}">{longest}</text>
+  <text x="412.5" y="112" text-anchor="middle" fill="{MUTED}" font-size="11" font-family="{FONT}">Longest Streak</text>
+  <text x="412.5" y="132" text-anchor="middle" fill="{MUTED}" font-size="10" font-family="{FONT}">{longest_sub}</text>
 </svg>
 """
 
@@ -128,11 +262,14 @@ SPEAKERDECK_GLYPH = """  <g transform="translate(16,22) scale(1.05)">
 def main() -> int:
     likes = zenn_likes()
     contrib = qiita_contributions()
+    qiita_views = qiita_views_public()
     deck_views, deck_count = speakerdeck_views()
+    stats = github_contrib_stats(date.today())
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     zenn_path = OUT_DIR / "zenn-likes.svg"
     qiita_path = OUT_DIR / "qiita-contributions.svg"
     deck_path = OUT_DIR / "speakerdeck-views.svg"
+    github_path = OUT_DIR / "github-contrib-stats.svg"
     zenn_path.write_text(
         card_svg(label="ZENN LIKES", value=likes, aria=f"Zenn likes: {likes}", glyph=ZENN_GLYPH)
     )
@@ -152,11 +289,22 @@ def main() -> int:
             glyph=SPEAKERDECK_GLYPH,
         )
     )
+    github_path.write_text(github_stats_svg(stats))
     print(f"Wrote {zenn_path} likes={likes} source={ZENN_API}")
+    print("Zenn views: not in public user/article API or article HTML; skipped")
     print(f"Wrote {qiita_path} contributions={contrib} source={QIITA_PROFILE}")
+    print(
+        f"Qiita views: page_views_count={qiita_views!r} from {QIITA_ITEMS} "
+        "(null without owner token); skipped"
+    )
     print(
         f"Wrote {deck_path} views={deck_views} decks={deck_count} source={SPEAKERDECK_PROFILE} "
         f"(title='N views' on paginated public profile; no official API)"
+    )
+    print(
+        f"Wrote {github_path} total={stats['total']} year={stats['year_total']} "
+        f"longest={stats['longest']} source={GITHUB_CONTRIB} "
+        "(public contribution calendar tooltips; Current Streak replaced with this year)"
     )
     return 0
 

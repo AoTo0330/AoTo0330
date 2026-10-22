@@ -45,7 +45,7 @@ Datadog 🐶 -  Enterprise Sales Engineer
 ## 📊 Stats
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=AoTo0330&hide_border=true&background=0B1026&ring=3CB9FC&fire=3CB9FC&currStreakNum=3CB9FC&sideNums=3CB9FC&currStreakLabel=3CB9FC&sideLabels=8B949E&dates=8B949E&stroke=16324A" alt="AoTo0330 GitHub streak" />
+  <img src="./public/images/badges/github-contrib-stats.svg" alt="AoTo0330 GitHub contributions" />
 </p>
 
 <p align="center">
