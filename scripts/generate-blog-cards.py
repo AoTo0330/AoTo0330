@@ -212,6 +212,9 @@ def _fmt_day(day: date) -> str:
 
 
 def github_stats_svg(stats: dict[str, object]) -> str:
+    """Restore the demolab streak-stats layout (commit ef91019), with this-year
+    contributions in the center ring instead of Current Streak.
+    """
     total = int(stats["total"])
     year = int(stats["year"])
     year_total = int(stats["year_total"])
@@ -228,20 +231,43 @@ def github_stats_svg(stats: dict[str, object]) -> str:
     )
     total_sub = f"{_fmt_day(first)}, {first.year} - Present"
     longest_sub = f"{_fmt_day(longest_start)} - {_fmt_day(longest_end)}"
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="495" height="195" role="img" aria-label="{aria}">
+    font = '"Segoe UI", Ubuntu, sans-serif'
+    fire = (
+        "M 1.5 0.67 C 1.5 0.67 2.24 3.32 2.24 5.47 C 2.24 7.53 0.89 9.2 "
+        "-1.17 9.2 C -3.23 9.2 -4.79 7.53 -4.79 5.47 L -4.76 5.11 C -6.78 7.51 "
+        "-8 10.62 -8 13.99 C -8 18.41 -4.42 22 0 22 C 4.42 22 8 18.41 8 13.99 "
+        "C 8 8.6 5.41 3.79 1.5 0.67 Z M -0.29 19 C -2.07 19 -3.51 17.6 -3.51 "
+        "15.86 C -3.51 14.24 -2.46 13.1 -0.7 12.74 C 1.07 12.38 2.9 11.53 3.92 "
+        "10.16 C 4.31 11.45 4.51 12.81 4.51 14.2 C 4.51 16.85 2.36 19 -0.29 19 Z"
+    )
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation: isolate" viewBox="0 0 495 195" width="495px" height="195px" direction="ltr" role="img" aria-label="{aria}">
   <title>{aria}</title>
-  <rect width="495" height="195" fill="{BG}"/>
-  <text x="82.5" y="84" text-anchor="middle" fill="{NEON}" font-size="28" font-weight="700" font-family="{FONT}">{total:,}</text>
-  <text x="82.5" y="112" text-anchor="middle" fill="{MUTED}" font-size="11" font-family="{FONT}">Total Contributions</text>
-  <text x="82.5" y="132" text-anchor="middle" fill="{MUTED}" font-size="10" font-family="{FONT}">{total_sub}</text>
-  <line x1="165" y1="36" x2="165" y2="159" stroke="#16324A" stroke-width="1"/>
-  <circle cx="247.5" cy="78" r="36" fill="none" stroke="{NEON}" stroke-width="3"/>
-  <text x="247.5" y="85" text-anchor="middle" fill="{NEON}" font-size="18" font-weight="700" font-family="{FONT}">{year_total:,}</text>
-  <text x="247.5" y="132" text-anchor="middle" fill="{MUTED}" font-size="11" font-family="{FONT}">{year} Contributions</text>
-  <line x1="330" y1="36" x2="330" y2="159" stroke="#16324A" stroke-width="1"/>
-  <text x="412.5" y="84" text-anchor="middle" fill="{NEON}" font-size="28" font-weight="700" font-family="{FONT}">{longest}</text>
-  <text x="412.5" y="112" text-anchor="middle" fill="{MUTED}" font-size="11" font-family="{FONT}">Longest Streak</text>
-  <text x="412.5" y="132" text-anchor="middle" fill="{MUTED}" font-size="10" font-family="{FONT}">{longest_sub}</text>
+  <defs>
+    <clipPath id="outer_rectangle"><rect width="495" height="195" rx="4.5"/></clipPath>
+    <mask id="mask_out_ring_behind_fire">
+      <rect width="495" height="195" fill="white"/>
+      <ellipse cx="247.5" cy="32" rx="13" ry="18" fill="black"/>
+    </mask>
+  </defs>
+  <g clip-path="url(#outer_rectangle)">
+    <rect stroke="#000000" stroke-opacity="0" fill="{BG}" rx="4.5" x="0.5" y="0.5" width="494" height="194"/>
+    <line x1="165" y1="28" x2="165" y2="170" stroke="#16324a" stroke-width="1"/>
+    <line x1="330" y1="28" x2="330" y2="170" stroke="#16324a" stroke-width="1"/>
+    <text x="82.5" y="80" text-anchor="middle" fill="{NEON}" font-family="{font}" font-weight="700" font-size="28">{total:,}</text>
+    <text x="82.5" y="116" text-anchor="middle" fill="{MUTED}" font-family="{font}" font-weight="400" font-size="14">Total Contributions</text>
+    <text x="82.5" y="146" text-anchor="middle" fill="{MUTED}" font-family="{font}" font-weight="400" font-size="12">{total_sub}</text>
+    <g mask="url(#mask_out_ring_behind_fire)">
+      <circle cx="247.5" cy="71" r="40" fill="none" stroke="{NEON}" stroke-width="5"/>
+    </g>
+    <g transform="translate(247.5, 19.5)">
+      <path d="{fire}" fill="{NEON}"/>
+    </g>
+    <text x="247.5" y="80" text-anchor="middle" fill="{NEON}" font-family="{font}" font-weight="700" font-size="28">{year_total:,}</text>
+    <text x="247.5" y="140" text-anchor="middle" fill="{NEON}" font-family="{font}" font-weight="700" font-size="14">{year} Contributions</text>
+    <text x="412.5" y="80" text-anchor="middle" fill="{NEON}" font-family="{font}" font-weight="700" font-size="28">{longest}</text>
+    <text x="412.5" y="116" text-anchor="middle" fill="{MUTED}" font-family="{font}" font-weight="400" font-size="14">Longest Streak</text>
+    <text x="412.5" y="146" text-anchor="middle" fill="{MUTED}" font-family="{font}" font-weight="400" font-size="12">{longest_sub}</text>
+  </g>
 </svg>
 """
 

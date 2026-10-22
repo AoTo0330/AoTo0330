@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-"""Generate calm-neon SVG cards: physical award shields, post/talk icons, contact.
+"""Generate award plaques, OGP-style post/talk cards, and contact button.
 
-Award names sit on a navy engraved plate so dark official logos are never dropped
-onto the field. Community Builders and Jagu'e'r circle art work on dark and are
-embedded. PTE uses official white-text artwork
-(pte-20251104-rgb-nega-1.png / pte-20251104-rgb-nega-2.png).
+Awards are rectangular 表彰盾 (navy frame, acrylic face, metal name plate),
+not heraldic heater shields. PTE uses official white-text artwork from
+pte-20251104-rgb-nega-1.png (wide) / pte-20251104-rgb-nega-2.png (tall).
 """
 
 from __future__ import annotations
 
 import base64
+import html
+import re
 from io import BytesIO
 from pathlib import Path
 
-from PIL import Image, ImageFont
+import cairosvg
+from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 PACK = Path("/cursor/stores/self/internal/award-assets")
@@ -21,6 +23,7 @@ AWARDS = ROOT / "public" / "images" / "awards"
 POSTS = ROOT / "public" / "images" / "posts"
 TALKS = ROOT / "public" / "images" / "talks"
 CONTACT = ROOT / "public" / "images" / "contact"
+README = ROOT / "README.md"
 
 BG = "#0b1026"
 PLATE = "#121A2E"
@@ -32,15 +35,22 @@ STEEL_HI = "#F2F6FA"
 STEEL_MID = "#A8B6C4"
 STEEL_LO = "#5A6A7A"
 STEEL_EDGE = "#2E3A48"
-RIBBON = "#152038"
-BOARD = "#101628"
+FRAME = "#141C2E"
 BOLD_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 REG_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+CJK_FONT = next(
+    path
+    for path in (
+        "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
+        "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",
+        BOLD_FONT,
+    )
+    if Path(path).exists()
+)
 
-# Every award uses the same canvas so inline GitHub images stay even.
-SW, SH = 220, 300
-# Verdana is a bit wider than DejaVu; keep a margin so GitHub does not clip.
+PW, PH = 220, 340
 FONT_PAD = 1.10
+CARD_W, CARD_H = 260, 140
 
 
 def b64_png(path: Path) -> str:
@@ -71,71 +81,6 @@ def fit_size(text: str, max_width: float, start: float, bold: bool = True) -> fl
     return size
 
 
-def heater(cx: float, top: float, width: float, height: float) -> str:
-    left = cx - width / 2
-    right = cx + width / 2
-    bottom = top + height
-    return (
-        f"M {cx:.1f},{top:.1f} "
-        f"C {cx + width * 0.34:.1f},{top:.1f} {right:.1f},{top + 10:.1f} "
-        f"{right:.1f},{top + height * 0.18:.1f} "
-        f"C {right:.1f},{top + height * 0.52:.1f} {cx + width * 0.28:.1f},"
-        f"{top + height * 0.82:.1f} {cx:.1f},{bottom:.1f} "
-        f"C {cx - width * 0.28:.1f},{top + height * 0.82:.1f} {left:.1f},"
-        f"{top + height * 0.52:.1f} {left:.1f},{top + height * 0.18:.1f} "
-        f"C {left:.1f},{top + 10:.1f} {cx - width * 0.34:.1f},{top:.1f} "
-        f"{cx:.1f},{top:.1f} Z"
-    )
-
-
-def steel_defs(gid: str) -> str:
-    return (
-        f"<defs>"
-        f'<linearGradient id="rim-{gid}" x1="36" y1="16" x2="184" y2="250" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="{STEEL_HI}"/>'
-        f'<stop offset="0.28" stop-color="{STEEL_MID}"/>'
-        f'<stop offset="0.62" stop-color="{STEEL_LO}"/>'
-        f'<stop offset="1" stop-color="{STEEL_EDGE}"/>'
-        f"</linearGradient>"
-        f'<linearGradient id="bevel-{gid}" x1="50" y1="30" x2="170" y2="210" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="#C5D0DA"/>'
-        f'<stop offset="0.45" stop-color="#6B7C8C"/>'
-        f'<stop offset="1" stop-color="#24303C"/>'
-        f"</linearGradient>"
-        f'<linearGradient id="enamel-{gid}" x1="64" y1="18" x2="160" y2="230" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="#18233C"/>'
-        f'<stop offset="0.5" stop-color="{BG}"/>'
-        f'<stop offset="1" stop-color="#080C16"/>'
-        f"</linearGradient>"
-        f'<linearGradient id="base-{gid}" x1="70" y1="250" x2="150" y2="286" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="{STEEL_MID}"/>'
-        f'<stop offset="1" stop-color="{STEEL_EDGE}"/>'
-        f"</linearGradient>"
-        f"</defs>"
-    )
-
-
-def screw(cx: float, cy: float) -> str:
-    return (
-        f'<circle cx="{cx}" cy="{cy}" r="3.6" fill="{STEEL_MID}" '
-        f'stroke="{STEEL_EDGE}" stroke-width="0.8"/>'
-        f'<path d="M{cx - 2.1:.1f},{cy:.1f}h4.2M{cx:.1f},{cy - 2.1:.1f}v4.2" '
-        f'stroke="{STEEL_EDGE}" stroke-width="0.7"/>'
-    )
-
-
-def rivet(cx: float, cy: float) -> str:
-    return (
-        f'<circle cx="{cx}" cy="{cy}" r="2.4" fill="{STEEL_HI}" '
-        f'stroke="{STEEL_EDGE}" stroke-width="0.6"/>'
-        f'<circle cx="{cx - 0.4}" cy="{cy - 0.4}" r="0.7" fill="#FFFFFF" opacity="0.55"/>'
-    )
-
-
 def svg_text(
     x: float,
     y: float,
@@ -148,34 +93,65 @@ def svg_text(
     return (
         f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="middle" fill="{fill}" '
         f'font-size="{size:.1f}" font-weight="{weight}" font-family="{FONT}">'
-        f"{text}</text>"
+        f"{html.escape(text)}</text>"
     )
 
 
-def shield_shell(gid: str, inner: str, title: str) -> str:
-    cx, top = 110, 12
-    outer = heater(cx, top, 184, 236)
-    bevel = heater(cx, top + 5, 170, 224)
-    plate = heater(cx, top + 11, 156, 210)
+def plaque_defs(gid: str) -> str:
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{SW}" height="{SH}" '
-        f'viewBox="0 0 {SW} {SH}" role="img">'
-        f"<title>{title}</title>"
-        f"{steel_defs(gid)}"
-        f'<rect x="8" y="8" width="204" height="284" rx="8" fill="{BOARD}" '
-        f'stroke="{STEEL_LO}" stroke-width="1.2"/>'
-        f"{screw(20, 20)}{screw(200, 20)}{screw(20, 280)}{screw(200, 280)}"
-        f'<path d="{outer}" fill="url(#rim-{gid})" stroke="{STEEL_EDGE}" stroke-width="1.1"/>'
-        f'<path d="{bevel}" fill="url(#bevel-{gid})"/>'
-        f'<path d="{plate}" fill="url(#enamel-{gid})" stroke="#3A4A5C" stroke-width="0.8"/>'
-        f"{rivet(48, 46)}{rivet(172, 46)}"
-        f'<path d="M28 176 L192 176 L182 190 L192 204 L28 204 L38 190 Z" '
-        f'fill="{RIBBON}" stroke="{NEON}" stroke-width="1"/>'
+        f"<defs>"
+        f'<linearGradient id="frame-{gid}" x1="14" y1="10" x2="206" y2="310" '
+        f'gradientUnits="userSpaceOnUse">'
+        f'<stop offset="0" stop-color="#1B2740"/>'
+        f'<stop offset="0.55" stop-color="{FRAME}"/>'
+        f'<stop offset="1" stop-color="#0E1422"/>'
+        f"</linearGradient>"
+        f'<linearGradient id="glass-{gid}" x1="24" y1="20" x2="196" y2="300" '
+        f'gradientUnits="userSpaceOnUse">'
+        f'<stop offset="0" stop-color="#18233C"/>'
+        f'<stop offset="0.45" stop-color="{BG}"/>'
+        f'<stop offset="1" stop-color="#080C16"/>'
+        f"</linearGradient>"
+        f'<linearGradient id="metal-{gid}" x1="40" y1="0" x2="180" y2="40" '
+        f'gradientUnits="userSpaceOnUse">'
+        f'<stop offset="0" stop-color="{STEEL_HI}"/>'
+        f'<stop offset="0.45" stop-color="{STEEL_MID}"/>'
+        f'<stop offset="1" stop-color="{STEEL_LO}"/>'
+        f"</linearGradient>"
+        f'<linearGradient id="base-{gid}" x1="70" y1="312" x2="150" y2="334" '
+        f'gradientUnits="userSpaceOnUse">'
+        f'<stop offset="0" stop-color="{STEEL_MID}"/>'
+        f'<stop offset="1" stop-color="{STEEL_EDGE}"/>'
+        f"</linearGradient>"
+        f"</defs>"
+    )
+
+
+def stud(cx: float, cy: float) -> str:
+    return (
+        f'<rect x="{cx - 3.2:.1f}" y="{cy - 3.2:.1f}" width="6.4" height="6.4" rx="0.8" '
+        f'fill="{STEEL_MID}" stroke="{STEEL_EDGE}" stroke-width="0.6"/>'
+        f'<rect x="{cx - 1.3:.1f}" y="{cy - 1.3:.1f}" width="2.6" height="2.6" '
+        f'fill="{STEEL_HI}"/>'
+    )
+
+
+def plaque_shell(gid: str, inner: str, title: str) -> str:
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{PW}" height="{PH}" '
+        f'viewBox="0 0 {PW} {PH}" role="img">'
+        f"<title>{html.escape(title)}</title>"
+        f"{plaque_defs(gid)}"
+        f'<polygon points="62,318 158,318 170,336 50,336" fill="url(#base-{gid})" '
+        f'stroke="{STEEL_EDGE}" stroke-width="0.8"/>'
+        f'<rect x="14" y="10" width="192" height="304" rx="4" fill="url(#frame-{gid})" '
+        f'stroke="{STEEL_MID}" stroke-width="2"/>'
+        f'<rect x="20" y="16" width="180" height="292" rx="2" fill="none" '
+        f'stroke="{STEEL_HI}" stroke-width="1.1" opacity="0.85"/>'
+        f'<rect x="24" y="20" width="172" height="284" fill="url(#glass-{gid})"/>'
+        f'<rect x="24" y="20" width="172" height="40" fill="#FFFFFF" opacity="0.05"/>'
+        f"{stud(28, 24)}{stud(192, 24)}{stud(28, 300)}{stud(192, 300)}"
         f"{inner}"
-        f'<rect x="70" y="252" width="80" height="10" rx="1.5" fill="url(#base-{gid})" '
-        f'stroke="{STEEL_EDGE}" stroke-width="0.6"/>'
-        f'<rect x="82" y="262" width="56" height="8" rx="1" fill="{STEEL_LO}"/>'
-        f'<ellipse cx="110" cy="276" rx="40" ry="5" fill="{STEEL_EDGE}"/>'
         f"</svg>\n"
     )
 
@@ -211,43 +187,66 @@ def gcp_mark(x: float, y: float, size: float = 36, gid: str = "gcg") -> str:
     )
 
 
-def nameplate(lines: list[str]) -> str:
-    # Engraved plate sits in the wide upper body, above the ribbon.
+def nameplate(lines: list[str], y: float = 168) -> str:
+    height = 22 + 16 * len(lines)
     block = (
-        f'<rect x="52" y="96" width="116" height="44" rx="3" fill="{PLATE}" '
-        f'stroke="{STEEL_LO}" stroke-width="0.8"/>'
+        f'<rect x="40" y="{y:.1f}" width="140" height="{height:.1f}" rx="2" '
+        f'fill="url(#metal-plate)" stroke="{STEEL_EDGE}" stroke-width="0.7"/>'
+    )
+    # local metal fill if plaque defs used a different id — use steel solid
+    block = (
+        f'<rect x="40" y="{y:.1f}" width="140" height="{height:.1f}" rx="2" '
+        f'fill="{STEEL_MID}" stroke="{STEEL_EDGE}" stroke-width="0.7"/>'
+        f'<rect x="42" y="{y + 1.2:.1f}" width="136" height="{height - 2.4:.1f}" rx="1.5" '
+        f'fill="#D7DEE6"/>'
     )
     parts = [block]
-    start_y = 123 if len(lines) == 1 else 112
+    start_y = y + (28 if len(lines) == 1 else 22)
     for i, line in enumerate(lines):
-        size = fit_size(line, 108, 11)
-        parts.append(svg_text(110, start_y + i * 14, line, WHITE, size))
+        size = fit_size(line, 128, 12)
+        parts.append(svg_text(110, start_y + i * 16, line, STEEL_EDGE, size))
     return "".join(parts)
 
 
-def ribbon_years(years: str) -> str:
-    start = 8.5 if years.count("·") >= 3 else 10
-    size = fit_size(years, 150, start)
-    return svg_text(110, 194, years, NEON, size)
+def years_plate(years: str, y: float = 268) -> str:
+    size = fit_size(years, 148, 11)
+    return (
+        f'<rect x="44" y="{y:.1f}" width="132" height="26" rx="2" fill="{PLATE}" '
+        f'stroke="{NEON}" stroke-width="0.9"/>'
+        + svg_text(110, y + 18, years, NEON, size)
+    )
 
 
-def note_lines(notes: list[str]) -> str:
+def note_lines(notes: list[str], y: float = 230) -> str:
     parts = []
     for i, line in enumerate(notes):
-        size = fit_size(line, 136, 8, bold=False)
-        parts.append(svg_text(110, 148 + i * 10, line, MUTED, size, bold=False))
+        size = fit_size(line, 150, 9, bold=False)
+        parts.append(svg_text(110, y + i * 14, line, MUTED, size, bold=False))
     return "".join(parts)
+
+
+def write_year_bar(filename: str, label: str, width: int = 200, height: int = 22) -> None:
+    size = fit_size(label, width - 10, 12)
+    svg = (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+        f'viewBox="0 0 {width} {height}">'
+        f'<text x="{width / 2:.1f}" y="16" text-anchor="middle" fill="{NEON}" '
+        f'font-size="{size:.1f}" font-weight="700" font-family="{FONT}">'
+        f"{html.escape(label)}</text></svg>\n"
+    )
+    (AWARDS / filename).write_text(svg)
 
 
 def write_cb_card() -> None:
     png = b64_png(AWARDS / "aws-community-builders-badge.png")
     title = "AWS Community Builder - Cloud Operations, since 2024"
     inner = (
-        f'<image href="data:image/png;base64,{png}" x="78" y="32" width="64" height="64"/>'
-        + nameplate(["Community Builder", "Cloud Operations"])
-        + ribbon_years("since 2024")
+        f'<image href="data:image/png;base64,{png}" x="78" y="40" width="64" height="64"/>'
+        + nameplate(["Community Builder", "Cloud Operations"], y=128)
+        + years_plate("since 2024", y=250)
     )
-    (AWARDS / "aws-community-builder.svg").write_text(shield_shell("cb", inner, title))
+    (AWARDS / "aws-community-builder.svg").write_text(plaque_shell("cb", inner, title))
+    write_year_bar("years-cb.svg", "2024")
 
 
 def write_aws_allcerts() -> None:
@@ -256,26 +255,29 @@ def write_aws_allcerts() -> None:
         "(2022 APN ALL AWS Certifications Engineer)"
     )
     inner = (
-        f'<text x="110" y="54" text-anchor="middle" fill="{WHITE}" font-size="15" '
+        f'<text x="110" y="64" text-anchor="middle" fill="{WHITE}" font-size="18" '
         f'font-weight="700" font-family="{FONT}">aws</text>'
-        + aws_smile(84, 42, 1.2)
-        + nameplate(["All Certifications", "Engineer"])
-        + note_lines(["2022 APN ALL AWS", "Certifications Engineer"])
-        + ribbon_years("2022 · 2023 · 2024 · 2025")
+        + aws_smile(82, 50, 1.25)
+        + nameplate(["All Certifications", "Engineer"], y=124)
+        + note_lines(["2022 APN ALL AWS", "Certifications Engineer"], y=210)
+        + years_plate("2022 · 2023 · 2024 · 2025", y=250)
     )
-    (AWARDS / "aws-allcerts.svg").write_text(shield_shell("allcerts", inner, title))
+    (AWARDS / "aws-allcerts.svg").write_text(plaque_shell("allcerts", inner, title))
+    for year in ("2022", "2023", "2024", "2025"):
+        write_year_bar(f"years-allcerts-{year}.svg", year, width=50)
 
 
 def write_jr_champion() -> None:
     title = "2023 Japan AWS Jr. Champion"
     inner = (
-        f'<text x="110" y="54" text-anchor="middle" fill="{WHITE}" font-size="15" '
+        f'<text x="110" y="64" text-anchor="middle" fill="{WHITE}" font-size="18" '
         f'font-weight="700" font-family="{FONT}">aws</text>'
-        + aws_smile(84, 42, 1.2)
-        + nameplate(["Japan AWS", "Jr. Champion"])
-        + ribbon_years("2023")
+        + aws_smile(82, 50, 1.25)
+        + nameplate(["Japan AWS", "Jr. Champion"], y=128)
+        + years_plate("2023", y=250)
     )
-    (AWARDS / "aws-jr-champion-2023.svg").write_text(shield_shell("jr", inner, title))
+    (AWARDS / "aws-jr-champion-2023.svg").write_text(plaque_shell("jr", inner, title))
+    write_year_bar("years-jr.svg", "2023")
 
 
 def write_pte() -> None:
@@ -283,28 +285,37 @@ def write_pte() -> None:
         "Google Cloud Partner Top Engineer 2023 · 2024 · 2025 · 2026 "
         "(2026 Serverless App Development, 2025 General, 2024 Build)"
     )
-    # Tall official lockup fits the heater field; wide file is committed beside it.
-    png, pw, ph = b64_png_fitted(AWARDS / "pte-20251104-rgb-nega-2.png", 118, 118)
+    png, pw, ph = b64_png_fitted(AWARDS / "pte-20251104-rgb-nega-1.png", 160, 72)
     x = 110 - pw / 2
     inner = (
-        f'<image href="data:image/png;base64,{png}" x="{x:.1f}" y="24" '
+        f'<image href="data:image/png;base64,{png}" x="{x:.1f}" y="36" '
         f'width="{pw}" height="{ph}"/>'
-        + note_lines(["2026 Serverless App Dev", "2025 General · 2024 Build"])
-        + ribbon_years("2023 · 2024 · 2025 · 2026")
+        + note_lines(
+            [
+                "2026 Serverless App Development",
+                "2025 General",
+                "2024 Build",
+            ],
+            y=128,
+        )
+        + years_plate("2023 · 2024 · 2025 · 2026", y=250)
     )
-    (AWARDS / "gcp-pte.svg").write_text(shield_shell("pte", inner, title))
+    (AWARDS / "gcp-pte.svg").write_text(plaque_shell("pte", inner, title))
+    for year in ("2023", "2024", "2025", "2026"):
+        write_year_bar(f"years-pte-{year}.svg", year, width=50)
 
 
 def write_all_cert_holders() -> None:
     title = "Google Cloud Partner All Certification Holders 2025"
     inner = (
-        gcp_mark(92, 40, 36, "gcg-holders")
-        + nameplate(["All Certification", "Holders"])
-        + ribbon_years("2025")
+        gcp_mark(83, 48, 54, "gcg-holders")
+        + nameplate(["All Certification", "Holders"], y=140)
+        + years_plate("2025", y=250)
     )
     (AWARDS / "gcp-all-cert-holders-2025.svg").write_text(
-        shield_shell("holders", inner, title)
+        plaque_shell("holders", inner, title)
     )
+    write_year_bar("years-holders.svg", "2025")
 
 
 def write_jaguer() -> None:
@@ -314,19 +325,25 @@ def write_jaguer() -> None:
         "(2025 Grand Prize, 2024 Excellent, 2023 Excellent)"
     )
     inner = (
-        f'<image href="data:image/png;base64,{png}" x="78" y="30" width="64" height="64"/>'
-        + nameplate(["Jagu'e'r Award"])
-        + note_lines(["2025 Grand Prize", "2024 Excellent", "2023 Excellent"])
-        + ribbon_years("2023 · 2024 · 2025")
+        f'<image href="data:image/png;base64,{png}" x="74" y="40" width="72" height="72"/>'
+        + nameplate(["Jagu'e'r Award"], y=128)
+        + note_lines(
+            ["2025 Grand Prize", "2024 Excellent", "2023 Excellent"],
+            y=186,
+        )
+        + years_plate("2023 · 2024 · 2025", y=250)
     )
-    (AWARDS / "jaguer.svg").write_text(shield_shell("jaguer", inner, title))
+    (AWARDS / "jaguer.svg").write_text(plaque_shell("jaguer", inner, title))
+    write_year_bar("years-jaguer-2023.svg", "2023", width=67)
+    write_year_bar("years-jaguer-2024.svg", "2024", width=67)
+    write_year_bar("years-jaguer-2025.svg", "2025", width=66)
 
 
-def plaque(title: str, inner: str, width: int, height: int) -> str:
+def chrome_card(title: str, inner: str, width: int, height: int) -> str:
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img">'
-        f"<title>{title}</title>"
+        f"<title>{html.escape(title)}</title>"
         f'<rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="8" '
         f'fill="{BG}" stroke="{NEON}" stroke-width="1"/>'
         f"{inner}</svg>\n"
@@ -359,7 +376,7 @@ def aotolog_glyph() -> str:
 
 
 def write_post_icon(filename: str, label: str, glyph: str) -> None:
-    (POSTS / filename).write_text(plaque(label, glyph, 56, 56))
+    (POSTS / filename).write_text(chrome_card(label, glyph, 56, 56))
 
 
 def write_talk_icon() -> None:
@@ -371,15 +388,75 @@ def write_talk_icon() -> None:
         '<circle cx="18" cy="16" r="4"/>'
         "</g>"
     )
-    (TALKS / "mic.svg").write_text(plaque("Talk", inner, 56, 56))
+    (TALKS / "mic.svg").write_text(chrome_card("Talk", inner, 56, 56))
 
 
-def write_talk_more() -> None:
+def write_generic_ogp(path: Path, site: str, glyph: str) -> None:
     inner = (
-        f'<text x="160" y="28" text-anchor="middle" fill="{NEON}" font-size="13" '
-        f'font-weight="700" font-family="{FONT}">and more on Speaker Deck</text>'
+        glyph.replace("translate(14,16)", "translate(16,18)")
+        .replace("translate(14,14)", "translate(16,16)")
+        .replace("translate(16,12)", "translate(16,14)")
+        + f'<text x="72" y="36" fill="{MUTED}" font-size="13" font-weight="700" '
+        f'font-family="{FONT}">{html.escape(site)}</text>'
+        f'<text x="72" y="78" fill="{WHITE}" font-size="14" font-weight="700" '
+        f'font-family="{FONT}">Latest post</text>'
     )
-    (TALKS / "more.svg").write_text(plaque("Speaker Deck", inner, 320, 44))
+    path.write_text(chrome_card(site, inner, CARD_W, CARD_H))
+
+
+def wrap_title(text: str, font: ImageFont.FreeTypeFont, max_width: float, max_lines: int = 3) -> list[str]:
+    remaining = " ".join(text.split())
+    lines: list[str] = []
+    while remaining and len(lines) < max_lines:
+        if font.getlength(remaining) <= max_width:
+            lines.append(remaining)
+            break
+        lo, hi = 1, len(remaining)
+        cut = 1
+        ellipsis = len(lines) == max_lines - 1
+        while lo <= hi:
+            mid = (lo + hi) // 2
+            chunk = remaining[:mid] + ("…" if ellipsis else "")
+            if font.getlength(chunk) <= max_width:
+                cut = mid
+                lo = mid + 1
+            else:
+                hi = mid - 1
+        if ellipsis:
+            lines.append(remaining[:cut].rstrip() + "…")
+            remaining = ""
+            break
+        space = remaining.rfind(" ", 0, cut)
+        if space >= max(1, cut // 3):
+            cut = space
+        lines.append(remaining[:cut].strip())
+        remaining = remaining[cut:].strip()
+    return lines
+
+
+def render_ogp_png(out: Path, site: str, title: str, icon_svg: Path) -> None:
+    scale = 2
+    width, height = CARD_W * scale, CARD_H * scale
+    img = Image.new("RGBA", (width, height), (11, 16, 38, 255))
+    draw = ImageDraw.Draw(img)
+    draw.rounded_rectangle(
+        [3, 3, width - 4, height - 4],
+        radius=18,
+        outline=(60, 185, 252, 255),
+        width=3,
+    )
+    icon_png = cairosvg.svg2png(url=str(icon_svg), output_width=72, output_height=72)
+    icon = Image.open(BytesIO(icon_png)).convert("RGBA")
+    img.alpha_composite(icon, (24, 22))
+    site_font = ImageFont.truetype(CJK_FONT, 26)
+    title_font = ImageFont.truetype(CJK_FONT, 28)
+    draw.text((112, 42), site, fill=(139, 148, 158, 255), font=site_font)
+    lines = wrap_title(title, title_font, width - 48, max_lines=3)
+    y = 108
+    for line in lines:
+        draw.text((24, y), line, fill=(230, 237, 243, 255), font=title_font)
+        y += 40
+    img.save(out, "PNG", optimize=True)
 
 
 def write_contact() -> None:
@@ -391,7 +468,149 @@ def write_contact() -> None:
         f'<text x="52" y="28" fill="{NEON}" font-size="14" font-weight="700" '
         f'font-family="{FONT}">aoto@datadoghq.com</text>'
     )
-    (CONTACT / "mail.svg").write_text(plaque("aoto@datadoghq.com", inner, 280, 44))
+    (CONTACT / "mail.svg").write_text(chrome_card("aoto@datadoghq.com", inner, 280, 44))
+
+
+POST_SEED = {
+    "AOTOLOG-POST-LIST": (
+        "AoToLog",
+        POSTS / "icon-aotolog.svg",
+        POSTS / "card-aotolog.svg",
+        [
+            (
+                "https://speakerdeck.com/aoto/designing-ai-agent-experiences-that-enhance-observability",
+                "オブザーバビリティを高める AI エージェント体験を考える",
+            ),
+            (
+                "https://www.datadoghq.com/ja/blog/datadog-live-tokyo-2026-recap-agent-observability/",
+                "Looking Back at Datadog Live Tokyo 2026 Fireside Chat「AI エージェントを見守る技術 ― 現場から考える Agent Observability」開催レポート",
+            ),
+            (
+                "https://www.datadoghq.com/ja/blog/datadog-live-tokyo-2025-observability-practices-panel/",
+                "Looking Back at Datadog Live Tokyo 2025「現場で活きる！Datadog によるオブザーバビリティ実践のリアル」パネルディスカッション開催レポート",
+            ),
+        ],
+        "aotolog",
+        aotolog_glyph,
+    ),
+    "ZENN-POST-LIST": (
+        "Zenn",
+        POSTS / "icon-zenn.svg",
+        POSTS / "card-zenn.svg",
+        [
+            (
+                "https://zenn.dev/datadog/articles/datadog-cr-tf",
+                "大規模 Cloud Run 環境を支える Datadog の Terraform 実装",
+            ),
+            (
+                "https://zenn.dev/datadog/articles/bits-ai-sre-intro",
+                "あなたの SRE チームを促進させる、Bits AI SRE 偉いところ",
+            ),
+            (
+                "https://zenn.dev/datadog/articles/datadog-gc-logs-dataflow",
+                "Datadog に Google Cloud のログをセキュアに送信する",
+            ),
+        ],
+        "zenn",
+        zenn_glyph,
+    ),
+    "QIITA-POST-LIST": (
+        "Qiita",
+        POSTS / "icon-qiita.svg",
+        POSTS / "card-qiita.svg",
+        [
+            (
+                "https://qiita.com/AoTo0330/items/0ce1505b5a1b2d080ad8",
+                "Datadog Japan 有志ブログのご紹介",
+            ),
+            (
+                "https://qiita.com/AoTo0330/items/8eb5beef716a3b1eca49",
+                "Google Cloud おすすめ学習方法5選【初学者~中級者向け】",
+            ),
+            (
+                "https://qiita.com/AoTo0330/items/36727475de42eab1fa7e",
+                "Cloud Run を GKE の代替として利用する",
+            ),
+        ],
+        "qiita",
+        qiita_glyph,
+    ),
+}
+
+TALKS_SEED = [
+    (
+        "https://speakerdeck.com/aoto/powering-reliable-agentic-ai-with-datadog-observability",
+        "頼れる Agentic AI を支える Datadog のオブザーバビリティ",
+    ),
+    (
+        "https://speakerdeck.com/aoto/building-ai-agents-with-ai-agents-by-google-cloud",
+        "AI エージェントで AI エージェントを作る！Google Cloudが実現するフルスタックな AI 開発エコシステム",
+    ),
+    (
+        "https://speakerdeck.com/aoto/beyond-the-field-barriers-instrumentation-injection-and-the-future-of-observability",
+        "現場の壁を乗り越えて、「計装注入」が拓く オブザーバビリティ",
+    ),
+]
+
+
+def parse_marker_items(readme: str, tag: str) -> list[tuple[str, str]]:
+    match = re.search(
+        rf"<!-- {re.escape(tag)}:START -->(.*?)<!-- {re.escape(tag)}:END -->",
+        readme,
+        re.S,
+    )
+    if not match:
+        return []
+    items = []
+    for href, alt in re.findall(
+        r'<a href="([^"]+)"[^>]*>\s*<img [^>]*alt="([^"]*)"',
+        match.group(1),
+    ):
+        items.append((html.unescape(href), html.unescape(alt)))
+    return items[:3]
+
+
+def marker_html(prefix: str, items: list[tuple[str, str]]) -> str:
+    parts = []
+    for index, (url, title) in enumerate(items, start=1):
+        src = f"./public/images/posts/{prefix}-{index}.png"
+        parts.append(
+            f'<a href="{html.escape(url, quote=True)}">'
+            f'<img src="{src}" width="{CARD_W}" alt="{html.escape(title, quote=True)}" /></a>'
+        )
+    return "\n".join(parts)
+
+
+def replace_marker(readme: str, tag: str, inner: str) -> str:
+    pattern = rf"(<!-- {re.escape(tag)}:START -->)(.*?)(<!-- {re.escape(tag)}:END -->)"
+    return re.sub(pattern, rf"\1\n{inner}\n\3", readme, count=1, flags=re.S)
+
+
+def write_post_and_talk_cards() -> None:
+    readme = README.read_text() if README.exists() else ""
+    for tag, (site, icon, generic, seed, prefix, glyph) in POST_SEED.items():
+        write_generic_ogp(generic, site, glyph())
+        items = parse_marker_items(readme, tag) or seed
+        if items and items[0][1] in {"", "AoToLog post", "Zenn post", "Qiita post"}:
+            by_url = {url: title for url, title in seed}
+            items = [(url, by_url.get(url, title or site)) for url, title in items]
+        for index, (url, title) in enumerate(items, start=1):
+            render_ogp_png(POSTS / f"{prefix}-{index}.png", site, title, icon)
+        if README.exists() and f"<!-- {tag}:START -->" in readme:
+            readme = replace_marker(readme, tag, marker_html(prefix, items))
+
+    write_generic_ogp(TALKS / "card-talk.svg", "Speaker Deck", (
+        f'<g transform="translate(12,12)" fill="none" stroke="{NEON}" stroke-width="1.8">'
+        '<rect x="4" y="6" width="28" height="20" rx="2"/>'
+        '<path d="M10 26h16M18 26v6"/>'
+        '<circle cx="18" cy="16" r="4"/>'
+        "</g>"
+    ))
+    for index, (url, title) in enumerate(TALKS_SEED, start=1):
+        render_ogp_png(TALKS / f"talk-{index}.png", "Speaker Deck", title, TALKS / "mic.svg")
+
+    if README.exists():
+        README.write_text(readme)
 
 
 def main() -> None:
@@ -416,9 +635,9 @@ def main() -> None:
     write_post_icon("icon-zenn.svg", "Zenn", zenn_glyph())
     write_post_icon("icon-qiita.svg", "Qiita", qiita_glyph())
     write_talk_icon()
-    write_talk_more()
     write_contact()
-    print("wrote physical shields and post/talk/contact cards")
+    write_post_and_talk_cards()
+    print("wrote plaques, year bars, and post/talk cards")
 
 
 if __name__ == "__main__":
