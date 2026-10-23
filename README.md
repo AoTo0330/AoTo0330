@@ -58,9 +58,9 @@ Jr. Champion：<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-ch
 <picture><source media="(prefers-color-scheme: dark)" srcset="./public/images/awards/jaguer.png" /><source media="(prefers-color-scheme: light)" srcset="./public/images/awards/jaguer-light.png" /><img src="./public/images/awards/jaguer-light.png" width="160" alt="Jagu'e'r Award, 2023–2025" /></picture>
 </div>
 <p align="center">
-Partner Top Engineer：<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja">2023</a>&nbsp;·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja">2024</a>&nbsp;·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja">2025</a>（Build / General）·<a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja">2026</a>（Serverless）<br />
+Partner Top Engineer：<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja">2023</a>&nbsp;·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja">2024</a>&nbsp;·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja">2025</a>（Build / General）·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja">2026</a>（Serverless）<br />
 All Certification Holders：<a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja">2025</a><br />
-Jagu'e'r Award：2023&#8288;·&#8288;2024&#8288;（Excellent）&#8288;·&#8288;2025&#8288;（Grand&nbsp;Prize）
+Jagu'e'r Award：2023&nbsp;·&nbsp;2024<wbr>（Excellent）·&nbsp;<wbr>2025&#8288;（Grand&nbsp;Prize）
 </p>
 
 ## 🛠️ Tech stack

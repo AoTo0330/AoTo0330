@@ -32,16 +32,19 @@ FONT = "Verdana, DejaVu Sans, sans-serif"
 BOLD_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 REG_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 CJK_BOLD = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+CJK_REGULAR = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
+_CJK_FALLBACKS = (
+    "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
+    "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",
+)
 CJK_FONT = CJK_BOLD if Path(CJK_BOLD).exists() else next(
-    path
-    for path in (
-        "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
-        "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",
-        BOLD_FONT,
-    )
-    if Path(path).exists()
+    path for path in (*_CJK_FALLBACKS, BOLD_FONT) if Path(path).exists()
+)
+CJK_REG_FONT = CJK_REGULAR if Path(CJK_REGULAR).exists() else next(
+    path for path in (*_CJK_FALLBACKS, REG_FONT) if Path(path).exists()
 )
 CJK_INDEX = 0 if Path(CJK_BOLD).exists() else 0
+CJK_REG_INDEX = 0 if Path(CJK_REGULAR).exists() else 0
 
 # 2x PNG. README displays awards at width="160".
 PLAQUE_W, PLAQUE_H = 300, 248
@@ -180,23 +183,17 @@ def cb_logo_mono(path: Path, rgb: tuple[int, int, int]) -> Image.Image:
     return trim_alpha(image)
 
 
+def pte_source(theme: Theme) -> Path:
+    name = "pte-20251104-rgb-1.png" if theme.suffix else "pte-20251104-rgb-nega-1.png"
+    for folder in (AWARDS, PACK):
+        path = folder / name
+        if path.exists():
+            return path
+    return AWARDS / "pte-20251104-rgb-nega-1.png"
+
+
 def pte_art(theme: Theme) -> Image.Image:
-    art = Image.open(AWARDS / "pte-20251104-rgb-nega-1.png").convert("RGBA")
-    if not theme.suffix:
-        return art
-    navy = theme.name_text[:3]
-    pixels = art.load()
-    width, height = art.size
-    for y in range(height):
-        for x in range(width):
-            red, green, blue, alpha = pixels[x, y]
-            if alpha < 24:
-                continue
-            chroma = max(abs(red - green), abs(green - blue), abs(red - blue))
-            luma = 0.2126 * red + 0.7152 * green + 0.0722 * blue
-            if luma > 200 and chroma < 28:
-                pixels[x, y] = (*navy, alpha)
-    return art
+    return Image.open(pte_source(theme)).convert("RGBA")
 
 
 def rounded_rect(
@@ -471,8 +468,8 @@ def render_ogp_png(out: Path, site: str, title: str, icon_svg: Path, theme: Them
     icon_png = cairosvg.svg2png(url=str(icon_svg), output_width=72, output_height=72)
     icon = Image.open(BytesIO(icon_png)).convert("RGBA")
     img.alpha_composite(icon, (24, 22))
-    site_font = ImageFont.truetype(CJK_FONT, 26)
-    title_font = ImageFont.truetype(CJK_FONT, 28)
+    site_font = ImageFont.truetype(CJK_REG_FONT, 26, index=CJK_REG_INDEX)
+    title_font = ImageFont.truetype(CJK_REG_FONT, 28, index=CJK_REG_INDEX)
     draw.text((112, 42), site, fill=theme.site_text, font=site_font)
     lines = wrap_title(title, title_font, width - 48, max_lines=3)
     y = 108
@@ -683,7 +680,9 @@ def main() -> None:
         folder.mkdir(parents=True, exist_ok=True)
 
     for name in (
+        "pte-20251104-rgb-1.png",
         "pte-20251104-rgb-nega-1.png",
+        "pte-20251104-rgb-2.png",
         "pte-20251104-rgb-nega-2.png",
         "jaguer-award-logo.png",
     ):
