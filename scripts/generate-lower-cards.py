@@ -204,6 +204,7 @@ def write_plaque_png(
     logo: Image.Image,
     name_lines: list[str] | None,
     years: str,
+    logo_max: tuple[int, int] = LOGO_MAX,
 ) -> None:
     img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img, "RGBA")
@@ -211,7 +212,7 @@ def write_plaque_png(
     name_font = ImageFont.truetype(BOLD_FONT, 22)
     year_latin = ImageFont.truetype(BOLD_FONT, 18)
     year_cjk = ImageFont.truetype(CJK_FONT, 18)
-    logo = fit_contain(logo, *LOGO_MAX)
+    logo = fit_contain(logo, *logo_max)
     name_h = nameplate_size(name_lines)[1] if name_lines else 0
     gap_logo = 10 if name_lines else NAME_GAP
     total = logo.height + gap_logo + YEAR_H
@@ -285,11 +286,14 @@ def write_all_cert_holders() -> None:
 
 
 def write_jaguer() -> None:
+    # Official Jagu'e'r mark (no standalone Award logo on jaguer.jp / Award 2025 / connpass):
+    # https://jaguer.jp/wp-content/uploads/2021/03/jaguer_circle3.png
     write_plaque_png(
         AWARDS / "jaguer.png",
-        Image.open(GCP_2026),
+        Image.open(AWARDS / "jaguer-circle.png"),
         ["Jagu'e'r Award"],
         "2023–2025",
+        logo_max=(96, 80),
     )
 
 
@@ -574,6 +578,7 @@ def main() -> None:
     for name in (
         "pte-20251104-rgb-nega-1.png",
         "pte-20251104-rgb-nega-2.png",
+        "jaguer-circle.png",
     ):
         src = PACK / name
         if src.exists():

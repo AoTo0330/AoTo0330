@@ -43,17 +43,11 @@ Jr. Champion：<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-ch
 <div align="center">
 <a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja"><img src="./public/images/awards/gcp-pte.png" width="150" alt="Partner Top Engineer, 2023–2026" /></a>
 <a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja"><img src="./public/images/awards/gcp-all-cert-holders-2025.png" width="150" alt="Google Cloud Partner All Certification Holders 2025" /></a>
-</div>
-<p align="center">
-Partner Top Engineer：<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja">2023</a> · <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja">2024</a> · <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja">2025</a>（Build / General）· <a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja">2026</a>（Serverless）<br />
-All Certification Holders：<a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja">2025</a>
-</p>
-
-<h3 align="center">Jagu'e'r</h3>
-<div align="center">
 <img src="./public/images/awards/jaguer.png" width="150" alt="Jagu'e'r Award, 2023–2025" />
 </div>
 <p align="center">
+Partner Top Engineer：<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja">2023</a> · <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja">2024</a> · <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja">2025</a>（Build / General）· <a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja">2026</a>（Serverless）<br />
+All Certification Holders：<a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja">2025</a><br />
 Jagu'e'r Award：2023 Excellent · 2024 Excellent · 2025 Grand Prize
 </p>
 
