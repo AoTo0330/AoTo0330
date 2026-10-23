@@ -15,11 +15,23 @@
 - Advanced knowledge of Observability, SRE, DevOps, Platform Engineering and tools of them.
 - Expert skills of public clouds(30+ Cloud Certs)
 
+## 📊 Stats
+
+<p align="center">
+  <img src="./public/images/badges/github-contrib-stats.svg" width="495" alt="AoTo0330 GitHub contributions" />
+</p>
+
+<p align="center">
+  <img src="https://github-act-graph.rodriaum.com/graph?username=AoTo0330&bg_color=0b1026&color=8b949e&line=3cb9fc&point=3cb9fc&hide_border=true" alt="AoTo0330 GitHub activity graph" />
+</p>
+
 ## 🏆 Awards & Recognitions
 
 <h3 align="center">AWS</h3>
 <div align="center">
-<a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura"><img src="./public/images/awards/aws-community-builder.svg" width="200" alt="AWS Community Builder - Cloud Operations, 2024～現在" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/"><img src="./public/images/awards/aws-allcerts.svg" width="200" alt="All Certifications Engineer, 2022–2025" /></a><a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/"><img src="./public/images/awards/aws-jr-champion-2023.svg" width="200" alt="2023 Japan AWS Jr. Champion" /></a>
+<a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura"><img src="./public/images/awards/aws-community-builder.png" width="150" alt="AWS Community Builder - Cloud Operations, 2024～現在" /></a>
+<a href="https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/"><img src="./public/images/awards/aws-allcerts.png" width="150" alt="All Certifications Engineer, 2022–2025" /></a>
+<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/"><img src="./public/images/awards/aws-jr-champion-2023.png" width="150" alt="2023 Japan AWS Jr. Champion" /></a>
 </div>
 <p align="center">
 Community Builder：<a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura">2024～現在</a><br />
@@ -29,7 +41,8 @@ Jr. Champion：<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-ch
 
 <h3 align="center">Google Cloud</h3>
 <div align="center">
-<a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja"><img src="./public/images/awards/gcp-pte.svg" width="200" alt="Partner Top Engineer, 2023–2026" /></a><a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja"><img src="./public/images/awards/gcp-all-cert-holders-2025.svg" width="200" alt="Google Cloud Partner All Certification Holders 2025" /></a>
+<a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja"><img src="./public/images/awards/gcp-pte.png" width="150" alt="Partner Top Engineer, 2023–2026" /></a>
+<a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja"><img src="./public/images/awards/gcp-all-cert-holders-2025.png" width="150" alt="Google Cloud Partner All Certification Holders 2025" /></a>
 </div>
 <p align="center">
 Partner Top Engineer：<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja">2023</a> · <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja">2024</a> · <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja">2025</a>（Build / General）· <a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja">2026</a>（Serverless）<br />
@@ -38,7 +51,7 @@ All Certification Holders：<a href="https://cloud.google.com/blog/ja/topics/par
 
 <h3 align="center">Jagu'e'r</h3>
 <div align="center">
-<img src="./public/images/awards/jaguer.svg" width="200" alt="Jagu'e'r Award, 2023–2025" />
+<img src="./public/images/awards/jaguer.png" width="150" alt="Jagu'e'r Award, 2023–2025" />
 </div>
 <p align="center">
 Jagu'e'r Award：2023 Excellent · 2024 Excellent · 2025 Grand Prize
@@ -47,22 +60,18 @@ Jagu'e'r Award：2023 Excellent · 2024 Excellent · 2025 Grand Prize
 ## 🛠️ Tech stack
 
 <p align="center">
-  <img src="./public/images/tech/aws.svg" width="48" height="48" alt="AWS" />
-  <img src="./public/images/tech/google-cloud.svg" width="48" height="48" alt="Google Cloud" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./public/images/tech/aws-dark.png" />
+    <img src="./public/images/tech/aws.png" width="48" height="48" alt="AWS" />
+  </picture>
+  <img src="./public/images/tech/google-cloud.png" width="48" height="48" alt="Google Cloud" />
   <img src="./public/images/tech/kubernetes.svg" width="48" height="48" alt="Kubernetes" />
   <img src="./public/images/tech/opentelemetry.svg" width="48" height="48" alt="OpenTelemetry" />
   <img src="./public/images/tech/cloud-run.svg" width="48" height="48" alt="Cloud Run" />
-  <img src="./public/images/tech/datadog.svg" width="48" height="48" alt="Datadog" />
-</p>
-
-## 📊 Stats
-
-<p align="center">
-  <img src="./public/images/badges/github-contrib-stats.svg" alt="AoTo0330 GitHub contributions" />
-</p>
-
-<p align="center">
-  <img src="https://github-act-graph.rodriaum.com/graph?username=AoTo0330&bg_color=0b1026&color=8b949e&line=3cb9fc&point=3cb9fc&hide_border=true" alt="AoTo0330 GitHub activity graph" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./public/images/tech/datadog-dark.svg" />
+    <img src="./public/images/tech/datadog.svg" width="48" height="48" alt="Datadog" />
+  </picture>
 </p>
 
 ## 🐍 Contribution snake

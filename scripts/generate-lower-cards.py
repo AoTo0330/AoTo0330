@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-"""Generate award plaques, OGP-style post/talk cards, and contact button.
+"""Generate award plaques, OGP-style post/talk cards, contact button, and tech logos.
 
-Awards are rectangular 表彰盾 (navy frame, acrylic face, metal name plate),
-not heraldic heater shields. PTE uses official white-text artwork from
-pte-20251104-rgb-nega-1.png (wide) / pte-20251104-rgb-nega-2.png (tall).
+Awards are compact rectangular 表彰盾 rendered as PNG so GitHub does not strip
+embedded images. AWS lockup is the official Wikimedia SVG (wordmark #252F3E,
+smile #FF9900). Google Cloud is the official 2026 gradient PNG.
 """
 
 from __future__ import annotations
 
-import base64
 import html
 import re
 from io import BytesIO
@@ -23,6 +22,7 @@ AWARDS = ROOT / "public" / "images" / "awards"
 POSTS = ROOT / "public" / "images" / "posts"
 TALKS = ROOT / "public" / "images" / "talks"
 CONTACT = ROOT / "public" / "images" / "contact"
+TECH = ROOT / "public" / "images" / "tech"
 README = ROOT / "README.md"
 
 BG = "#0b1026"
@@ -31,11 +31,6 @@ NEON = "#3CB9FC"
 MUTED = "#8B949E"
 WHITE = "#E6EDF3"
 FONT = "Verdana, DejaVu Sans, sans-serif"
-STEEL_HI = "#F2F6FA"
-STEEL_MID = "#A8B6C4"
-STEEL_LO = "#5A6A7A"
-STEEL_EDGE = "#2E3A48"
-FRAME = "#141C2E"
 BOLD_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 REG_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 CJK_FONT = next(
@@ -48,52 +43,54 @@ CJK_FONT = next(
     if Path(path).exists()
 )
 
-PW, PH = 220, 272
-FONT_PAD = 1.10
+# 2x PNG; displayed at 150px wide → ~124px tall (half of the previous 247px).
+PLAQUE_W, PLAQUE_H = 300, 248
+PLAQUE_DISPLAY_W = 150
 CARD_W, CARD_H = 260, 140
-LOGO_MAX_W, LOGO_MAX_H = 148, 56
-GLASS_Y, GLASS_H = 18, 220
-GAP_AFTER_LOGO = 10
-GAP_NAME_TO_YEAR = 14
-YEAR_H = 26
-NAMEPLATE_FILL = "#1b2a44"
-NAMEPLATE_TEXT = "#e6edf7"
-# wqy-microhei (CI font) tofu's U+301C WAVE DASH; U+FF5E renders as a wave.
+LOGO_MAX = (176, 52)
+NAME_GAP = 16
+YEAR_H = 28
+NAMEPLATE_FILL = (27, 42, 68, 255)
+NAMEPLATE_TEXT = (230, 237, 247, 255)
 CB_YEARS = "2024\uFF5E現在"
+AWS_LOCKUP = TECH / "aws-lockup.svg"
+GCP_2026 = TECH / "google-cloud-2026.png"
 
 
-def b64_png_fitted(path: Path, max_w: int, max_h: int) -> tuple[str, int, int]:
-    image = Image.open(path).convert("RGBA")
-    bbox = image.getchannel("A").getbbox()
-    if bbox:
-        image = image.crop(bbox)
-    image.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
-    buf = BytesIO()
-    image.save(buf, format="PNG", optimize=True)
-    return base64.b64encode(buf.getvalue()).decode("ascii"), image.width, image.height
-
-
-def encode_png(image: Image.Image, max_w: int, max_h: int) -> tuple[str, int, int]:
+def fit_contain(image: Image.Image, max_w: int, max_h: int) -> Image.Image:
     image = image.convert("RGBA")
     bbox = image.getchannel("A").getbbox()
     if bbox:
         image = image.crop(bbox)
     image.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
-    buf = BytesIO()
-    image.save(buf, format="PNG", optimize=True)
-    return base64.b64encode(buf.getvalue()).decode("ascii"), image.width, image.height
+    return image
 
 
-def centered_png(b64: str, width: int, height: int, y: float) -> str:
-    x = 110 - width / 2
-    return (
-        f'<image href="data:image/png;base64,{b64}" x="{x:.1f}" y="{y:.1f}" '
-        f'width="{width}" height="{height}"/>'
+def paste_centered(base: Image.Image, overlay: Image.Image, cx: int, y: int) -> None:
+    x = int(cx - overlay.width / 2)
+    base.alpha_composite(overlay, (x, y))
+
+
+def raster_aws(wordmark: str, smile: str = "#FF9900", width: int = 640) -> Image.Image:
+    svg = AWS_LOCKUP.read_text().replace("#252F3E", wordmark).replace("#FF9900", smile)
+    png = cairosvg.svg2png(
+        bytestring=svg.encode("utf-8"),
+        output_width=width,
+        background_color="transparent",
     )
+    return Image.open(BytesIO(png)).convert("RGBA")
 
 
-def cb_logo_mono(path: Path) -> tuple[str, int, int]:
-    """Drop the navy/black square; keep the wordmark as a single-color white glyph."""
+def square_icon(image: Image.Image, size: int = 96) -> Image.Image:
+    fitted = fit_contain(image, size, size)
+    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    canvas.alpha_composite(
+        fitted, ((size - fitted.width) // 2, (size - fitted.height) // 2)
+    )
+    return canvas
+
+
+def cb_logo_mono(path: Path) -> Image.Image:
     image = Image.open(path).convert("RGBA")
     width, height = image.size
     image = image.crop((0, int(height * 0.52), int(width * 0.92), height))
@@ -107,271 +104,193 @@ def cb_logo_mono(path: Path) -> tuple[str, int, int]:
                 pixels[x, y] = (0, 0, 0, 0)
                 continue
             pixels[x, y] = (230, 237, 243, 255)
-    return encode_png(image, LOGO_MAX_W, LOGO_MAX_H)
+    return fit_contain(image, *LOGO_MAX)
 
 
-def text_width(text: str, size: float, bold: bool = True) -> float:
-    path = BOLD_FONT if bold else REG_FONT
-    font = ImageFont.truetype(path, size)
-    return float(font.getlength(text)) * FONT_PAD
+def rounded_rect(
+    draw: ImageDraw.ImageDraw,
+    box: tuple[int, int, int, int],
+    radius: int,
+    fill=None,
+    outline=None,
+    width: int = 1,
+) -> None:
+    draw.rounded_rectangle(box, radius=radius, fill=fill, outline=outline, width=width)
 
 
-def fit_size(text: str, max_width: float, start: float, bold: bool = True) -> float:
-    size = float(start)
-    while size > 6.5 and text_width(text, size, bold) > max_width:
-        size -= 0.5
-    return size
-
-
-def svg_text(
-    x: float,
-    y: float,
-    text: str,
-    fill: str,
-    size: float,
-    bold: bool = True,
-) -> str:
-    weight = "700" if bold else "400"
-    return (
-        f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="middle" fill="{fill}" '
-        f'font-size="{size:.1f}" font-weight="{weight}" font-family="{FONT}">'
-        f"{html.escape(text)}</text>"
+def draw_plaque_shell(draw: ImageDraw.ImageDraw) -> None:
+    rounded_rect(draw, (70, 228, 230, 246), 2, fill=(46, 58, 72, 255), outline=(46, 58, 72, 255))
+    draw.polygon([(88, 228), (212, 228), (228, 246), (72, 246)], fill=(90, 106, 122, 255))
+    rounded_rect(
+        draw, (18, 10, 282, 226), 6, fill=(20, 28, 46, 255), outline=(168, 182, 196, 255), width=3
     )
-
-
-def plaque_defs(gid: str) -> str:
-    return (
-        f"<defs>"
-        f'<linearGradient id="frame-{gid}" x1="14" y1="8" x2="206" y2="248" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="#1B2740"/>'
-        f'<stop offset="0.55" stop-color="{FRAME}"/>'
-        f'<stop offset="1" stop-color="#0E1422"/>'
-        f"</linearGradient>"
-        f'<linearGradient id="glass-{gid}" x1="24" y1="18" x2="196" y2="238" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="#18233C"/>'
-        f'<stop offset="0.45" stop-color="{BG}"/>'
-        f'<stop offset="1" stop-color="#080C16"/>'
-        f"</linearGradient>"
-        f'<linearGradient id="base-{gid}" x1="70" y1="252" x2="150" y2="270" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="{STEEL_MID}"/>'
-        f'<stop offset="1" stop-color="{STEEL_EDGE}"/>'
-        f"</linearGradient>"
-        f"</defs>"
+    rounded_rect(
+        draw, (26, 18, 274, 218), 4, fill=None, outline=(242, 246, 250, 180), width=2
     )
-
-
-def stud(cx: float, cy: float) -> str:
-    return (
-        f'<rect x="{cx - 3.2:.1f}" y="{cy - 3.2:.1f}" width="6.4" height="6.4" rx="0.8" '
-        f'fill="{STEEL_MID}" stroke="{STEEL_EDGE}" stroke-width="0.6"/>'
-        f'<rect x="{cx - 1.3:.1f}" y="{cy - 1.3:.1f}" width="2.6" height="2.6" '
-        f'fill="{STEEL_HI}"/>'
-    )
-
-
-def plaque_shell(gid: str, inner: str, title: str) -> str:
-    return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{PW}" height="{PH}" '
-        f'viewBox="0 0 {PW} {PH}" role="img">'
-        f"<title>{html.escape(title)}</title>"
-        f"{plaque_defs(gid)}"
-        f'<polygon points="62,252 158,252 170,270 50,270" fill="url(#base-{gid})" '
-        f'stroke="{STEEL_EDGE}" stroke-width="0.8"/>'
-        f'<rect x="14" y="8" width="192" height="240" rx="4" fill="url(#frame-{gid})" '
-        f'stroke="{STEEL_MID}" stroke-width="2"/>'
-        f'<rect x="20" y="14" width="180" height="228" rx="2" fill="none" '
-        f'stroke="{STEEL_HI}" stroke-width="1.1" opacity="0.85"/>'
-        f'<rect x="24" y="{GLASS_Y}" width="172" height="{GLASS_H}" fill="url(#glass-{gid})"/>'
-        f'<rect x="24" y="{GLASS_Y}" width="172" height="32" fill="#FFFFFF" opacity="0.05"/>'
-        f"{stud(28, 22)}{stud(192, 22)}{stud(28, 232)}{stud(192, 232)}"
-        f"{inner}"
-        f"</svg>\n"
-    )
-
-
-def aws_smile(x: float, y: float, scale: float = 1.0) -> str:
-    return (
-        f'<g transform="translate({x},{y}) scale({scale})">'
-        '<path fill="#3CB9FC" d="M21.698 16.207c-2.626 1.94-6.442 2.969-9.722 2.969'
-        "-4.598 0-8.74-1.7-11.87-4.526-.247-.223-.024-.527.272-.351 3.384 1.963 "
-        "7.559 3.153 11.877 3.153 2.914 0 6.114-.607 9.06-1.852.439-.2.814.287.383.607z"
-        'M22.792 14.961c-.336-.43-2.22-.207-3.074-.103-.255.032-.295-.192-.063-.36 '
-        "1.5-1.053 3.967-.75 4.254-.399.287.36-.08 2.826-1.485 4.007-.215.184-.423.088"
-        '-.327-.151.32-.79 1.03-2.57.695-2.994z"/></g>'
-    )
-
-
-def gcp_mark(x: float, y: float, size: float = 36, gid: str = "gcg") -> str:
-    s = size / 24
-    return (
-        f"<defs>"
-        f'<linearGradient id="{gid}" x1="12" y1="2" x2="8" y2="22" '
-        f'gradientUnits="userSpaceOnUse">'
-        f'<stop offset="0" stop-color="#EA4335"/>'
-        f'<stop offset="0.35" stop-color="#FBBC04"/>'
-        f'<stop offset="0.7" stop-color="#34A853"/>'
-        f'<stop offset="1" stop-color="#4285F4"/>'
-        f"</linearGradient>"
-        f"</defs>"
-        f'<g transform="translate({x},{y}) scale({s})">'
-        f'<path fill="url(#{gid})" d="M19 14a5 5 0 0 0-1.1-9.9A7 7 0 0 0 6.1 8.2 '
-        '4.5 4.5 0 0 0 6 17h12.5A4.5 4.5 0 0 0 19 14z"/>'
-        "</g>"
-    )
-
-
-def nameplate_height(lines: list[str]) -> float:
-    return 22 + 16 * len(lines)
-
-
-def nameplate(lines: list[str], y: float) -> str:
-    height = nameplate_height(lines)
-    block = (
-        f'<rect x="40" y="{y:.1f}" width="140" height="{height:.1f}" rx="2" '
-        f'fill="{NAMEPLATE_FILL}" stroke="{STEEL_EDGE}" stroke-width="0.7"/>'
-    )
-    parts = [block]
-    start_y = y + (26 if len(lines) == 1 else 20)
-    for i, line in enumerate(lines):
-        size = max(12.5, fit_size(line, 128, 13))
-        parts.append(svg_text(110, start_y + i * 16, line, NAMEPLATE_TEXT, size))
-    return "".join(parts)
-
-
-def years_plate(years: str, y: float) -> str:
-    if any(ord(ch) > 127 for ch in years):
-        scale = 2
-        width, height = 132 * scale, 26 * scale
-        img = Image.new("RGBA", (width, height), (18, 26, 46, 255))
-        draw = ImageDraw.Draw(img)
-        draw.rounded_rectangle(
-            [2, 2, width - 3, height - 3],
-            radius=6,
-            outline=(60, 185, 252, 255),
-            width=2,
+    rounded_rect(draw, (32, 24, 268, 210), 2, fill=(11, 16, 38, 255))
+    for cx, cy in ((40, 32), (260, 32), (40, 202), (260, 202)):
+        rounded_rect(
+            draw,
+            (cx - 5, cy - 5, cx + 5, cy + 5),
+            2,
+            fill=(168, 182, 196, 255),
+            outline=(46, 58, 72, 255),
+            width=1,
         )
-        font = ImageFont.truetype(CJK_FONT, 26)
-        bbox = font.getbbox(years)
-        text_w = bbox[2] - bbox[0]
-        text_h = bbox[3] - bbox[1]
+        draw.rectangle((cx - 2, cy - 2, cx + 2, cy + 2), fill=(242, 246, 250, 255))
+
+
+def nameplate_size(lines: list[str]) -> tuple[int, int]:
+    return 196, 28 + 22 * len(lines)
+
+
+def draw_nameplate(
+    draw: ImageDraw.ImageDraw, lines: list[str], y: int, font: ImageFont.FreeTypeFont
+) -> int:
+    width, height = nameplate_size(lines)
+    x = (PLAQUE_W - width) // 2
+    rounded_rect(
+        draw,
+        (x, y, x + width, y + height),
+        4,
+        fill=NAMEPLATE_FILL,
+        outline=(46, 58, 72, 255),
+        width=1,
+    )
+    text_y = y + (10 if len(lines) == 1 else 8)
+    for line in lines:
+        bbox = font.getbbox(line)
+        tw = bbox[2] - bbox[0]
         draw.text(
-            ((width - text_w) / 2 - bbox[0], (height - text_h) / 2 - bbox[1]),
-            years,
-            fill=(60, 185, 252, 255),
+            ((PLAQUE_W - tw) / 2 - bbox[0], text_y - bbox[1]),
+            line,
+            fill=NAMEPLATE_TEXT,
             font=font,
         )
-        buf = BytesIO()
-        img.save(buf, format="PNG", optimize=True)
-        b64 = base64.b64encode(buf.getvalue()).decode("ascii")
-        return (
-            f'<image href="data:image/png;base64,{b64}" x="44" y="{y:.1f}" '
-            f'width="132" height="26"/>'
-        )
-    size = max(11, fit_size(years, 148, 12))
-    return (
-        f'<rect x="44" y="{y:.1f}" width="132" height="{YEAR_H}" rx="2" fill="{PLATE}" '
-        f'stroke="{NEON}" stroke-width="0.9"/>'
-        + svg_text(110, y + 18, years, NEON, size)
+        text_y += 22
+    return height
+
+
+def draw_years(
+    draw: ImageDraw.ImageDraw,
+    years: str,
+    y: int,
+    latin: ImageFont.FreeTypeFont,
+    cjk: ImageFont.FreeTypeFont,
+) -> None:
+    width, height = 176, YEAR_H
+    x = (PLAQUE_W - width) // 2
+    rounded_rect(
+        draw,
+        (x, y, x + width, y + height),
+        4,
+        fill=(18, 26, 46, 255),
+        outline=(60, 185, 252, 255),
+        width=2,
+    )
+    font = cjk if any(ord(ch) > 127 for ch in years) else latin
+    bbox = font.getbbox(years)
+    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    draw.text(
+        ((PLAQUE_W - tw) / 2 - bbox[0], y + (height - th) / 2 - bbox[1]),
+        years,
+        fill=(60, 185, 252, 255),
+        font=font,
     )
 
 
-def aws_logo(y: float) -> str:
-    return (
-        f'<text x="110" y="{y + 32:.1f}" text-anchor="middle" fill="{WHITE}" font-size="18" '
-        f'font-weight="700" font-family="{FONT}">aws</text>'
-        + aws_smile(82, y + 18, 1.25)
-    )
-
-
-def compose_inner(
-    logo_at,
-    logo_h: float,
+def write_plaque_png(
+    path: Path,
+    logo: Image.Image,
     name_lines: list[str] | None,
     years: str,
-) -> str:
-    name_h = nameplate_height(name_lines) if name_lines else 0
-    gap_after_logo = GAP_AFTER_LOGO if name_lines else GAP_NAME_TO_YEAR
-    total = logo_h + gap_after_logo + YEAR_H
+) -> None:
+    img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw_plaque_shell(draw)
+    name_font = ImageFont.truetype(BOLD_FONT, 22)
+    year_latin = ImageFont.truetype(BOLD_FONT, 18)
+    year_cjk = ImageFont.truetype(CJK_FONT, 18)
+    logo = fit_contain(logo, *LOGO_MAX)
+    name_h = nameplate_size(name_lines)[1] if name_lines else 0
+    gap_logo = 10 if name_lines else NAME_GAP
+    total = logo.height + gap_logo + YEAR_H
     if name_lines:
-        total += name_h + GAP_NAME_TO_YEAR
-    y = GLASS_Y + (GLASS_H - total) / 2
-    parts = [logo_at(y)]
-    y += logo_h + gap_after_logo
+        total += name_h + NAME_GAP
+    glass_y, glass_h = 24, 186
+    y = int(glass_y + (glass_h - total) / 2)
+    paste_centered(img, logo, PLAQUE_W // 2, y)
+    y += logo.height + gap_logo
     if name_lines:
-        parts.append(nameplate(name_lines, y))
-        y += name_h + GAP_NAME_TO_YEAR
-    parts.append(years_plate(years, y))
-    return "".join(parts)
+        name_h = draw_nameplate(draw, name_lines, y, name_font)
+        y += name_h + NAME_GAP
+    draw_years(draw, years, y, year_latin, year_cjk)
+    img.save(path, "PNG", optimize=True)
+
+
+def write_tech_logos() -> None:
+    aws_light = square_icon(raster_aws("#252F3E"), 96)
+    aws_dark = square_icon(raster_aws("#FFFFFF"), 96)
+    aws_light.save(TECH / "aws.png", "PNG", optimize=True)
+    aws_dark.save(TECH / "aws-dark.png", "PNG", optimize=True)
+    gcp = square_icon(Image.open(GCP_2026), 96)
+    gcp.save(TECH / "google-cloud.png", "PNG", optimize=True)
+    dog = (TECH / "datadog.svg").read_text()
+    if 'fill="#FFFFFF"' in dog:
+        (TECH / "datadog-dark.svg").write_text(dog)
+        (TECH / "datadog.svg").write_text(dog.replace('fill="#FFFFFF"', 'fill="#0b1026"'))
+    elif 'fill="#0b1026"' in dog:
+        (TECH / "datadog-dark.svg").write_text(dog.replace('fill="#0b1026"', 'fill="#FFFFFF"'))
 
 
 def write_cb_card() -> None:
-    png, width, height = cb_logo_mono(AWARDS / "aws-community-builders-badge.png")
-    title = f"AWS Community Builder - Cloud Operations, {CB_YEARS}"
-    inner = compose_inner(
-        lambda y: centered_png(png, width, height, y),
-        height,
+    write_plaque_png(
+        AWARDS / "aws-community-builder.png",
+        cb_logo_mono(AWARDS / "aws-community-builders-badge.png"),
         ["Community Builder", "Cloud Operations"],
         CB_YEARS,
     )
-    (AWARDS / "aws-community-builder.svg").write_text(plaque_shell("cb", inner, title))
 
 
 def write_aws_allcerts() -> None:
-    title = "All Certifications Engineer, 2022–2025"
-    inner = compose_inner(
-        aws_logo, 56, ["All Certifications", "Engineer"], "2022–2025"
+    write_plaque_png(
+        AWARDS / "aws-allcerts.png",
+        raster_aws("#FFFFFF"),
+        ["All Certifications", "Engineer"],
+        "2022–2025",
     )
-    (AWARDS / "aws-allcerts.svg").write_text(plaque_shell("allcerts", inner, title))
 
 
 def write_jr_champion() -> None:
-    title = "2023 Japan AWS Jr. Champion"
-    inner = compose_inner(aws_logo, 56, ["Japan AWS", "Jr. Champion"], "2023")
-    (AWARDS / "aws-jr-champion-2023.svg").write_text(plaque_shell("jr", inner, title))
+    write_plaque_png(
+        AWARDS / "aws-jr-champion-2023.png",
+        raster_aws("#FFFFFF"),
+        ["Japan AWS", "Jr. Champion"],
+        "2023",
+    )
 
 
 def write_pte() -> None:
-    title = "Partner Top Engineer, 2023–2026"
-    png, width, height = b64_png_fitted(
-        AWARDS / "pte-20251104-rgb-nega-1.png", LOGO_MAX_W, LOGO_MAX_H
-    )
-    inner = compose_inner(
-        lambda y: centered_png(png, width, height, y),
-        height,
-        None,
-        "2023–2026",
-    )
-    (AWARDS / "gcp-pte.svg").write_text(plaque_shell("pte", inner, title))
+    art = Image.open(AWARDS / "pte-20251104-rgb-nega-1.png")
+    write_plaque_png(AWARDS / "gcp-pte.png", art, None, "2023–2026")
 
 
 def write_all_cert_holders() -> None:
-    title = "Google Cloud Partner All Certification Holders 2025"
-    inner = compose_inner(
-        lambda y: gcp_mark(83, y, 52, "gcg-holders"),
-        52,
+    write_plaque_png(
+        AWARDS / "gcp-all-cert-holders-2025.png",
+        Image.open(GCP_2026),
         ["All Certification", "Holders"],
         "2025",
-    )
-    (AWARDS / "gcp-all-cert-holders-2025.svg").write_text(
-        plaque_shell("holders", inner, title)
     )
 
 
 def write_jaguer() -> None:
-    png, width, height = b64_png_fitted(
-        AWARDS / "jaguer-circle.png", LOGO_MAX_H, LOGO_MAX_H
-    )
-    title = "Jagu'e'r Award, 2023–2025"
-    inner = compose_inner(
-        lambda y: centered_png(png, width, height, y),
-        height,
+    write_plaque_png(
+        AWARDS / "jaguer.png",
+        Image.open(GCP_2026),
         ["Jagu'e'r Award"],
         "2023–2025",
     )
-    (AWARDS / "jaguer.svg").write_text(plaque_shell("jaguer", inner, title))
 
 
 def chrome_card(title: str, inner: str, width: int, height: int) -> str:
@@ -649,7 +568,7 @@ def write_post_and_talk_cards() -> None:
 
 
 def main() -> None:
-    for folder in (AWARDS, POSTS, TALKS, CONTACT):
+    for folder in (AWARDS, POSTS, TALKS, CONTACT, TECH):
         folder.mkdir(parents=True, exist_ok=True)
 
     for name in (
@@ -660,6 +579,7 @@ def main() -> None:
         if src.exists():
             (AWARDS / name).write_bytes(src.read_bytes())
 
+    write_tech_logos()
     write_cb_card()
     write_aws_allcerts()
     write_jr_champion()
@@ -672,7 +592,7 @@ def main() -> None:
     write_talk_icon()
     write_contact()
     write_post_and_talk_cards()
-    print("wrote plaques and post/talk cards")
+    print("wrote plaques, tech logos, and post/talk cards")
 
 
 if __name__ == "__main__":
