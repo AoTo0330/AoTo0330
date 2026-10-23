@@ -470,7 +470,7 @@ def render_ogp_png(out: Path, site: str, title: str, icon_svg: Path, theme: Them
     img.alpha_composite(icon, (24, 22))
     site_font = ImageFont.truetype(CJK_REG_FONT, 26, index=CJK_REG_INDEX)
     title_font = ImageFont.truetype(CJK_REG_FONT, 28, index=CJK_REG_INDEX)
-    draw.text((112, 42), site, fill=theme.site_text, font=site_font)
+    draw.text((112, 58), site, fill=theme.site_text, font=site_font, anchor="lm")
     lines = wrap_title(title, title_font, width - 48, max_lines=3)
     y = 108
     for line in lines:
@@ -682,7 +682,6 @@ def main() -> None:
     for name in (
         "pte-20251104-rgb-1.png",
         "pte-20251104-rgb-nega-1.png",
-        "pte-20251104-rgb-2.png",
         "pte-20251104-rgb-nega-2.png",
         "jaguer-award-logo.png",
     ):
