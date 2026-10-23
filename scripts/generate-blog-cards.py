@@ -50,11 +50,12 @@ class Palette:
     value: str
     divider: str
     ring: str
+    year_label: str
     id_suffix: str
 
 
-DARK = Palette("", "#0b1026", "#8B949E", "#3CB9FC", "#16324a", "#3CB9FC", "")
-LIGHT = Palette("-light", "#F6F8FA", "#57606A", "#0B1F3A", "#D0D7DE", "#3CB9FC", "_light")
+DARK = Palette("", "#0b1026", "#8B949E", "#3CB9FC", "#16324a", "#3CB9FC", "#3CB9FC", "")
+LIGHT = Palette("-light", "#F6F8FA", "#57606A", "#0B1F3A", "#D0D7DE", "#3CB9FC", "#0969DA", "_light")
 
 
 def fetch(url: str) -> str:
@@ -284,7 +285,7 @@ def github_stats_svg(stats: dict[str, object], palette: Palette = DARK) -> str:
       <path d="{fire}" fill="{palette.ring}"/>
     </g>
     <text x="247.5" y="{year_y}" text-anchor="middle" fill="{palette.value}" font-family="{font}" font-weight="700" font-size="{year_size}">{year_total:,}</text>
-    <text x="247.5" y="140" text-anchor="middle" fill="{palette.ring}" font-family="{font}" font-weight="700" font-size="14">{year} Contributions</text>
+    <text x="247.5" y="140" text-anchor="middle" fill="{palette.year_label}" font-family="{font}" font-weight="700" font-size="14">{year} Contributions</text>
     <text x="412.5" y="80" text-anchor="middle" fill="{palette.value}" font-family="{font}" font-weight="700" font-size="28">{longest}</text>
     <text x="412.5" y="116" text-anchor="middle" fill="{palette.muted}" font-family="{font}" font-weight="400" font-size="14">Longest Streak</text>
     <text x="412.5" y="146" text-anchor="middle" fill="{palette.muted}" font-family="{font}" font-weight="400" font-size="12">{longest_sub}</text>
