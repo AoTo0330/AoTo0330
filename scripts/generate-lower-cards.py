@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate award plaques, OGP-style post/talk cards, contact button, and tech logos.
+"""Generate award cards, OGP-style post/talk cards, contact button, and tech logos.
 
-Awards are compact rectangular 表彰盾 rendered as PNG so GitHub does not strip
-embedded images. AWS lockup is the official Wikimedia SVG (wordmark #252F3E,
-smile #FF9900). Google Cloud is the official 2026 gradient PNG.
+Awards are compact framed PNG cards (navy fill, double cyan frame) so GitHub
+does not strip embedded images. AWS lockup is the official Wikimedia SVG
+(wordmark #252F3E, smile #FF9900). Google Cloud is the official 2026 gradient PNG.
 """
 
 from __future__ import annotations
@@ -43,15 +43,16 @@ CJK_FONT = next(
     if Path(path).exists()
 )
 
-# 2x PNG; displayed at 150px wide → ~124px tall (half of the previous 247px).
+# 2x PNG; displayed at 150px wide → ~124px tall.
 PLAQUE_W, PLAQUE_H = 300, 248
 PLAQUE_DISPLAY_W = 150
 CARD_W, CARD_H = 260, 140
-LOGO_MAX = (176, 52)
-NAME_GAP = 16
-YEAR_H = 28
-NAMEPLATE_FILL = (27, 42, 68, 255)
-NAMEPLATE_TEXT = (230, 237, 247, 255)
+LOGO_MAX = (188, 68)
+NAME_GAP = 8
+YEAR_H = 22
+NAME_TEXT = (230, 237, 247, 255)
+YEAR_TEXT = (60, 185, 252, 255)
+NAVY = (11, 16, 38, 255)
 CB_YEARS = "2024\uFF5E現在"
 AWS_LOCKUP = TECH / "aws-lockup.svg"
 GCP_2026 = TECH / "google-cloud-2026.png"
@@ -118,85 +119,42 @@ def rounded_rect(
     draw.rounded_rectangle(box, radius=radius, fill=fill, outline=outline, width=width)
 
 
-def draw_plaque_shell(draw: ImageDraw.ImageDraw) -> None:
-    rounded_rect(draw, (70, 228, 230, 246), 2, fill=(46, 58, 72, 255), outline=(46, 58, 72, 255))
-    draw.polygon([(88, 228), (212, 228), (228, 246), (72, 246)], fill=(90, 106, 122, 255))
-    rounded_rect(
-        draw, (18, 10, 282, 226), 6, fill=(20, 28, 46, 255), outline=(168, 182, 196, 255), width=3
-    )
-    rounded_rect(
-        draw, (26, 18, 274, 218), 4, fill=None, outline=(242, 246, 250, 180), width=2
-    )
-    rounded_rect(draw, (32, 24, 268, 210), 2, fill=(11, 16, 38, 255))
-    for cx, cy in ((40, 32), (260, 32), (40, 202), (260, 202)):
-        rounded_rect(
-            draw,
-            (cx - 5, cy - 5, cx + 5, cy + 5),
-            2,
-            fill=(168, 182, 196, 255),
-            outline=(46, 58, 72, 255),
-            width=1,
-        )
-        draw.rectangle((cx - 2, cy - 2, cx + 2, cy + 2), fill=(242, 246, 250, 255))
-
-
-def nameplate_size(lines: list[str]) -> tuple[int, int]:
-    return 196, 28 + 22 * len(lines)
-
-
-def draw_nameplate(
-    draw: ImageDraw.ImageDraw, lines: list[str], y: int, font: ImageFont.FreeTypeFont
-) -> int:
-    width, height = nameplate_size(lines)
-    x = (PLAQUE_W - width) // 2
+def draw_frame_shell(draw: ImageDraw.ImageDraw) -> None:
+    draw.rectangle((0, 0, PLAQUE_W, PLAQUE_H), fill=NAVY)
     rounded_rect(
         draw,
-        (x, y, x + width, y + height),
-        4,
-        fill=NAMEPLATE_FILL,
-        outline=(46, 58, 72, 255),
-        width=1,
+        (6, 6, PLAQUE_W - 7, PLAQUE_H - 7),
+        16,
+        fill=None,
+        outline=(60, 185, 252, 255),
+        width=3,
     )
-    text_y = y + (10 if len(lines) == 1 else 8)
-    for line in lines:
-        bbox = font.getbbox(line)
-        tw = bbox[2] - bbox[0]
-        draw.text(
-            ((PLAQUE_W - tw) / 2 - bbox[0], text_y - bbox[1]),
-            line,
-            fill=NAMEPLATE_TEXT,
-            font=font,
-        )
-        text_y += 22
-    return height
-
-
-def draw_years(
-    draw: ImageDraw.ImageDraw,
-    years: str,
-    y: int,
-    latin: ImageFont.FreeTypeFont,
-    cjk: ImageFont.FreeTypeFont,
-) -> None:
-    width, height = 176, YEAR_H
-    x = (PLAQUE_W - width) // 2
     rounded_rect(
         draw,
-        (x, y, x + width, y + height),
-        4,
-        fill=(18, 26, 46, 255),
+        (16, 16, PLAQUE_W - 17, PLAQUE_H - 17),
+        10,
+        fill=None,
         outline=(60, 185, 252, 255),
         width=2,
     )
-    font = cjk if any(ord(ch) > 127 for ch in years) else latin
-    bbox = font.getbbox(years)
+
+
+def draw_centered_text(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    y: int,
+    font: ImageFont.FreeTypeFont,
+    fill: tuple[int, int, int, int],
+) -> int:
+    bbox = font.getbbox(text)
     tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
     draw.text(
-        ((PLAQUE_W - tw) / 2 - bbox[0], y + (height - th) / 2 - bbox[1]),
-        years,
-        fill=(60, 185, 252, 255),
+        ((PLAQUE_W - tw) / 2 - bbox[0], y - bbox[1]),
+        text,
+        fill=fill,
         font=font,
     )
+    return th
 
 
 def write_plaque_png(
@@ -206,26 +164,28 @@ def write_plaque_png(
     years: str,
     logo_max: tuple[int, int] = LOGO_MAX,
 ) -> None:
-    img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), (0, 0, 0, 0))
+    img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), NAVY)
     draw = ImageDraw.Draw(img, "RGBA")
-    draw_plaque_shell(draw)
-    name_font = ImageFont.truetype(BOLD_FONT, 22)
-    year_latin = ImageFont.truetype(BOLD_FONT, 18)
-    year_cjk = ImageFont.truetype(CJK_FONT, 18)
+    draw_frame_shell(draw)
+    name_font = ImageFont.truetype(BOLD_FONT, 18)
+    year_latin = ImageFont.truetype(BOLD_FONT, 16)
+    year_cjk = ImageFont.truetype(CJK_FONT, 16)
     logo = fit_contain(logo, *logo_max)
-    name_h = nameplate_size(name_lines)[1] if name_lines else 0
-    gap_logo = 10 if name_lines else NAME_GAP
-    total = logo.height + gap_logo + YEAR_H
-    if name_lines:
-        total += name_h + NAME_GAP
-    glass_y, glass_h = 24, 186
-    y = int(glass_y + (glass_h - total) / 2)
+    names = name_lines or []
+    name_h = 20 * len(names)
+    gap_logo = 10 if names else 12
+    gap_name = 8 if names else 0
+    total = logo.height + gap_logo + gap_name + name_h + YEAR_H
+    inner_y, inner_h = 26, 196
+    y = int(inner_y + (inner_h - total) / 2)
     paste_centered(img, logo, PLAQUE_W // 2, y)
     y += logo.height + gap_logo
-    if name_lines:
-        name_h = draw_nameplate(draw, name_lines, y, name_font)
-        y += name_h + NAME_GAP
-    draw_years(draw, years, y, year_latin, year_cjk)
+    for line in names:
+        draw_centered_text(draw, line, y, name_font, NAME_TEXT)
+        y += 20
+    y += gap_name
+    year_font = year_cjk if any(ord(ch) > 127 for ch in years) else year_latin
+    draw_centered_text(draw, years, y, year_font, YEAR_TEXT)
     img.save(path, "PNG", optimize=True)
 
 
@@ -286,14 +246,13 @@ def write_all_cert_holders() -> None:
 
 
 def write_jaguer() -> None:
-    # Official Jagu'e'r mark (no standalone Award logo on jaguer.jp / Award 2025 / connpass):
-    # https://jaguer.jp/wp-content/uploads/2021/03/jaguer_circle3.png
+    # Official Jagu'e'r Award mark from Kento's Drive slide『Jagu'e'r Award 2025』p.14
     write_plaque_png(
         AWARDS / "jaguer.png",
-        Image.open(AWARDS / "jaguer-circle.png"),
+        Image.open(AWARDS / "jaguer-award-logo.png"),
         ["Jagu'e'r Award"],
         "2023–2025",
-        logo_max=(96, 80),
+        logo_max=(108, 108),
     )
 
 
@@ -578,7 +537,7 @@ def main() -> None:
     for name in (
         "pte-20251104-rgb-nega-1.png",
         "pte-20251104-rgb-nega-2.png",
-        "jaguer-circle.png",
+        "jaguer-award-logo.png",
     ):
         src = PACK / name
         if src.exists():
@@ -597,7 +556,7 @@ def main() -> None:
     write_talk_icon()
     write_contact()
     write_post_and_talk_cards()
-    print("wrote plaques, tech logos, and post/talk cards")
+    print("wrote award cards, tech logos, and post/talk cards")
 
 
 if __name__ == "__main__":
