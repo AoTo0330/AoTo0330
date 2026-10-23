@@ -46,9 +46,9 @@
 <a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/"><picture><source media="(prefers-color-scheme: dark)" srcset="./public/images/awards/aws-jr-champion-2023.png" /><source media="(prefers-color-scheme: light)" srcset="./public/images/awards/aws-jr-champion-2023-light.png" /><img src="./public/images/awards/aws-jr-champion-2023-light.png" width="160" alt="2023 Japan AWS Jr. Champion" /></picture></a>
 </div>
 <p align="center">
-Community Builder： Cloud Operations · <a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura">2024～現在</a><br />
-All Certifications Engineer： <a href="https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/">2022</a>&nbsp;·&nbsp;<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/">2023</a>&nbsp;·&nbsp;<a href="https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/">2024</a>&nbsp;·&nbsp;<a href="https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/">2025</a><br />
-Jr. Champion： <a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/">2023</a>
+Community Builder（Cloud Operations）：<a href="https://aws.amazon.com/jp/developer/community/community-builders/community-builders-directory/?cb-cards.q=kento%2Bkimura">2024～現在</a><br />
+All Certifications Engineer：<a href="https://aws.amazon.com/jp/blogs/psa/2022-apn-all-aws-certifications-engineers/">2022</a>&nbsp;·&nbsp;<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-all-certifications-engineers/">2023</a>&nbsp;·&nbsp;<a href="https://aws.amazon.com/jp/blogs/psa/2024-japan-aws-all-certifications-engineers/">2024</a>&nbsp;·&nbsp;<a href="https://aws.amazon.com/jp/blogs/psa/2025-japan-all-aws-certifications-engineers/">2025</a><br />
+Jr. Champion：<a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-champions/">2023</a>
 </p>
 
 <h3 align="center">Google Cloud</h3>
@@ -58,9 +58,9 @@ Jr. Champion： <a href="https://aws.amazon.com/jp/blogs/psa/2023-japan-aws-jr-c
 <picture><source media="(prefers-color-scheme: dark)" srcset="./public/images/awards/jaguer.png" /><source media="(prefers-color-scheme: light)" srcset="./public/images/awards/jaguer-light.png" /><img src="./public/images/awards/jaguer-light.png" width="160" alt="Jagu'e'r Award, 2023–2025" /></picture>
 </div>
 <p align="center">
-Partner Top Engineer： <a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja">2023</a>&nbsp;·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja">2024</a>&nbsp;·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja">2025</a>（Build / General） · <a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja">2026</a>（Serverless）<br />
-All Certification Holders： <a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja">2025</a><br />
-Jagu'e'r Award： 2023 Excellent&nbsp;·&nbsp;2024 Excellent&nbsp;·&nbsp;2025 Grand Prize
+Partner Top Engineer：<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2023-award-winners?hl=ja">2023</a>&nbsp;·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2024-award-winners?hl=ja">2024</a>&nbsp;·&nbsp;<a href="https://cloud.google.com/blog/ja/topics/partners/partner-top-engineer-2025-award-winners?hl=ja">2025</a>（Build / General）·<a href="https://cloud.google.com/blog/ja/topics/partners/announcing-the-winners-of-the-google-cloud-partner-top-engineer-2026-award-program?hl=ja">2026</a>（Serverless）<br />
+All Certification Holders：<a href="https://cloud.google.com/blog/ja/topics/partners/google-cloud-partner-all-certification-holders-2025?hl=ja">2025</a><br />
+Jagu'e'r Award：2023&#8288;·&#8288;2024&#8288;（Excellent）&#8288;·&#8288;2025&#8288;（Grand&nbsp;Prize）
 </p>
 
 ## 🛠️ Tech stack

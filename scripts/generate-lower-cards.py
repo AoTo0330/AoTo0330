@@ -51,7 +51,8 @@ LOGO_MAX_W = 200
 LOGO_MAX_H_WIDE = 80
 LOGO_MAX_H_SQUARE = 96
 LOGO_TOP = 32
-PTE_LOGO_BOTTOM = 158
+PTE_LOGO_BOTTOM = 162
+PTE_LOGO_MAX_W = 248
 NAME_Y_ONE = 135
 NAME_Y_TWO = (122, 148)
 YEAR_Y = 186
@@ -246,6 +247,7 @@ def write_plaque_png(
     theme: Theme,
     *,
     logo_max_h: int,
+    logo_max_w: int = LOGO_MAX_W,
     logo_top: int = LOGO_TOP,
     logo_bottom: int | None = None,
 ) -> None:
@@ -261,7 +263,7 @@ def write_plaque_png(
         else:
             logo_bottom = NAME_Y_TWO[0] - 6
     max_h = min(logo_max_h, max(1, logo_bottom - logo_top))
-    fitted = fit_contain(logo, LOGO_MAX_W, max_h)
+    fitted = fit_contain(logo, logo_max_w, max_h)
     band_y = logo_top + (logo_bottom - logo_top - fitted.height) // 2
     paste_centered(img, fitted, PLAQUE_W // 2, band_y)
     name_font = ImageFont.truetype(CJK_FONT, NAME_SIZE, index=CJK_INDEX)
@@ -331,6 +333,7 @@ def write_pte(theme: Theme) -> None:
         "2023–2026",
         theme,
         logo_max_h=PTE_LOGO_BOTTOM - LOGO_TOP,
+        logo_max_w=PTE_LOGO_MAX_W,
         logo_top=LOGO_TOP,
         logo_bottom=PTE_LOGO_BOTTOM,
     )
