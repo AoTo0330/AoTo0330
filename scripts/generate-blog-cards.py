@@ -247,8 +247,10 @@ def github_stats_svg(stats: dict[str, object], palette: Palette = DARK) -> str:
     total_sub = f"{_fmt_day(first)}, {first.year} - Present"
     longest_sub = f"{_fmt_day(longest_start)} - {_fmt_day(longest_end)}"
     font = '"Segoe UI", Ubuntu, sans-serif'
-    year_size = 20 if year_total >= 1000 else 28
-    year_y = 78 if year_size == 20 else 80
+    year_size = 26 if year_total >= 1000 else 28
+    year_y = 80
+    ring_r = 50
+    fire_y = 9.5
     clip_id = f"outer_rectangle{palette.id_suffix}"
     mask_id = f"mask_out_ring_behind_fire{palette.id_suffix}"
     fire = (
@@ -265,7 +267,7 @@ def github_stats_svg(stats: dict[str, object], palette: Palette = DARK) -> str:
     <clipPath id="{clip_id}"><rect width="495" height="195" rx="4.5"/></clipPath>
     <mask id="{mask_id}">
       <rect width="495" height="195" fill="white"/>
-      <ellipse cx="247.5" cy="32" rx="13" ry="18" fill="black"/>
+      <ellipse cx="247.5" cy="22" rx="13" ry="18" fill="black"/>
     </mask>
   </defs>
   <g clip-path="url(#{clip_id})">
@@ -276,9 +278,9 @@ def github_stats_svg(stats: dict[str, object], palette: Palette = DARK) -> str:
     <text x="82.5" y="116" text-anchor="middle" fill="{palette.muted}" font-family="{font}" font-weight="400" font-size="14">Total Contributions</text>
     <text x="82.5" y="146" text-anchor="middle" fill="{palette.muted}" font-family="{font}" font-weight="400" font-size="12">{total_sub}</text>
     <g mask="url(#{mask_id})">
-      <circle cx="247.5" cy="71" r="40" fill="none" stroke="{palette.ring}" stroke-width="5"/>
+      <circle cx="247.5" cy="71" r="{ring_r}" fill="none" stroke="{palette.ring}" stroke-width="5"/>
     </g>
-    <g transform="translate(247.5, 19.5)">
+    <g transform="translate(247.5, {fire_y})">
       <path d="{fire}" fill="{palette.ring}"/>
     </g>
     <text x="247.5" y="{year_y}" text-anchor="middle" fill="{palette.value}" font-family="{font}" font-weight="700" font-size="{year_size}">{year_total:,}</text>

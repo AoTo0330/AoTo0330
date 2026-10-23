@@ -31,7 +31,8 @@ NEON = "#3CB9FC"
 FONT = "Verdana, DejaVu Sans, sans-serif"
 BOLD_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 REG_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-CJK_FONT = next(
+CJK_BOLD = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+CJK_FONT = CJK_BOLD if Path(CJK_BOLD).exists() else next(
     path
     for path in (
         "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
@@ -40,16 +41,25 @@ CJK_FONT = next(
     )
     if Path(path).exists()
 )
+CJK_INDEX = 0 if Path(CJK_BOLD).exists() else 0
 
-# 2x PNG; displayed at 150px wide → ~124px tall.
+# 2x PNG. README displays awards at width="30%".
 PLAQUE_W, PLAQUE_H = 300, 248
-PLAQUE_DISPLAY_W = 150
+PLAQUE_DISPLAY_W = "30%"
 CARD_W, CARD_H = 260, 140
-LOGO_BOX_W, LOGO_BOX_H = 248, 80
-LOGO_BOX_Y = 32
-NAME_Y = 122
-NAME_LINE_H = 20
-YEAR_Y = 170
+LOGO_MAX_W = 200
+LOGO_MAX_H_WIDE = 80
+LOGO_MAX_H_SQUARE = 96
+LOGO_TOP = 32
+PTE_LOGO_BOTTOM = 158
+NAME_Y_ONE = 135
+NAME_Y_TWO = (122, 148)
+YEAR_Y = 178
+NAME_SIZE = 24
+YEAR_SIZE = 22
+FRAME_BOX = (6, 6, PLAQUE_W - 7, PLAQUE_H - 7)
+FRAME_RX = 16
+FRAME_STROKE = 4
 CB_YEARS = "2024\uFF5E現在"
 AWS_LOCKUP = TECH / "aws-lockup.svg"
 GCP_2026 = TECH / "google-cloud-2026.png"
@@ -200,22 +210,13 @@ def rounded_rect(
 
 
 def draw_frame_shell(draw: ImageDraw.ImageDraw, fill: tuple[int, int, int, int]) -> None:
-    draw.rectangle((0, 0, PLAQUE_W, PLAQUE_H), fill=fill)
     rounded_rect(
         draw,
-        (6, 6, PLAQUE_W - 7, PLAQUE_H - 7),
-        16,
-        fill=None,
+        FRAME_BOX,
+        FRAME_RX,
+        fill=fill,
         outline=(60, 185, 252, 255),
-        width=3,
-    )
-    rounded_rect(
-        draw,
-        (16, 16, PLAQUE_W - 17, PLAQUE_H - 17),
-        10,
-        fill=None,
-        outline=(60, 185, 252, 255),
-        width=2,
+        width=FRAME_STROKE,
     )
 
 
@@ -243,21 +244,33 @@ def write_plaque_png(
     name_lines: list[str] | None,
     years: str,
     theme: Theme,
+    *,
+    logo_max_h: int,
+    logo_top: int = LOGO_TOP,
+    logo_bottom: int | None = None,
 ) -> None:
-    img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), theme.fill)
+    img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img, "RGBA")
     draw_frame_shell(draw, theme.fill)
-    name_font = ImageFont.truetype(BOLD_FONT, 18)
-    year_latin = ImageFont.truetype(BOLD_FONT, 16)
-    year_cjk = ImageFont.truetype(CJK_FONT, 16)
-    boxed = fit_in_box(logo, LOGO_BOX_W, LOGO_BOX_H)
-    paste_centered(img, boxed, PLAQUE_W // 2, LOGO_BOX_Y)
     names = name_lines or []
-    y = NAME_Y
-    for line in names:
-        draw_centered_text(draw, line, y, name_font, theme.name_text)
-        y += NAME_LINE_H
-    year_font = year_cjk if any(ord(ch) > 127 for ch in years) else year_latin
+    if logo_bottom is None:
+        if not names:
+            logo_bottom = PTE_LOGO_BOTTOM
+        elif len(names) == 1:
+            logo_bottom = NAME_Y_ONE - 7
+        else:
+            logo_bottom = NAME_Y_TWO[0] - 6
+    max_h = min(logo_max_h, max(1, logo_bottom - logo_top))
+    fitted = fit_contain(logo, LOGO_MAX_W, max_h)
+    band_y = logo_top + (logo_bottom - logo_top - fitted.height) // 2
+    paste_centered(img, fitted, PLAQUE_W // 2, band_y)
+    name_font = ImageFont.truetype(CJK_FONT, NAME_SIZE, index=CJK_INDEX)
+    year_font = ImageFont.truetype(CJK_FONT, YEAR_SIZE, index=CJK_INDEX)
+    if len(names) == 1:
+        draw_centered_text(draw, names[0], NAME_Y_ONE, name_font, theme.name_text)
+    else:
+        for line, y in zip(names, NAME_Y_TWO):
+            draw_centered_text(draw, line, y, name_font, theme.name_text)
     draw_centered_text(draw, years, YEAR_Y, year_font, theme.year_text)
     img.save(path, "PNG", optimize=True)
 
@@ -281,9 +294,10 @@ def write_cb_card(theme: Theme) -> None:
     write_plaque_png(
         themed(AWARDS / "aws-community-builder.png", theme),
         cb_logo_mono(AWARDS / "aws-community-builders-badge.png", theme.cb_logo_rgb),
-        ["Community Builder", "Cloud Operations"],
+        ["Community Builder"],
         CB_YEARS,
         theme,
+        logo_max_h=LOGO_MAX_H_WIDE,
     )
 
 
@@ -294,6 +308,7 @@ def write_aws_allcerts(theme: Theme) -> None:
         ["All Certifications", "Engineer"],
         "2022–2025",
         theme,
+        logo_max_h=LOGO_MAX_H_WIDE,
     )
 
 
@@ -304,11 +319,21 @@ def write_jr_champion(theme: Theme) -> None:
         ["Japan AWS", "Jr. Champion"],
         "2023",
         theme,
+        logo_max_h=LOGO_MAX_H_WIDE,
     )
 
 
 def write_pte(theme: Theme) -> None:
-    write_plaque_png(themed(AWARDS / "gcp-pte.png", theme), pte_art(theme), None, "2023–2026", theme)
+    write_plaque_png(
+        themed(AWARDS / "gcp-pte.png", theme),
+        pte_art(theme),
+        None,
+        "2023–2026",
+        theme,
+        logo_max_h=PTE_LOGO_BOTTOM - LOGO_TOP,
+        logo_top=LOGO_TOP,
+        logo_bottom=PTE_LOGO_BOTTOM,
+    )
 
 
 def write_all_cert_holders(theme: Theme) -> None:
@@ -318,6 +343,7 @@ def write_all_cert_holders(theme: Theme) -> None:
         ["All Certification", "Holders"],
         "2025",
         theme,
+        logo_max_h=LOGO_MAX_H_SQUARE,
     )
 
 
@@ -329,6 +355,7 @@ def write_jaguer(theme: Theme) -> None:
         ["Jagu'e'r Award"],
         "2023–2025",
         theme,
+        logo_max_h=LOGO_MAX_H_SQUARE,
     )
 
 

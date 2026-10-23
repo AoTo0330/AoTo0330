@@ -16,7 +16,7 @@ jobs:
       - name: Install card renderer
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcairo2 fonts-wqy-microhei fonts-dejavu-core
+          sudo apt-get install -y libcairo2 fonts-wqy-microhei fonts-dejavu-core fonts-noto-cjk
           pip install pillow cairosvg
       - name: Pull in AoToLog posts
         uses: gautamkrishnar/blog-post-workflow@1.9.7
