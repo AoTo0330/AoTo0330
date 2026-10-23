@@ -47,9 +47,11 @@ CJK_FONT = next(
 PLAQUE_W, PLAQUE_H = 300, 248
 PLAQUE_DISPLAY_W = 150
 CARD_W, CARD_H = 260, 140
-LOGO_MAX = (188, 68)
-NAME_GAP = 8
-YEAR_H = 22
+LOGO_BOX_W, LOGO_BOX_H = 248, 80
+LOGO_BOX_Y = 32
+NAME_Y = 122
+NAME_LINE_H = 20
+YEAR_Y = 170
 NAME_TEXT = (230, 237, 247, 255)
 YEAR_TEXT = (60, 185, 252, 255)
 NAVY = (11, 16, 38, 255)
@@ -58,13 +60,25 @@ AWS_LOCKUP = TECH / "aws-lockup.svg"
 GCP_2026 = TECH / "google-cloud-2026.png"
 
 
-def fit_contain(image: Image.Image, max_w: int, max_h: int) -> Image.Image:
+def trim_alpha(image: Image.Image) -> Image.Image:
     image = image.convert("RGBA")
     bbox = image.getchannel("A").getbbox()
-    if bbox:
-        image = image.crop(bbox)
+    return image.crop(bbox) if bbox else image
+
+
+def fit_contain(image: Image.Image, max_w: int, max_h: int) -> Image.Image:
+    image = trim_alpha(image)
     image.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
     return image
+
+
+def fit_in_box(image: Image.Image, box_w: int, box_h: int) -> Image.Image:
+    fitted = fit_contain(image, box_w, box_h)
+    canvas = Image.new("RGBA", (box_w, box_h), (0, 0, 0, 0))
+    canvas.alpha_composite(
+        fitted, ((box_w - fitted.width) // 2, (box_h - fitted.height) // 2)
+    )
+    return canvas
 
 
 def paste_centered(base: Image.Image, overlay: Image.Image, cx: int, y: int) -> None:
@@ -105,7 +119,7 @@ def cb_logo_mono(path: Path) -> Image.Image:
                 pixels[x, y] = (0, 0, 0, 0)
                 continue
             pixels[x, y] = (230, 237, 243, 255)
-    return fit_contain(image, *LOGO_MAX)
+    return trim_alpha(image)
 
 
 def rounded_rect(
@@ -162,7 +176,6 @@ def write_plaque_png(
     logo: Image.Image,
     name_lines: list[str] | None,
     years: str,
-    logo_max: tuple[int, int] = LOGO_MAX,
 ) -> None:
     img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), NAVY)
     draw = ImageDraw.Draw(img, "RGBA")
@@ -170,22 +183,15 @@ def write_plaque_png(
     name_font = ImageFont.truetype(BOLD_FONT, 18)
     year_latin = ImageFont.truetype(BOLD_FONT, 16)
     year_cjk = ImageFont.truetype(CJK_FONT, 16)
-    logo = fit_contain(logo, *logo_max)
+    boxed = fit_in_box(logo, LOGO_BOX_W, LOGO_BOX_H)
+    paste_centered(img, boxed, PLAQUE_W // 2, LOGO_BOX_Y)
     names = name_lines or []
-    name_h = 20 * len(names)
-    gap_logo = 10 if names else 12
-    gap_name = 8 if names else 0
-    total = logo.height + gap_logo + gap_name + name_h + YEAR_H
-    inner_y, inner_h = 26, 196
-    y = int(inner_y + (inner_h - total) / 2)
-    paste_centered(img, logo, PLAQUE_W // 2, y)
-    y += logo.height + gap_logo
+    y = NAME_Y
     for line in names:
         draw_centered_text(draw, line, y, name_font, NAME_TEXT)
-        y += 20
-    y += gap_name
+        y += NAME_LINE_H
     year_font = year_cjk if any(ord(ch) > 127 for ch in years) else year_latin
-    draw_centered_text(draw, years, y, year_font, YEAR_TEXT)
+    draw_centered_text(draw, years, YEAR_Y, year_font, YEAR_TEXT)
     img.save(path, "PNG", optimize=True)
 
 
@@ -252,7 +258,6 @@ def write_jaguer() -> None:
         Image.open(AWARDS / "jaguer-award-logo.png"),
         ["Jagu'e'r Award"],
         "2023–2025",
-        logo_max=(108, 108),
     )
 
 
