@@ -18,6 +18,7 @@ import ssl
 import sys
 import urllib.error
 import urllib.request
+from dataclasses import dataclass
 from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
@@ -37,10 +38,23 @@ SPEAKERDECK_PROFILE = f"https://speakerdeck.com/{SPEAKERDECK_USER}"
 GITHUB_CONTRIB = f"https://github.com/users/{GITHUB_USER}/contributions"
 USER_AGENT = "AoTo0330-profile-readme-cards/1.0 (https://github.com/AoTo0330/AoTo0330)"
 
-BG = "#0b1026"
 NEON = "#3CB9FC"
-MUTED = "#8B949E"
 FONT = "Verdana, DejaVu Sans, sans-serif"
+
+
+@dataclass(frozen=True)
+class Palette:
+    suffix: str
+    bg: str
+    muted: str
+    value: str
+    divider: str
+    ring: str
+    id_suffix: str
+
+
+DARK = Palette("", "#0b1026", "#8B949E", "#3CB9FC", "#16324a", "#3CB9FC", "")
+LIGHT = Palette("-light", "#F6F8FA", "#57606A", "#0B1F3A", "#D0D7DE", "#3CB9FC", "_light")
 
 
 def fetch(url: str) -> str:
@@ -196,13 +210,14 @@ def github_contrib_stats(today: date) -> dict[str, object]:
     }
 
 
-def card_svg(*, label: str, value: int, aria: str, glyph: str) -> str:
+def card_svg(*, label: str, value: int, aria: str, glyph: str, palette: Palette) -> str:
+    colored = glyph.replace("#8B949E", palette.muted)
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="230" height="68" role="img" aria-label="{aria}">
   <title>{aria}</title>
-  <rect x="1" y="1" width="228" height="66" rx="8" fill="{BG}" stroke="{NEON}" stroke-width="1"/>
-  {glyph}
-  <text x="58" y="28" fill="{MUTED}" font-size="11" font-family="{FONT}">{label}</text>
-  <text x="58" y="54" fill="{NEON}" font-size="24" font-weight="700" font-family="{FONT}">{value}</text>
+  <rect x="1" y="1" width="228" height="66" rx="8" fill="{palette.bg}" stroke="{NEON}" stroke-width="1"/>
+  {colored}
+  <text x="58" y="28" fill="{palette.muted}" font-size="11" font-family="{FONT}">{label}</text>
+  <text x="58" y="54" fill="{palette.value}" font-size="24" font-weight="700" font-family="{FONT}">{value}</text>
 </svg>
 """
 
@@ -211,7 +226,7 @@ def _fmt_day(day: date) -> str:
     return f"{day.strftime('%b')} {day.day}"
 
 
-def github_stats_svg(stats: dict[str, object]) -> str:
+def github_stats_svg(stats: dict[str, object], palette: Palette = DARK) -> str:
     """Restore the demolab streak-stats layout (commit ef91019), with this-year
     contributions in the center ring instead of Current Streak.
     """
@@ -232,6 +247,10 @@ def github_stats_svg(stats: dict[str, object]) -> str:
     total_sub = f"{_fmt_day(first)}, {first.year} - Present"
     longest_sub = f"{_fmt_day(longest_start)} - {_fmt_day(longest_end)}"
     font = '"Segoe UI", Ubuntu, sans-serif'
+    year_size = 20 if year_total >= 1000 else 28
+    year_y = 78 if year_size == 20 else 80
+    clip_id = f"outer_rectangle{palette.id_suffix}"
+    mask_id = f"mask_out_ring_behind_fire{palette.id_suffix}"
     fire = (
         "M 1.5 0.67 C 1.5 0.67 2.24 3.32 2.24 5.47 C 2.24 7.53 0.89 9.2 "
         "-1.17 9.2 C -3.23 9.2 -4.79 7.53 -4.79 5.47 L -4.76 5.11 C -6.78 7.51 "
@@ -243,30 +262,30 @@ def github_stats_svg(stats: dict[str, object]) -> str:
     return f"""<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation: isolate" viewBox="0 0 495 195" width="495px" height="195px" direction="ltr" role="img" aria-label="{aria}">
   <title>{aria}</title>
   <defs>
-    <clipPath id="outer_rectangle"><rect width="495" height="195" rx="4.5"/></clipPath>
-    <mask id="mask_out_ring_behind_fire">
+    <clipPath id="{clip_id}"><rect width="495" height="195" rx="4.5"/></clipPath>
+    <mask id="{mask_id}">
       <rect width="495" height="195" fill="white"/>
       <ellipse cx="247.5" cy="32" rx="13" ry="18" fill="black"/>
     </mask>
   </defs>
-  <g clip-path="url(#outer_rectangle)">
-    <rect stroke="#000000" stroke-opacity="0" fill="{BG}" rx="4.5" x="0.5" y="0.5" width="494" height="194"/>
-    <line x1="165" y1="28" x2="165" y2="170" stroke="#16324a" stroke-width="1"/>
-    <line x1="330" y1="28" x2="330" y2="170" stroke="#16324a" stroke-width="1"/>
-    <text x="82.5" y="80" text-anchor="middle" fill="{NEON}" font-family="{font}" font-weight="700" font-size="28">{total:,}</text>
-    <text x="82.5" y="116" text-anchor="middle" fill="{MUTED}" font-family="{font}" font-weight="400" font-size="14">Total Contributions</text>
-    <text x="82.5" y="146" text-anchor="middle" fill="{MUTED}" font-family="{font}" font-weight="400" font-size="12">{total_sub}</text>
-    <g mask="url(#mask_out_ring_behind_fire)">
-      <circle cx="247.5" cy="71" r="40" fill="none" stroke="{NEON}" stroke-width="5"/>
+  <g clip-path="url(#{clip_id})">
+    <rect stroke="#000000" stroke-opacity="0" fill="{palette.bg}" rx="4.5" x="0.5" y="0.5" width="494" height="194"/>
+    <line x1="165" y1="28" x2="165" y2="170" stroke="{palette.divider}" stroke-width="1"/>
+    <line x1="330" y1="28" x2="330" y2="170" stroke="{palette.divider}" stroke-width="1"/>
+    <text x="82.5" y="80" text-anchor="middle" fill="{palette.value}" font-family="{font}" font-weight="700" font-size="28">{total:,}</text>
+    <text x="82.5" y="116" text-anchor="middle" fill="{palette.muted}" font-family="{font}" font-weight="400" font-size="14">Total Contributions</text>
+    <text x="82.5" y="146" text-anchor="middle" fill="{palette.muted}" font-family="{font}" font-weight="400" font-size="12">{total_sub}</text>
+    <g mask="url(#{mask_id})">
+      <circle cx="247.5" cy="71" r="40" fill="none" stroke="{palette.ring}" stroke-width="5"/>
     </g>
     <g transform="translate(247.5, 19.5)">
-      <path d="{fire}" fill="{NEON}"/>
+      <path d="{fire}" fill="{palette.ring}"/>
     </g>
-    <text x="247.5" y="80" text-anchor="middle" fill="{NEON}" font-family="{font}" font-weight="700" font-size="28">{year_total:,}</text>
-    <text x="247.5" y="140" text-anchor="middle" fill="{NEON}" font-family="{font}" font-weight="700" font-size="14">{year} Contributions</text>
-    <text x="412.5" y="80" text-anchor="middle" fill="{NEON}" font-family="{font}" font-weight="700" font-size="28">{longest}</text>
-    <text x="412.5" y="116" text-anchor="middle" fill="{MUTED}" font-family="{font}" font-weight="400" font-size="14">Longest Streak</text>
-    <text x="412.5" y="146" text-anchor="middle" fill="{MUTED}" font-family="{font}" font-weight="400" font-size="12">{longest_sub}</text>
+    <text x="247.5" y="{year_y}" text-anchor="middle" fill="{palette.value}" font-family="{font}" font-weight="700" font-size="{year_size}">{year_total:,}</text>
+    <text x="247.5" y="140" text-anchor="middle" fill="{palette.ring}" font-family="{font}" font-weight="700" font-size="14">{year} Contributions</text>
+    <text x="412.5" y="80" text-anchor="middle" fill="{palette.value}" font-family="{font}" font-weight="700" font-size="28">{longest}</text>
+    <text x="412.5" y="116" text-anchor="middle" fill="{palette.muted}" font-family="{font}" font-weight="400" font-size="14">Longest Streak</text>
+    <text x="412.5" y="146" text-anchor="middle" fill="{palette.muted}" font-family="{font}" font-weight="400" font-size="12">{longest_sub}</text>
   </g>
 </svg>
 """
@@ -296,26 +315,39 @@ def main() -> int:
     qiita_path = OUT_DIR / "qiita-contributions.svg"
     deck_path = OUT_DIR / "speakerdeck-views.svg"
     github_path = OUT_DIR / "github-contrib-stats.svg"
-    zenn_path.write_text(
-        card_svg(label="ZENN LIKES", value=likes, aria=f"Zenn likes: {likes}", glyph=ZENN_GLYPH)
-    )
-    qiita_path.write_text(
-        card_svg(
-            label="QIITA CONTRIBUTIONS",
-            value=contrib,
-            aria=f"Qiita contributions: {contrib}",
-            glyph=QIITA_GLYPH,
+    for palette in (DARK, LIGHT):
+        themed_zenn = OUT_DIR / f"zenn-likes{palette.suffix}.svg"
+        themed_qiita = OUT_DIR / f"qiita-contributions{palette.suffix}.svg"
+        themed_deck = OUT_DIR / f"speakerdeck-views{palette.suffix}.svg"
+        themed_github = OUT_DIR / f"github-contrib-stats{palette.suffix}.svg"
+        themed_zenn.write_text(
+            card_svg(
+                label="ZENN LIKES",
+                value=likes,
+                aria=f"Zenn likes: {likes}",
+                glyph=ZENN_GLYPH,
+                palette=palette,
+            )
         )
-    )
-    deck_path.write_text(
-        card_svg(
-            label="SPEAKER DECK VIEWS",
-            value=deck_views,
-            aria=f"Speaker Deck views: {deck_views}",
-            glyph=SPEAKERDECK_GLYPH,
+        themed_qiita.write_text(
+            card_svg(
+                label="QIITA CONTRIBUTIONS",
+                value=contrib,
+                aria=f"Qiita contributions: {contrib}",
+                glyph=QIITA_GLYPH,
+                palette=palette,
+            )
         )
-    )
-    github_path.write_text(github_stats_svg(stats))
+        themed_deck.write_text(
+            card_svg(
+                label="SPEAKER DECK VIEWS",
+                value=deck_views,
+                aria=f"Speaker Deck views: {deck_views}",
+                glyph=SPEAKERDECK_GLYPH,
+                palette=palette,
+            )
+        )
+        themed_github.write_text(github_stats_svg(stats, palette))
     print(f"Wrote {zenn_path} likes={likes} source={ZENN_API}")
     print("Zenn views: not in public user/article API or article HTML; skipped")
     print(f"Wrote {qiita_path} contributions={contrib} source={QIITA_PROFILE}")

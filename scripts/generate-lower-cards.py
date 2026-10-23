@@ -4,12 +4,14 @@
 Awards are compact framed PNG cards (navy fill, double cyan frame) so GitHub
 does not strip embedded images. AWS lockup is the official Wikimedia SVG
 (wordmark #252F3E, smile #FF9900). Google Cloud is the official 2026 gradient PNG.
+Light-mode twins use a near-white fill and navy text; dark files stay as-is.
 """
 
 from __future__ import annotations
 
 import html
 import re
+from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
 
@@ -25,11 +27,7 @@ CONTACT = ROOT / "public" / "images" / "contact"
 TECH = ROOT / "public" / "images" / "tech"
 README = ROOT / "README.md"
 
-BG = "#0b1026"
-PLATE = "#121A2E"
 NEON = "#3CB9FC"
-MUTED = "#8B949E"
-WHITE = "#E6EDF3"
 FONT = "Verdana, DejaVu Sans, sans-serif"
 BOLD_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 REG_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
@@ -52,12 +50,61 @@ LOGO_BOX_Y = 32
 NAME_Y = 122
 NAME_LINE_H = 20
 YEAR_Y = 170
-NAME_TEXT = (230, 237, 247, 255)
-YEAR_TEXT = (60, 185, 252, 255)
-NAVY = (11, 16, 38, 255)
 CB_YEARS = "2024\uFF5E現在"
 AWS_LOCKUP = TECH / "aws-lockup.svg"
 GCP_2026 = TECH / "google-cloud-2026.png"
+
+
+@dataclass(frozen=True)
+class Theme:
+    suffix: str
+    fill: tuple[int, int, int, int]
+    fill_hex: str
+    name_text: tuple[int, int, int, int]
+    year_text: tuple[int, int, int, int]
+    site_text: tuple[int, int, int, int]
+    title_text: tuple[int, int, int, int]
+    muted_hex: str
+    title_hex: str
+    aws_wordmark: str
+    cb_logo_rgb: tuple[int, int, int]
+    contact_text: str
+
+
+DARK = Theme(
+    suffix="",
+    fill=(11, 16, 38, 255),
+    fill_hex="#0b1026",
+    name_text=(230, 237, 247, 255),
+    year_text=(60, 185, 252, 255),
+    site_text=(139, 148, 158, 255),
+    title_text=(230, 237, 243, 255),
+    muted_hex="#8B949E",
+    title_hex="#E6EDF3",
+    aws_wordmark="#FFFFFF",
+    cb_logo_rgb=(230, 237, 243),
+    contact_text="#3CB9FC",
+)
+LIGHT = Theme(
+    suffix="-light",
+    fill=(246, 248, 250, 255),
+    fill_hex="#F6F8FA",
+    name_text=(11, 31, 58, 255),
+    year_text=(60, 185, 252, 255),
+    site_text=(87, 96, 106, 255),
+    title_text=(11, 31, 58, 255),
+    muted_hex="#57606A",
+    title_hex="#0B1F3A",
+    aws_wordmark="#252F3E",
+    cb_logo_rgb=(11, 31, 58),
+    contact_text="#0B1F3A",
+)
+
+
+def themed(path: Path, theme: Theme) -> Path:
+    if not theme.suffix:
+        return path
+    return path.with_name(f"{path.stem}{theme.suffix}{path.suffix}")
 
 
 def trim_alpha(image: Image.Image) -> Image.Image:
@@ -105,7 +152,7 @@ def square_icon(image: Image.Image, size: int = 96) -> Image.Image:
     return canvas
 
 
-def cb_logo_mono(path: Path) -> Image.Image:
+def cb_logo_mono(path: Path, rgb: tuple[int, int, int]) -> Image.Image:
     image = Image.open(path).convert("RGBA")
     width, height = image.size
     image = image.crop((0, int(height * 0.52), int(width * 0.92), height))
@@ -118,8 +165,27 @@ def cb_logo_mono(path: Path) -> Image.Image:
             if alpha < 24 or luma < 70:
                 pixels[x, y] = (0, 0, 0, 0)
                 continue
-            pixels[x, y] = (230, 237, 243, 255)
+            pixels[x, y] = (*rgb, 255)
     return trim_alpha(image)
+
+
+def pte_art(theme: Theme) -> Image.Image:
+    art = Image.open(AWARDS / "pte-20251104-rgb-nega-1.png").convert("RGBA")
+    if not theme.suffix:
+        return art
+    navy = theme.name_text[:3]
+    pixels = art.load()
+    width, height = art.size
+    for y in range(height):
+        for x in range(width):
+            red, green, blue, alpha = pixels[x, y]
+            if alpha < 24:
+                continue
+            chroma = max(abs(red - green), abs(green - blue), abs(red - blue))
+            luma = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+            if luma > 200 and chroma < 28:
+                pixels[x, y] = (*navy, alpha)
+    return art
 
 
 def rounded_rect(
@@ -133,8 +199,8 @@ def rounded_rect(
     draw.rounded_rectangle(box, radius=radius, fill=fill, outline=outline, width=width)
 
 
-def draw_frame_shell(draw: ImageDraw.ImageDraw) -> None:
-    draw.rectangle((0, 0, PLAQUE_W, PLAQUE_H), fill=NAVY)
+def draw_frame_shell(draw: ImageDraw.ImageDraw, fill: tuple[int, int, int, int]) -> None:
+    draw.rectangle((0, 0, PLAQUE_W, PLAQUE_H), fill=fill)
     rounded_rect(
         draw,
         (6, 6, PLAQUE_W - 7, PLAQUE_H - 7),
@@ -176,10 +242,11 @@ def write_plaque_png(
     logo: Image.Image,
     name_lines: list[str] | None,
     years: str,
+    theme: Theme,
 ) -> None:
-    img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), NAVY)
+    img = Image.new("RGBA", (PLAQUE_W, PLAQUE_H), theme.fill)
     draw = ImageDraw.Draw(img, "RGBA")
-    draw_frame_shell(draw)
+    draw_frame_shell(draw, theme.fill)
     name_font = ImageFont.truetype(BOLD_FONT, 18)
     year_latin = ImageFont.truetype(BOLD_FONT, 16)
     year_cjk = ImageFont.truetype(CJK_FONT, 16)
@@ -188,10 +255,10 @@ def write_plaque_png(
     names = name_lines or []
     y = NAME_Y
     for line in names:
-        draw_centered_text(draw, line, y, name_font, NAME_TEXT)
+        draw_centered_text(draw, line, y, name_font, theme.name_text)
         y += NAME_LINE_H
     year_font = year_cjk if any(ord(ch) > 127 for ch in years) else year_latin
-    draw_centered_text(draw, years, YEAR_Y, year_font, YEAR_TEXT)
+    draw_centered_text(draw, years, YEAR_Y, year_font, theme.year_text)
     img.save(path, "PNG", optimize=True)
 
 
@@ -210,64 +277,68 @@ def write_tech_logos() -> None:
         (TECH / "datadog-dark.svg").write_text(dog.replace('fill="#0b1026"', 'fill="#FFFFFF"'))
 
 
-def write_cb_card() -> None:
+def write_cb_card(theme: Theme) -> None:
     write_plaque_png(
-        AWARDS / "aws-community-builder.png",
-        cb_logo_mono(AWARDS / "aws-community-builders-badge.png"),
+        themed(AWARDS / "aws-community-builder.png", theme),
+        cb_logo_mono(AWARDS / "aws-community-builders-badge.png", theme.cb_logo_rgb),
         ["Community Builder", "Cloud Operations"],
         CB_YEARS,
+        theme,
     )
 
 
-def write_aws_allcerts() -> None:
+def write_aws_allcerts(theme: Theme) -> None:
     write_plaque_png(
-        AWARDS / "aws-allcerts.png",
-        raster_aws("#FFFFFF"),
+        themed(AWARDS / "aws-allcerts.png", theme),
+        raster_aws(theme.aws_wordmark),
         ["All Certifications", "Engineer"],
         "2022–2025",
+        theme,
     )
 
 
-def write_jr_champion() -> None:
+def write_jr_champion(theme: Theme) -> None:
     write_plaque_png(
-        AWARDS / "aws-jr-champion-2023.png",
-        raster_aws("#FFFFFF"),
+        themed(AWARDS / "aws-jr-champion-2023.png", theme),
+        raster_aws(theme.aws_wordmark),
         ["Japan AWS", "Jr. Champion"],
         "2023",
+        theme,
     )
 
 
-def write_pte() -> None:
-    art = Image.open(AWARDS / "pte-20251104-rgb-nega-1.png")
-    write_plaque_png(AWARDS / "gcp-pte.png", art, None, "2023–2026")
+def write_pte(theme: Theme) -> None:
+    write_plaque_png(themed(AWARDS / "gcp-pte.png", theme), pte_art(theme), None, "2023–2026", theme)
 
 
-def write_all_cert_holders() -> None:
+def write_all_cert_holders(theme: Theme) -> None:
     write_plaque_png(
-        AWARDS / "gcp-all-cert-holders-2025.png",
+        themed(AWARDS / "gcp-all-cert-holders-2025.png", theme),
         Image.open(GCP_2026),
         ["All Certification", "Holders"],
         "2025",
+        theme,
     )
 
 
-def write_jaguer() -> None:
+def write_jaguer(theme: Theme) -> None:
     # Official Jagu'e'r Award mark from Kento's Drive slide『Jagu'e'r Award 2025』p.14
     write_plaque_png(
-        AWARDS / "jaguer.png",
+        themed(AWARDS / "jaguer.png", theme),
         Image.open(AWARDS / "jaguer-award-logo.png"),
         ["Jagu'e'r Award"],
         "2023–2025",
+        theme,
     )
 
 
-def chrome_card(title: str, inner: str, width: int, height: int) -> str:
+def chrome_card(title: str, inner: str, width: int, height: int, theme: Theme) -> str:
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img">'
         f"<title>{html.escape(title)}</title>"
         f'<rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="8" '
-        f'fill="{BG}" stroke="{NEON}" stroke-width="1"/>'
+        f'fill="{theme.fill_hex}" stroke="{NEON}" stroke-width="1"/>'
         f"{inner}</svg>\n"
     )
 
@@ -297,11 +368,11 @@ def aotolog_glyph() -> str:
     )
 
 
-def write_post_icon(filename: str, label: str, glyph: str) -> None:
-    (POSTS / filename).write_text(chrome_card(label, glyph, 56, 56))
+def write_post_icon(filename: str, label: str, glyph: str, theme: Theme) -> None:
+    themed(POSTS / filename, theme).write_text(chrome_card(label, glyph, 56, 56, theme))
 
 
-def write_talk_icon() -> None:
+def write_talk_icon(theme: Theme) -> None:
     inner = (
         f'<g transform="translate(12,12)" fill="none" stroke="{NEON}" stroke-width="1.8">'
         '<rect x="4" y="6" width="28" height="20" rx="2"/>'
@@ -310,20 +381,20 @@ def write_talk_icon() -> None:
         '<circle cx="18" cy="16" r="4"/>'
         "</g>"
     )
-    (TALKS / "mic.svg").write_text(chrome_card("Talk", inner, 56, 56))
+    themed(TALKS / "mic.svg", theme).write_text(chrome_card("Talk", inner, 56, 56, theme))
 
 
-def write_generic_ogp(path: Path, site: str, glyph: str) -> None:
+def write_generic_ogp(path: Path, site: str, glyph: str, theme: Theme) -> None:
     inner = (
         glyph.replace("translate(14,16)", "translate(16,18)")
         .replace("translate(14,14)", "translate(16,16)")
         .replace("translate(16,12)", "translate(16,14)")
-        + f'<text x="72" y="36" fill="{MUTED}" font-size="13" font-weight="700" '
+        + f'<text x="72" y="36" fill="{theme.muted_hex}" font-size="13" font-weight="700" '
         f'font-family="{FONT}">{html.escape(site)}</text>'
-        f'<text x="72" y="78" fill="{WHITE}" font-size="14" font-weight="700" '
+        f'<text x="72" y="78" fill="{theme.title_hex}" font-size="14" font-weight="700" '
         f'font-family="{FONT}">Latest post</text>'
     )
-    path.write_text(chrome_card(site, inner, CARD_W, CARD_H))
+    path.write_text(chrome_card(site, inner, CARD_W, CARD_H, theme))
 
 
 def wrap_title(text: str, font: ImageFont.FreeTypeFont, max_width: float, max_lines: int = 3) -> list[str]:
@@ -356,10 +427,10 @@ def wrap_title(text: str, font: ImageFont.FreeTypeFont, max_width: float, max_li
     return lines
 
 
-def render_ogp_png(out: Path, site: str, title: str, icon_svg: Path) -> None:
+def render_ogp_png(out: Path, site: str, title: str, icon_svg: Path, theme: Theme) -> None:
     scale = 2
     width, height = CARD_W * scale, CARD_H * scale
-    img = Image.new("RGBA", (width, height), (11, 16, 38, 255))
+    img = Image.new("RGBA", (width, height), theme.fill)
     draw = ImageDraw.Draw(img)
     draw.rounded_rectangle(
         [3, 3, width - 4, height - 4],
@@ -372,25 +443,27 @@ def render_ogp_png(out: Path, site: str, title: str, icon_svg: Path) -> None:
     img.alpha_composite(icon, (24, 22))
     site_font = ImageFont.truetype(CJK_FONT, 26)
     title_font = ImageFont.truetype(CJK_FONT, 28)
-    draw.text((112, 42), site, fill=(139, 148, 158, 255), font=site_font)
+    draw.text((112, 42), site, fill=theme.site_text, font=site_font)
     lines = wrap_title(title, title_font, width - 48, max_lines=3)
     y = 108
     for line in lines:
-        draw.text((24, y), line, fill=(230, 237, 243, 255), font=title_font)
+        draw.text((24, y), line, fill=theme.title_text, font=title_font)
         y += 40
     img.save(out, "PNG", optimize=True)
 
 
-def write_contact() -> None:
+def write_contact(theme: Theme) -> None:
     inner = (
         f'<g transform="translate(18,12)" fill="none" stroke="{NEON}" stroke-width="1.6">'
         '<rect x="0" y="2" width="22" height="16" rx="2"/>'
         '<path d="m1 4 10 7 10-7"/>'
         "</g>"
-        f'<text x="52" y="28" fill="{NEON}" font-size="14" font-weight="700" '
+        f'<text x="52" y="28" fill="{theme.contact_text}" font-size="14" font-weight="700" '
         f'font-family="{FONT}">aoto@datadoghq.com</text>'
     )
-    (CONTACT / "mail.svg").write_text(chrome_card("aoto@datadoghq.com", inner, 280, 44))
+    themed(CONTACT / "mail.svg", theme).write_text(
+        chrome_card("aoto@datadoghq.com", inner, 280, 44, theme)
+    )
 
 
 POST_SEED = {
@@ -485,20 +558,34 @@ def parse_marker_items(readme: str, tag: str) -> list[tuple[str, str]]:
         return []
     items = []
     for href, alt in re.findall(
-        r'<a href="([^"]+)"[^>]*>\s*<img [^>]*alt="([^"]*)"',
+        r'<a href="([^"]+)"[^>]*>.*?alt="([^"]*)"',
         match.group(1),
+        re.S,
     ):
         items.append((html.unescape(href), html.unescape(alt)))
     return items[:3]
 
 
+def picture_img(dark_src: str, light_src: str, alt: str, width: int | None = None) -> str:
+    width_attr = f' width="{width}"' if width is not None else ""
+    return (
+        "<picture>"
+        f'<source media="(prefers-color-scheme: dark)" srcset="{dark_src}" />'
+        f'<source media="(prefers-color-scheme: light)" srcset="{light_src}" />'
+        f'<img src="{light_src}"{width_attr} alt="{alt}" />'
+        "</picture>"
+    )
+
+
 def marker_html(prefix: str, items: list[tuple[str, str]]) -> str:
     parts = []
     for index, (url, title) in enumerate(items, start=1):
-        src = f"./public/images/posts/{prefix}-{index}.png"
+        dark = f"./public/images/posts/{prefix}-{index}.png"
+        light = f"./public/images/posts/{prefix}-{index}-light.png"
+        alt = html.escape(title, quote=True)
         parts.append(
             f'<a href="{html.escape(url, quote=True)}">'
-            f'<img src="{src}" width="{CARD_W}" alt="{html.escape(title, quote=True)}" /></a>'
+            f"{picture_img(dark, light, alt, CARD_W)}</a>"
         )
     return "\n".join(parts)
 
@@ -511,28 +598,54 @@ def replace_marker(readme: str, tag: str, inner: str) -> str:
 def write_post_and_talk_cards() -> None:
     readme = README.read_text() if README.exists() else ""
     for tag, (site, icon, generic, seed, prefix, glyph) in POST_SEED.items():
-        write_generic_ogp(generic, site, glyph())
         items = parse_marker_items(readme, tag) or seed
         if items and items[0][1] in {"", "AoToLog post", "Zenn post", "Qiita post"}:
             by_url = {url: title for url, title in seed}
             items = [(url, by_url.get(url, title or site)) for url, title in items]
-        for index, (url, title) in enumerate(items, start=1):
-            render_ogp_png(POSTS / f"{prefix}-{index}.png", site, title, icon)
+        for theme in (DARK, LIGHT):
+            write_generic_ogp(themed(generic, theme), site, glyph(), theme)
+            icon_path = themed(icon, theme)
+            for index, (url, title) in enumerate(items, start=1):
+                render_ogp_png(
+                    themed(POSTS / f"{prefix}-{index}.png", theme),
+                    site,
+                    title,
+                    icon_path,
+                    theme,
+                )
         if README.exists() and f"<!-- {tag}:START -->" in readme:
             readme = replace_marker(readme, tag, marker_html(prefix, items))
 
-    write_generic_ogp(TALKS / "card-talk.svg", "Speaker Deck", (
+    talk_glyph = (
         f'<g transform="translate(12,12)" fill="none" stroke="{NEON}" stroke-width="1.8">'
         '<rect x="4" y="6" width="28" height="20" rx="2"/>'
         '<path d="M10 26h16M18 26v6"/>'
         '<circle cx="18" cy="16" r="4"/>'
         "</g>"
-    ))
-    for index, (url, title) in enumerate(TALKS_SEED, start=1):
-        render_ogp_png(TALKS / f"talk-{index}.png", "Speaker Deck", title, TALKS / "mic.svg")
+    )
+    for theme in (DARK, LIGHT):
+        write_generic_ogp(themed(TALKS / "card-talk.svg", theme), "Speaker Deck", talk_glyph, theme)
+        for index, (url, title) in enumerate(TALKS_SEED, start=1):
+            render_ogp_png(
+                themed(TALKS / f"talk-{index}.png", theme),
+                "Speaker Deck",
+                title,
+                themed(TALKS / "mic.svg", theme),
+                theme,
+            )
 
     if README.exists():
         README.write_text(readme)
+
+
+def write_award_cards() -> None:
+    for theme in (DARK, LIGHT):
+        write_cb_card(theme)
+        write_aws_allcerts(theme)
+        write_jr_champion(theme)
+        write_pte(theme)
+        write_all_cert_holders(theme)
+        write_jaguer(theme)
 
 
 def main() -> None:
@@ -549,17 +662,13 @@ def main() -> None:
             (AWARDS / name).write_bytes(src.read_bytes())
 
     write_tech_logos()
-    write_cb_card()
-    write_aws_allcerts()
-    write_jr_champion()
-    write_pte()
-    write_all_cert_holders()
-    write_jaguer()
-    write_post_icon("icon-aotolog.svg", "AoToLog", aotolog_glyph())
-    write_post_icon("icon-zenn.svg", "Zenn", zenn_glyph())
-    write_post_icon("icon-qiita.svg", "Qiita", qiita_glyph())
-    write_talk_icon()
-    write_contact()
+    write_award_cards()
+    for theme in (DARK, LIGHT):
+        write_post_icon("icon-aotolog.svg", "AoToLog", aotolog_glyph(), theme)
+        write_post_icon("icon-zenn.svg", "Zenn", zenn_glyph(), theme)
+        write_post_icon("icon-qiita.svg", "Qiita", qiita_glyph(), theme)
+        write_talk_icon(theme)
+        write_contact(theme)
     write_post_and_talk_cards()
     print("wrote award cards, tech logos, and post/talk cards")
 
