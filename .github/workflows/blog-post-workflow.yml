@@ -1,0 +1,63 @@
+name: Latest blog post workflow
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+
+jobs:
+  update-readme-with-blog:
+    name: Update this repo's README with latest blog posts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Install card renderer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2 fonts-wqy-microhei fonts-dejavu-core fonts-noto-cjk
+          pip install pillow cairosvg
+      - name: Pull in AoToLog posts
+        uses: gautamkrishnar/blog-post-workflow@1.9.7
+        with:
+          comment_tag_name: AOTOLOG-POST-LIST
+          feed_list: "https://www.aotolog.com/index.xml"
+          max_post_count: 3
+          skip_commit: true
+          enable_keepalive: false
+          tag_post_pre_newline: true
+          template: '<a href="$url"><img src="./public/images/posts/card-aotolog.svg" width="260" alt="$title" /></a>'
+      - name: Pull in Zenn posts
+        uses: gautamkrishnar/blog-post-workflow@1.9.7
+        with:
+          comment_tag_name: ZENN-POST-LIST
+          feed_list: "https://zenn.dev/aotolog/feed"
+          max_post_count: 3
+          skip_commit: true
+          enable_keepalive: false
+          tag_post_pre_newline: true
+          template: '<a href="$url"><img src="./public/images/posts/card-zenn.svg" width="260" alt="$title" /></a>'
+      - name: Pull in Qiita posts
+        uses: gautamkrishnar/blog-post-workflow@1.9.7
+        with:
+          comment_tag_name: QIITA-POST-LIST
+          feed_list: "https://qiita.com/aoto0330/feed"
+          max_post_count: 3
+          skip_commit: true
+          enable_keepalive: false
+          tag_post_pre_newline: true
+          template: '<a href="$url"><img src="./public/images/posts/card-qiita.svg" width="260" alt="$title" /></a>'
+      - name: Render OGP post cards from marker titles
+        run: python3 scripts/generate-lower-cards.py
+      - name: Commit updated posts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md public/images/posts public/images/talks public/images/awards
+          if git diff --cached --quiet; then
+            echo "No post card changes"
+            exit 0
+          fi
+          git commit -m "Update README with latest blog posts"
+          git push
