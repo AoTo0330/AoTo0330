@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate award cards, OGP-style post/talk cards, contact button, and tech logos.
+"""Generate award cards, OGP-style post/talk cards, and tech logos.
 
 Awards are compact framed PNG cards (navy fill, double cyan frame) so GitHub
 does not strip embedded images. AWS lockup is the official Wikimedia SVG
@@ -23,7 +23,6 @@ PACK = Path("/cursor/stores/self/internal/award-assets")
 AWARDS = ROOT / "public" / "images" / "awards"
 POSTS = ROOT / "public" / "images" / "posts"
 TALKS = ROOT / "public" / "images" / "talks"
-CONTACT = ROOT / "public" / "images" / "contact"
 TECH = ROOT / "public" / "images" / "tech"
 README = ROOT / "README.md"
 
@@ -82,7 +81,6 @@ class Theme:
     title_hex: str
     aws_wordmark: str
     cb_logo_rgb: tuple[int, int, int]
-    contact_text: str
 
 
 DARK = Theme(
@@ -97,7 +95,6 @@ DARK = Theme(
     title_hex="#E6EDF3",
     aws_wordmark="#FFFFFF",
     cb_logo_rgb=(230, 237, 243),
-    contact_text="#3CB9FC",
 )
 LIGHT = Theme(
     suffix="-light",
@@ -111,7 +108,6 @@ LIGHT = Theme(
     title_hex="#0B1F3A",
     aws_wordmark="#252F3E",
     cb_logo_rgb=(11, 31, 58),
-    contact_text="#0B1F3A",
 )
 
 
@@ -479,20 +475,6 @@ def render_ogp_png(out: Path, site: str, title: str, icon_svg: Path, theme: Them
     img.save(out, "PNG", optimize=True)
 
 
-def write_contact(theme: Theme) -> None:
-    inner = (
-        f'<g transform="translate(18,12)" fill="none" stroke="{NEON}" stroke-width="1.6">'
-        '<rect x="0" y="2" width="22" height="16" rx="2"/>'
-        '<path d="m1 4 10 7 10-7"/>'
-        "</g>"
-        f'<text x="52" y="28" fill="{theme.contact_text}" font-size="14" font-weight="700" '
-        f'font-family="{FONT}">aoto@datadoghq.com</text>'
-    )
-    themed(CONTACT / "mail.svg", theme).write_text(
-        chrome_card("aoto@datadoghq.com", inner, 280, 44, theme)
-    )
-
-
 POST_SEED = {
     "AOTOLOG-POST-LIST": (
         "AoToLog",
@@ -676,7 +658,7 @@ def write_award_cards() -> None:
 
 
 def main() -> None:
-    for folder in (AWARDS, POSTS, TALKS, CONTACT, TECH):
+    for folder in (AWARDS, POSTS, TALKS, TECH):
         folder.mkdir(parents=True, exist_ok=True)
 
     for name in (
@@ -696,7 +678,6 @@ def main() -> None:
         write_post_icon("icon-zenn.svg", "Zenn", zenn_glyph(), theme)
         write_post_icon("icon-qiita.svg", "Qiita", qiita_glyph(), theme)
         write_talk_icon(theme)
-        write_contact(theme)
     write_post_and_talk_cards()
     print("wrote award cards, tech logos, and post/talk cards")
 
