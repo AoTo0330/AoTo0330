@@ -10,7 +10,7 @@
   <a href="https://zenn.dev/aotolog"><picture><source media="(prefers-color-scheme: dark)" srcset="./public/images/badges/zenn-likes.svg" /><source media="(prefers-color-scheme: light)" srcset="./public/images/badges/zenn-likes-light.svg" /><img src="./public/images/badges/zenn-likes-light.svg" alt="Zenn likes" /></picture></a>
   <a href="https://qiita.com/aoto0330"><picture><source media="(prefers-color-scheme: dark)" srcset="./public/images/badges/qiita-contributions.svg" /><source media="(prefers-color-scheme: light)" srcset="./public/images/badges/qiita-contributions-light.svg" /><img src="./public/images/badges/qiita-contributions-light.svg" alt="Qiita contributions" /></picture></a>
   <a href="https://speakerdeck.com/aoto"><picture><source media="(prefers-color-scheme: dark)" srcset="./public/images/badges/speakerdeck-views.svg" /><source media="(prefers-color-scheme: light)" srcset="./public/images/badges/speakerdeck-views-light.svg" /><img src="./public/images/badges/speakerdeck-views-light.svg" alt="Speaker Deck views" /></picture></a>
-  <img src="https://komarev.com/ghpvc/?username=AoTo0330&label=Profile%20views&color=3cb9fc&style=for-the-badge" alt="Profile views" />
+  <img src="https://hits.sh/github.com/AoTo0330.svg?style=for-the-badge&label=Profile%20views&color=3cb9fc" alt="Profile views" />
 </p>
 
 ## ⚡ Specialization & Expertise
@@ -135,12 +135,6 @@ Jagu'e'r Award：2023&#8288;&nbsp;·&nbsp;&#8203;2024&#8288;（Excellent）&#828
 <a href="https://speakerdeck.com/aoto/beyond-the-field-barriers-instrumentation-injection-and-the-future-of-observability"><picture><source media="(prefers-color-scheme: dark)" srcset="./public/images/talks/talk-3.png" /><source media="(prefers-color-scheme: light)" srcset="./public/images/talks/talk-3-light.png" /><img src="./public/images/talks/talk-3-light.png" width="260" alt="現場の壁を乗り越えて、「計装注入」が拓く オブザーバビリティ" /></picture></a>
 </div>
 <p align="center"><a href="https://speakerdeck.com/aoto">more on Speaker Deck →</a></p>
-
-## 📬 Contact
-
-<p align="center">
-  <a href="mailto:aoto@datadoghq.com"><picture><source media="(prefers-color-scheme: dark)" srcset="./public/images/contact/mail.svg" /><source media="(prefers-color-scheme: light)" srcset="./public/images/contact/mail-light.svg" /><img src="./public/images/contact/mail-light.svg" alt="aoto@datadoghq.com" /></picture></a>
-</p>
 
 <p align="center">
   <picture>
