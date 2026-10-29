@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+      # gautamkrishnar/blog-post-workflow always runs `git pull --rebase` before
+      # skip_commit. A dirty README from the previous step then fails the next
+      # invocation with "cannot pull with rebase: You have unstaged changes".
+      - name: Allow pull --rebase with unstaged README
+        run: git config rebase.autoStash true
       - name: Install card renderer
         run: |
           sudo apt-get update
