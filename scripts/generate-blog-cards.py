@@ -247,7 +247,7 @@ def github_stats_svg(stats: dict[str, object], palette: Palette = DARK) -> str:
     )
     total_sub = f"{_fmt_day(first)}, {first.year} - Present"
     longest_sub = f"{_fmt_day(longest_start)} - {_fmt_day(longest_end)}"
-    font = '"Segoe UI", Ubuntu, sans-serif'
+    font = "'Segoe UI', Ubuntu, sans-serif"
     year_size = 26 if year_total >= 1000 else 28
     year_y = 80
     ring_r = 50
