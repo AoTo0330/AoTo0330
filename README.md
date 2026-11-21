@@ -1,8 +1,16 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=3CB9FC&center=true&vCenter=true&width=640&height=50&lines=SpaceX+Super+Intelligence+-+Field+Engineer" />
-    <source media="(prefers-color-scheme: light)" srcset="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=0B1F3A&center=true&vCenter=true&width=640&height=50&lines=SpaceX+Super+Intelligence+-+Field+Engineer" />
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=0B1F3A&center=true&vCenter=true&width=640&height=50&lines=SpaceX+Super+Intelligence+-+Field+Engineer" alt="SpaceX Super Intelligence - Field Engineer" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&height=140&section=header&text=Kento%20Kimura&animation=twinkling&color=0b1026&fontColor=3cb9fc" />
+    <source media="(prefers-color-scheme: light)" srcset="https://capsule-render.vercel.app/api?type=waving&height=140&section=header&text=Kento%20Kimura&animation=twinkling&color=f6f8fa&fontColor=0b1f3a" />
+    <img src="https://capsule-render.vercel.app/api?type=waving&height=140&section=header&text=Kento%20Kimura&animation=twinkling&color=f6f8fa&fontColor=0b1f3a" alt="Kento Kimura" />
+  </picture>
+</p>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=3CB9FC&center=true&vCenter=true&width=640&height=50&lines=%F0%9F%9A%80+SpaceX+Super+Intelligence+-+Field+Engineer;Observability+/+SRE+/+Platform+Engineering;30%2B+Cloud+Certs+%E2%98%81%EF%B8%8F" />
+    <source media="(prefers-color-scheme: light)" srcset="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=0B1F3A&center=true&vCenter=true&width=640&height=50&lines=%F0%9F%9A%80+SpaceX+Super+Intelligence+-+Field+Engineer;Observability+/+SRE+/+Platform+Engineering;30%2B+Cloud+Certs+%E2%98%81%EF%B8%8F" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=0B1F3A&center=true&vCenter=true&width=640&height=50&lines=%F0%9F%9A%80+SpaceX+Super+Intelligence+-+Field+Engineer;Observability+/+SRE+/+Platform+Engineering;30%2B+Cloud+Certs+%E2%98%81%EF%B8%8F" alt="🚀 SpaceX Super Intelligence - Field Engineer" />
   </picture>
 </p>
 
@@ -138,8 +146,8 @@ Jagu'e'r Award：2023&#8288;&nbsp;·&nbsp;&#8203;2024&#8288;（Excellent）&#828
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=0b1026" />
-    <source media="(prefers-color-scheme: light)" srcset="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=f6f8fa" />
-    <img src="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=f6f8fa" alt="footer wave" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=0b1026&animation=twinkling" />
+    <source media="(prefers-color-scheme: light)" srcset="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=f6f8fa&animation=twinkling" />
+    <img src="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=f6f8fa&animation=twinkling" alt="footer wave" />
   </picture>
 </p>
