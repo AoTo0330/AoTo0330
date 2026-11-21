@@ -146,8 +146,8 @@ Jagu'e'r Award：2023&#8288;&nbsp;·&nbsp;&#8203;2024&#8288;（Excellent）&#828
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=0b1026&animation=twinkling" />
-    <source media="(prefers-color-scheme: light)" srcset="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=f6f8fa&animation=twinkling" />
-    <img src="https://capsule-render.vercel.app/api?type=waving&height=90&section=footer&color=f6f8fa&animation=twinkling" alt="footer wave" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0b1026&animation=twinkling&text=Thanks%20for%20visiting%20%F0%9F%9A%80&fontColor=3cb9fc&fontSize=24&fontAlignY=70" />
+    <source media="(prefers-color-scheme: light)" srcset="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=f6f8fa&animation=twinkling&text=Thanks%20for%20visiting%20%F0%9F%9A%80&fontColor=0b1f3a&fontSize=24&fontAlignY=70" />
+    <img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=f6f8fa&animation=twinkling&text=Thanks%20for%20visiting%20%F0%9F%9A%80&fontColor=0b1f3a&fontSize=24&fontAlignY=70" alt="Thanks for visiting 🚀" />
   </picture>
 </p>
